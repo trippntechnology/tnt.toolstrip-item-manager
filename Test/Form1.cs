@@ -13,25 +13,32 @@ namespace Test
 {
 	public partial class Form1 : Form
 	{
-		private Open _Open;
-		private EnableOpen _EnableOpen;
-		private DropButton _DropButton;
+		private One _One;
+		private Two _Two;
+		private Three _Three;
+		private Four _Four;
 
 		public Form1()
 		{
 			InitializeComponent();
 
-			_Open =  new Open(toolStripButton1.Image, toolStripStatusLabel1, Open_OnMouseClick);
-			_Open.Add(toolStripButton1);
-			_Open.Add(toolStripMenuItem2);
+			_One = new One(oneToolStripMenuItem.Image, toolStripStatusLabel1, Open_OnMouseClick);
+			_One.Add(oneToolStripMenuItem);
+			_One.Add(toolStripButton1);
+			_One.Add(aToolStripMenuItem);
 
-			_EnableOpen = new EnableOpen(toolStripButton2.Image, toolStripStatusLabel1, EnableOpen_OnMouseClick);
-			_EnableOpen.Add(toolStripButton2);
-			_EnableOpen.Add(toolStripMenuItem3);
+			_Two = new Two(toolStripStatusLabel1, Open_OnMouseClick);
+			_Two.Add(twoToolStripMenuItem);
+			_Two.Add(toolStripSplitButton2);
+			_Two.Add(bToolStripMenuItem);
 
-			_DropButton = new DropButton(toolStripSplitButton1.Image, toolStripStatusLabel1, DropButton_OnMouseClick);
-			_DropButton.Add(toolStripSplitButton1);
-			_DropButton.Add(toolStripMenuItem4);
+			_Three = new Three(toolStripStatusLabel1);
+			_Three.Add(threeToolStripMenuItem);
+			_Three.Add(toolStripButton3);
+			_Three.Add(cToolStripMenuItem);
+
+			_Four = new Four(toolStripStatusLabel1);
+			_Four.Add(toolStripButton4);
 
 			Application.Idle += Application_Idle;
 		}
@@ -43,7 +50,8 @@ namespace Test
 
 		private void Application_Idle(object sender, EventArgs e)
 		{
-			_Open.Enabled = _EnableOpen.Checked;
+			_One.Enabled = _Three.Checked;
+			_One.Visible = _Four.Checked;
 		}
 
 		private void Open_OnMouseClick(object sender, EventArgs e)
@@ -52,13 +60,6 @@ namespace Test
 			{
 				ofd.ShowDialog();
 			}
-		}
-
-		private void EnableOpen_OnMouseClick(object sender, EventArgs e)
-		{
-			EnableOpen eo = sender as EnableOpen;
-
-			//_Open.Enabled = eo.Checked;
 		}
 
 		private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace TNT.ToolStripItemManager
@@ -12,7 +13,7 @@ namespace TNT.ToolStripItemManager
 	{
 		private ToolStripStatusLabel _ToolStripStatusLabel { get; set; }
 		private event EventHandler _OnMouseClick;
-		
+
 		/// <summary>
 		/// <see cref="Image"/> used by all <see cref="ToolStripItem"/>
 		/// </summary>
@@ -40,7 +41,12 @@ namespace TNT.ToolStripItemManager
 		{
 			get
 			{
-				return base[0].GetChecked();
+				if (base.Count > 0)
+				{
+					return base[0].GetChecked();
+				}
+
+				return false;
 			}
 			set
 			{
@@ -98,15 +104,30 @@ namespace TNT.ToolStripItemManager
 		}
 
 		/// <summary>
-		/// Adds a <see cref="ToolStripItem"/>
+		/// Adds a <see cref="ToolStripItem"/> to the <see cref="ToolStripItemGroup"/>
 		/// </summary>
-		/// <param name="toolStripItem">Item to add</param>
-		public new void Add(ToolStripItem toolStripItem)
+		/// <typeparam name="T">Type of <see cref="ToolStripItem"/></typeparam>
+		/// <param name="toolStripItem"><see cref="ToolStripItem"/> to add</param>
+		public void Add<T>(T toolStripItem) where T : ToolStripItem
 		{
-			if (toolStripItem != null)
+			if (toolStripItem is ToolStripButton)
 			{
-				toolStripItem.MouseEnter += this.MouseEnter;
-				toolStripItem.MouseLeave += this.MouseLeave;
+				ToolStripButton toolStripButton = toolStripItem as ToolStripButton;
+				toolStripButton.CheckOnClick = this.CheckOnClick;
+				toolStripButton.Checked = this.Checked;
+				toolStripButton.CheckedChanged += CheckedChanged;
+				toolStripItem.Click += this.MouseClick;
+			}
+			else if (toolStripItem is ToolStripMenuItem)
+			{
+				ToolStripMenuItem toolStripMenuItem = toolStripItem as ToolStripMenuItem;
+				toolStripMenuItem.CheckOnClick = this.CheckOnClick;
+				toolStripMenuItem.Checked = this.Checked;
+				toolStripMenuItem.CheckedChanged += CheckedChanged;
+				toolStripItem.Click += this.MouseClick;
+			}
+			else
+			{
 				if (toolStripItem is ToolStripSplitButton)
 				{
 					(toolStripItem as ToolStripSplitButton).ButtonClick += this.MouseClick;
@@ -115,34 +136,26 @@ namespace TNT.ToolStripItemManager
 				{
 					toolStripItem.Click += this.MouseClick;
 				}
-				toolStripItem.Image = this.Image;
-
-				base.Add(toolStripItem);
 			}
+
+			toolStripItem.MouseEnter += this.MouseEnter;
+			toolStripItem.MouseLeave += this.MouseLeave;
+			toolStripItem.Image = this.Image;
+			toolStripItem.Text = this.Text;
+
+			base.Add(toolStripItem);
 		}
 
 		/// <summary>
-		/// Adds a <see cref="ToolStripButton"/>
+		/// Gets an image associated with the <paramref name="resource"/> value within the calling assembly
 		/// </summary>
-		/// <param name="toolStripButton">Item to add</param>
-		public void Add(ToolStripButton toolStripButton)
+		/// <param name="resource">Name of resource in the calling assembly</param>
+		/// <returns>Image associated with the <paramref name="resource"/> value within the calling assembly</returns>
+		public static Image ResourceToImage(string resource)
 		{
-			this.Add(toolStripButton as ToolStripItem);
-			toolStripButton.CheckOnClick = this.CheckOnClick;
-			toolStripButton.Checked = this.Checked;
-			toolStripButton.CheckedChanged += CheckedChanged;
-		}
-
-		/// <summary>
-		/// Adds a <see cref="ToolStripMenuItem"/>
-		/// </summary>
-		/// <param name="toolStripMenuItem">Item to add</param>
-		public void Add(ToolStripMenuItem toolStripMenuItem)
-		{
-			this.Add(toolStripMenuItem as ToolStripItem);
-			toolStripMenuItem.CheckOnClick = this.CheckOnClick;
-			toolStripMenuItem.Checked = this.Checked;
-			toolStripMenuItem.CheckedChanged += CheckedChanged;
+			var assembly = Assembly.GetCallingAssembly();
+			var resourceStream = assembly.GetManifestResourceStream(resource);
+			return resourceStream == null ? null : new Bitmap(resourceStream);
 		}
 
 		private void MouseEnter(object sender, EventArgs e)

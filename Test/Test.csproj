@@ -51,9 +51,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Groups\DropButton.cs" />
-    <Compile Include="Groups\EnableOpen.cs" />
-    <Compile Include="Groups\Open.cs" />
+    <Compile Include="Groups\Four.cs" />
+    <Compile Include="Groups\One.cs" />
+    <Compile Include="Groups\Three.cs" />
+    <Compile Include="Groups\Two.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -86,6 +87,16 @@
       <Project>{813aad59-f72a-42b6-b943-c561e2722d83}</Project>
       <Name>TNT.ToolStripItemManager</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\shape_align_bottom.png" />
+    <EmbeddedResource Include="Images\shape_align_center.png" />
+    <EmbeddedResource Include="Images\shape_align_left.png" />
+    <EmbeddedResource Include="Images\shape_align_middle.png" />
+    <EmbeddedResource Include="Images\shape_align_right.png" />
+    <EmbeddedResource Include="Images\shape_align_top.png" />
+    <EmbeddedResource Include="Images\shape_flip_horizontal.png" />
+    <EmbeddedResource Include="Images\shape_flip_vertical.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
