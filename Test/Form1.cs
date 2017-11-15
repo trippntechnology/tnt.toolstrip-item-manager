@@ -22,7 +22,7 @@ namespace Test
 		{
 			InitializeComponent();
 
-			_One = new One(oneToolStripMenuItem.Image, toolStripStatusLabel1, Open_OnMouseClick);
+			_One = new One(oneToolStripMenuItem.Image, toolStripStatusLabel1);
 			_One.Add(oneToolStripMenuItem);
 			_One.Add(toolStripButton1);
 			_One.Add(aToolStripMenuItem);

@@ -12,7 +12,11 @@ namespace TNT.ToolStripItemManager
 	public abstract class ToolStripItemGroup : List<ToolStripItem>
 	{
 		private ToolStripStatusLabel _ToolStripStatusLabel { get; set; }
-		private event EventHandler _OnMouseClick;
+
+		/// <summary>
+		/// Mouse click event handler
+		/// </summary>
+		protected  EventHandler OnMouseClick { get; set; }
 
 		/// <summary>
 		/// <see cref="Image"/> used by all <see cref="ToolStripItem"/>
@@ -96,11 +100,11 @@ namespace TNT.ToolStripItemManager
 		/// <param name="image">Image that should be used on all <see cref="ToolStripItem"/></param>
 		/// <param name="toolStripStatusLabel"><see cref="ToolStripStatusLabel"/> where <see cref="ToolTipText"/> should be displayed</param>
 		/// <param name="onMouseClick">Event handler for mouse click event</param>
-		public ToolStripItemGroup(Image image, ToolStripStatusLabel toolStripStatusLabel, EventHandler onMouseClick)
+		public ToolStripItemGroup(Image image, ToolStripStatusLabel toolStripStatusLabel, EventHandler onMouseClick = null)
 		{
 			this.Image = image;
 			this._ToolStripStatusLabel = toolStripStatusLabel;
-			this._OnMouseClick += onMouseClick;
+			this.OnMouseClick += onMouseClick;
 		}
 
 		/// <summary>
@@ -176,9 +180,9 @@ namespace TNT.ToolStripItemManager
 
 		private void MouseClick(object sender, EventArgs e)
 		{
-			if (this._OnMouseClick != null)
+			if (this.OnMouseClick != null)
 			{
-				this._OnMouseClick(this, e);
+				this.OnMouseClick(this, e);
 			}
 		}
 

@@ -11,10 +11,19 @@ namespace Test.Groups
 {
 	public class One : ToolStripItemGroup
 	{
-		public One(Image image, ToolStripStatusLabel label, EventHandler onClick)
-			: base(image, label, onClick)
+		public One(Image image, ToolStripStatusLabel label)
+			: base(image, label)
 		{
 			base.Image = ResourceToImage("Test.Images.shape_align_bottom.png");
+			base.OnMouseClick += OpenFile;
+		}
+
+		private void OpenFile(object sender, EventArgs e)
+		{
+			using (OpenFileDialog ofd = new OpenFileDialog())
+			{
+				ofd.ShowDialog();
+			}
 		}
 
 		public override string Text => "One";
