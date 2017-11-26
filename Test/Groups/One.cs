@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TNT.ToolStripItemManager;
 
@@ -11,15 +6,15 @@ namespace Test.Groups
 {
 	public class One : ToolStripItemGroup
 	{
-		public One(Image image, ToolStripStatusLabel label)
-			: base(image, label)
+		public One()
+			: base(ResourceToImage("Test.Images.shape_align_bottom.png"))
 		{
-			base.Image = ResourceToImage("Test.Images.shape_align_bottom.png");
-			base.OnMouseClick += OpenFile;
+
 		}
 
-		private void OpenFile(object sender, EventArgs e)
+		public override void MouseClick(object sender, EventArgs e)
 		{
+			base.MouseClick(sender, e);
 			using (OpenFileDialog ofd = new OpenFileDialog())
 			{
 				ofd.ShowDialog();
@@ -29,5 +24,18 @@ namespace Test.Groups
 		public override string Text => "One";
 
 		public override string ToolTipText => "Tool tip one";
+
+		public override void OnApplicationIdle(object sender, EventArgs e)
+		{
+			base.OnApplicationIdle(sender, e);
+
+			var three = base.ToolStripItemGroupManager["Three"];
+			var four = base.ToolStripItemGroupManager["Four"];
+
+			if (three!= null)
+				Enabled = three.Checked;
+			if (four != null)
+				Visible = four.Checked;
+		}
 	}
 }

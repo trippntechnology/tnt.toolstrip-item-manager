@@ -11,17 +11,25 @@ namespace TNT.ToolStripItemManager
 	/// </summary>
 	public abstract class ToolStripItemGroup : List<ToolStripItem>
 	{
-		private ToolStripStatusLabel _ToolStripStatusLabel { get; set; }
+		/// <summary>
+		/// <see cref="System.Windows.Forms.ToolStripStatusLabel"/> used to display the tool tip hint
+		/// </summary>
+		public ToolStripStatusLabel ToolStripStatusLabel { get; internal set; }
+
+		/// <summary>
+		/// Group manager used to access other <see cref="ToolStripItemGroup"/>
+		/// </summary>
+		public ToolStripItemGroupManager ToolStripItemGroupManager { get; internal set; }
 
 		/// <summary>
 		/// Mouse click event handler
 		/// </summary>
-		protected  EventHandler OnMouseClick { get; set; }
+		public EventHandler OnMouseClick { get; internal set; }
 
 		/// <summary>
 		/// <see cref="Image"/> used by all <see cref="ToolStripItem"/>
 		/// </summary>
-		public Image Image { get; protected set; }
+		public Image Image { get; internal set; }
 
 		/// <summary>
 		/// Text used by all <see cref="ToolStripItem"/>
@@ -97,14 +105,19 @@ namespace TNT.ToolStripItemManager
 		/// <summary>
 		/// Constructs a <see cref="ToolStripItemGroup"/>
 		/// </summary>
-		/// <param name="image">Image that should be used on all <see cref="ToolStripItem"/></param>
-		/// <param name="toolStripStatusLabel"><see cref="ToolStripStatusLabel"/> where <see cref="ToolTipText"/> should be displayed</param>
-		/// <param name="onMouseClick">Event handler for mouse click event</param>
-		public ToolStripItemGroup(Image image, ToolStripStatusLabel toolStripStatusLabel, EventHandler onMouseClick = null)
+		/// <param name="image">Image to set on the <see cref="ToolStripItem"/> in the group</param>
+		public ToolStripItemGroup(Image image = null)
 		{
 			this.Image = image;
-			this._ToolStripStatusLabel = toolStripStatusLabel;
-			this.OnMouseClick += onMouseClick;
+		}
+
+		/// <summary>
+		/// Implement to enable/disable <see cref="ToolStripItem"/>
+		/// </summary>
+		/// <param name="sender">Sender</param>
+		/// <param name="e">Event args</param>
+		public virtual void OnApplicationIdle(object sender, EventArgs e)
+		{
 		}
 
 		/// <summary>
@@ -164,26 +177,28 @@ namespace TNT.ToolStripItemManager
 
 		private void MouseEnter(object sender, EventArgs e)
 		{
-			if (_ToolStripStatusLabel != null)
+			if (ToolStripStatusLabel != null)
 			{
-				_ToolStripStatusLabel.Text = ToolTipText;
+				ToolStripStatusLabel.Text = ToolTipText;
 			}
 		}
 
 		private void MouseLeave(object sender, EventArgs e)
 		{
-			if (_ToolStripStatusLabel != null)
+			if (ToolStripStatusLabel != null)
 			{
-				_ToolStripStatusLabel.Text = string.Empty;
+				ToolStripStatusLabel.Text = string.Empty;
 			}
 		}
 
-		private void MouseClick(object sender, EventArgs e)
+		/// <summary>
+		/// Calls the <see cref="OnMouseClick"/> event if assigned
+		/// </summary>
+		/// <param name="sender">Object that was clicked</param>
+		/// <param name="e">Information about the event</param>
+		public virtual void MouseClick(object sender, EventArgs e)
 		{
-			if (this.OnMouseClick != null)
-			{
-				this.OnMouseClick(this, e);
-			}
+			this.OnMouseClick?.Invoke(sender, e);
 		}
 
 		private void CheckedChanged(object sender, EventArgs e)
