@@ -36,14 +36,16 @@ namespace TNT.ToolStripItemManager
 		/// <typeparam name="T"><see cref="ToolStripItemGroup"/> type</typeparam>
 		/// <param name="items"><see cref="ToolStripItem"/> array that should be added to the <see cref="ToolStripItemGroup"/></param>
 		/// <param name="image"><see cref="Image"/> that should be used</param>
+		/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
 		/// <param name="onClick">Event that handles a mouse click</param>
 		/// <returns></returns>
-		public T Create<T>(ToolStripItem[] items, Image image = null, EventHandler onClick = null) where T : ToolStripItemGroup, new()
+		public T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null) where T : ToolStripItemGroup, new()
 		{
 			T t = new T
 			{
 				ToolStripStatusLabel = this.StatusLabel,
-				ToolStripItemGroupManager = this
+				ToolStripItemGroupManager = this,
+				ExternalObject = externalObject
 			};
 
 			if (image != null)
@@ -51,7 +53,7 @@ namespace TNT.ToolStripItemManager
 				t.Image = image;
 			}
 
-			if (onClick !=null)
+			if (onClick != null)
 			{
 				t.OnMouseClick = onClick;
 			}

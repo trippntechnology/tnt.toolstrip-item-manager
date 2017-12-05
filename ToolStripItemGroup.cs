@@ -103,6 +103,12 @@ namespace TNT.ToolStripItemManager
 		}
 
 		/// <summary>
+		/// Holds the object(s) that are external that this <see cref="ToolStripItemGroup"/>
+		/// needs access to
+		/// </summary>
+		public object ExternalObject { get; internal set; }
+
+		/// <summary>
 		/// Constructs a <see cref="ToolStripItemGroup"/>
 		/// </summary>
 		/// <param name="image">Image to set on the <see cref="ToolStripItem"/> in the group</param>

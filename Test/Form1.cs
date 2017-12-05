@@ -20,7 +20,7 @@ namespace Test
 
 			ItemGroupManager = new ToolStripItemGroupManager(toolStripStatusLabel1);
 
-			_One = ItemGroupManager.Create<One>(new ToolStripItem[] { oneToolStripMenuItem, toolStripButton1, aToolStripMenuItem }, oneToolStripMenuItem.Image);
+			_One = ItemGroupManager.Create<One>(new ToolStripItem[] { oneToolStripMenuItem, toolStripButton1, aToolStripMenuItem }, oneToolStripMenuItem.Image, this);
 			_Two = ItemGroupManager.Create<Two>(new ToolStripItem[] { twoToolStripMenuItem, toolStripSplitButton2, bToolStripMenuItem }, onClick: Open_OnMouseClick);
 			_Three = ItemGroupManager.Create<Three>(new ToolStripItem[] { threeToolStripMenuItem, toolStripButton3, cToolStripMenuItem });
 			_Four = ItemGroupManager.Create<Four>(new ToolStripItem[] { toolStripButton4 });

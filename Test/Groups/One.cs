@@ -18,6 +18,8 @@ namespace Test.Groups
 			using (OpenFileDialog ofd = new OpenFileDialog())
 			{
 				ofd.ShowDialog();
+				Form1 form = base.ExternalObject as Form1;
+				form.Text = ofd.FileName;
 			}
 		}
 
