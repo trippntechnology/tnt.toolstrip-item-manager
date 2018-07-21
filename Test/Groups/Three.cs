@@ -7,8 +7,6 @@ namespace Test.Groups
 		public Three()
 			: base(ResourceToImage("Test.Images.shape_align_left.png"))
 		{
-
-
 		}
 
 		public override string Text => "Three";

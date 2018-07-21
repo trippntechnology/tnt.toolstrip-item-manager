@@ -31,8 +31,12 @@ namespace Test.Groups
 		{
 			base.OnApplicationIdle(sender, e);
 
-			var three = base.ToolStripItemGroupManager["Three"];
-			var four = base.ToolStripItemGroupManager["Four"];
+			ToolStripItemGroup three;// = base.ToolStripItemGroupManager["Three"];
+			ToolStripItemGroup four;// = base.ToolStripItemGroupManager["Four"];
+
+
+			base.ToolStripItemGroupManager.TryGetValue("Three", out three);
+			base.ToolStripItemGroupManager.TryGetValue("Four", out four);
 
 			if (three!= null)
 				Enabled = three.Checked;
