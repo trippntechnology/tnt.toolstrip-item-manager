@@ -12,7 +12,7 @@ namespace TNT.ToolStripItemManager
 	{
 		private ToolStripStatusLabel StatusLabel;
 
-		/// <summary>
+		/// <summary>	
 		/// Initializes a ToolStripItemGroupManager that manages a <see cref="Dictionary{TKey, TValue}"/> of <see cref="ToolStripItemGroup"/>
 		/// </summary>
 		/// <param name="statusLabel">Provide for tool tip hints</param>
@@ -22,7 +22,12 @@ namespace TNT.ToolStripItemManager
 			Application.Idle += Application_Idle;
 		}
 
-		private void Application_Idle(object sender, EventArgs e)
+		/// <summary>
+		/// Called by <see cref="Application.Idle"/> which calls each <see cref="ToolStripItemGroup.OnApplicationIdle(object, EventArgs)"/>
+		/// </summary>
+		/// <param name="sender">Not used</param>
+		/// <param name="e">Not used</param>
+		protected void Application_Idle(object sender, EventArgs e)
 		{
 			foreach (var toolStripItemGroup in this.Values)
 			{

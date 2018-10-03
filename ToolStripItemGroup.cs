@@ -69,15 +69,15 @@ namespace TNT.ToolStripItemManager
 
 					if (toolStripMenuItem != null)
 					{
-						toolStripMenuItem.CheckedChanged -= CheckedChanged;
-						toolStripMenuItem.Checked = value;
-						toolStripMenuItem.CheckedChanged += CheckedChanged;
+						//toolStripMenuItem.CheckedChanged -= CheckedChanged;
+						toolStripMenuItem.CheckState = value ? CheckState.Checked : CheckState.Unchecked;// Checked = value;
+																																														 //toolStripMenuItem.CheckedChanged += CheckedChanged;
 					}
 					else if (toolStripButton != null)
 					{
-						toolStripButton.CheckedChanged -= CheckedChanged;
-						toolStripButton.Checked = value;
-						toolStripButton.CheckedChanged += CheckedChanged;
+						//toolStripButton.CheckedChanged -= CheckedChanged;
+						toolStripButton.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
+						//toolStripButton.CheckedChanged += CheckedChanged;
 					}
 				});
 
@@ -131,7 +131,7 @@ namespace TNT.ToolStripItemManager
 		/// </summary>
 		/// <typeparam name="T">Type of <see cref="ToolStripItem"/></typeparam>
 		/// <param name="toolStripItem"><see cref="ToolStripItem"/> to add</param>
-		public void Add<T>(T toolStripItem) where T : ToolStripItem
+		public virtual void Add<T>(T toolStripItem) where T : ToolStripItem
 		{
 			if (toolStripItem is ToolStripButton)
 			{
@@ -149,22 +149,20 @@ namespace TNT.ToolStripItemManager
 				toolStripMenuItem.CheckedChanged += CheckedChanged;
 				toolStripItem.Click += this.MouseClick;
 			}
+			else if (toolStripItem is ToolStripSplitButton)
+			{
+				(toolStripItem as ToolStripSplitButton).ButtonClick += this.MouseClick;
+			}
 			else
 			{
-				if (toolStripItem is ToolStripSplitButton)
-				{
-					(toolStripItem as ToolStripSplitButton).ButtonClick += this.MouseClick;
-				}
-				else
-				{
-					toolStripItem.Click += this.MouseClick;
-				}
+				toolStripItem.Click += this.MouseClick;
 			}
 
 			toolStripItem.MouseEnter += this.MouseEnter;
 			toolStripItem.MouseLeave += this.MouseLeave;
 			toolStripItem.Image = this.Image;
 			toolStripItem.Text = this.Text;
+			toolStripItem.ToolTipText = this.ToolTipText;
 
 			base.Add(toolStripItem);
 		}
@@ -181,7 +179,7 @@ namespace TNT.ToolStripItemManager
 			return resourceStream == null ? null : new Bitmap(resourceStream);
 		}
 
-		private void MouseEnter(object sender, EventArgs e)
+		protected void MouseEnter(object sender, EventArgs e)
 		{
 			if (ToolStripStatusLabel != null)
 			{
@@ -189,7 +187,7 @@ namespace TNT.ToolStripItemManager
 			}
 		}
 
-		private void MouseLeave(object sender, EventArgs e)
+		protected void MouseLeave(object sender, EventArgs e)
 		{
 			if (ToolStripStatusLabel != null)
 			{
@@ -207,7 +205,7 @@ namespace TNT.ToolStripItemManager
 			this.OnMouseClick?.Invoke(sender, e);
 		}
 
-		private void CheckedChanged(object sender, EventArgs e)
+		public virtual void CheckedChanged(object sender, EventArgs e)
 		{
 			this.Checked = (sender as ToolStripItem).GetChecked();
 		}
