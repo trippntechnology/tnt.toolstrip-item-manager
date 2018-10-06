@@ -89,7 +89,12 @@ namespace TNT.ToolStripItemManager
 		/// </summary>
 		public bool Visible
 		{
-			get { return base[0].Visible; }
+			get
+			{
+				var isVisible = true;
+				base.ForEach(i => isVisible = (i.Available && isVisible));
+				return isVisible;
+			}
 			set { base.ForEach(t => t.Visible = value); }
 		}
 
@@ -98,7 +103,12 @@ namespace TNT.ToolStripItemManager
 		/// </summary>
 		public bool Enabled
 		{
-			get { return base[0].Enabled; }
+			get
+			{
+				var isEnabled = true;
+				base.ForEach(i => isEnabled = (i.Enabled && isEnabled));
+				return isEnabled;
+			}
 			set { base.ForEach(t => t.Enabled = value); }
 		}
 
@@ -179,7 +189,12 @@ namespace TNT.ToolStripItemManager
 			return resourceStream == null ? null : new Bitmap(resourceStream);
 		}
 
-		protected void MouseEnter(object sender, EventArgs e)
+		/// <summary>
+		/// Assigned to the <see cref="ToolStripItem"/> MouseEnter event handler
+		/// </summary>
+		/// <param name="sender"><see cref="object"/> that triggered event</param>
+		/// <param name="e">Arguments associated with event</param>
+		protected virtual void MouseEnter(object sender, EventArgs e)
 		{
 			if (ToolStripStatusLabel != null)
 			{
@@ -187,7 +202,12 @@ namespace TNT.ToolStripItemManager
 			}
 		}
 
-		protected void MouseLeave(object sender, EventArgs e)
+		/// <summary>
+		/// Assigned to the <see cref="ToolStripItem"/> MouseLeave event handler
+		/// </summary>
+		/// <param name="sender"><see cref="object"/> that triggered event</param>
+		/// <param name="e">Arguments associated with event</param>
+		protected virtual void MouseLeave(object sender, EventArgs e)
 		{
 			if (ToolStripStatusLabel != null)
 			{
@@ -205,6 +225,11 @@ namespace TNT.ToolStripItemManager
 			this.OnMouseClick?.Invoke(sender, e);
 		}
 
+		/// <summary>
+		/// Assigned to the <see cref="ToolStripItem"/> CheckedChanged event handler
+		/// </summary>
+		/// <param name="sender"><see cref="object"/> that triggered event</param>
+		/// <param name="e">Arguments associated with event</param>
 		public virtual void CheckedChanged(object sender, EventArgs e)
 		{
 			this.Checked = (sender as ToolStripItem).GetChecked();

@@ -192,23 +192,27 @@ namespace TNT.ToolStripItemManager.Tests
 			var statusLabel = new ToolStripStatusLabel();
 			var tsiGroupManager = new ToolStripItemGroupManager(statusLabel);
 
+			var externalObject = new TestToolStripItem();
 			var item = new TestToolStripItem();
 
-			var mouseClicked1Called = false;
-			sut = tsiGroupManager.Create<TestToolStripItemGroupAddOverride>(new[] { item }, ToolStripItemGroupImage, onClick: (s, e) => { mouseClicked1Called = true; });
+			sut = tsiGroupManager.Create<TestToolStripItemGroupAddOverride>(new[] { item }, ToolStripItemGroupImage, externalObject);
+
+			Assert.AreEqual(tsiGroupManager, sut.ToolStripItemGroupManager);
 
 			sut.Add(item);
+
+			item.PerformClick();
 
 			var mouseClick2Called = false;
 			sut.MyMouseClick += (s, e) => { mouseClick2Called = true; };
 
 			item.PerformClick();
-			Assert.IsTrue(mouseClicked1Called);
 			Assert.IsTrue(mouseClick2Called);
 
 			Assert.AreEqual(sut.Image, item.Image);
 			Assert.AreEqual(sut.Text, item.Text);
 			Assert.AreEqual(sut.ToolTipText, item.ToolTipText);
+			Assert.AreEqual(externalObject, sut.ExternalObject);
 		}
 
 		[TestMethod]
@@ -247,6 +251,58 @@ namespace TNT.ToolStripItemManager.Tests
 			item.PerformMouseLeave(null);
 			Assert.IsTrue(mouseLeft);
 			Assert.AreEqual(String.Empty, statusLabel.Text);
+		}
+
+		[TestMethod]
+		public void ToolStripItemGroup_ApplicationIdle()
+		{
+			var testItem = new TestToolStripItem();
+			var sut = new ToolStripItemGroupManager(null);
+			var group1 = sut.Create<ApplicationIdleToolStripItemGroup.Group1>(new ToolStripItem[] { testItem });
+			var group2 = sut.Create<ApplicationIdleToolStripItemGroup.Group2>(new ToolStripItem[] { testItem });
+			var group3 = sut.Create<ApplicationIdleToolStripItemGroup.Group3>(new ToolStripItem[] { testItem });
+
+			Application.RaiseIdle(null);
+
+			Assert.IsTrue(group1.ApplicationIdleCalled);
+			Assert.IsTrue(group2.ApplicationIdleCalled);
+			Assert.IsTrue(group3.ApplicationIdleCalled);
+		}
+
+		[TestMethod]
+		public void ToolStripItemGroup_Enabled()
+		{
+			var toolStripMenuItem = new ToolStripMenuItem();
+			var toolStripButton = new ToolStripButton();
+			var toolStripMenuButton = new ToolStripSplitButton();
+			var sut = new TestToolStripItemGroup();
+			sut.Add(toolStripMenuItem);
+			sut.Add(toolStripButton);
+			sut.Add(toolStripMenuButton);
+
+			sut.ForEach(i => Assert.IsTrue(i.Enabled));
+			Assert.IsTrue(sut.Enabled);
+			sut.Enabled = false;
+			sut.ForEach(i => Assert.IsFalse(i.Enabled));
+			Assert.IsFalse(sut.Enabled);
+		}
+
+		[TestMethod]
+		public void ToolStripItemGroup_Visible()
+		{
+			var toolStripMenuItem = new ToolStripMenuItem() { Text = "Menu" };
+			var toolStripButton = new ToolStripButton() { Text = "Button" };
+			var toolStripMenuButton = new ToolStripSplitButton() { Text = "Split" };
+			var sut = new TestToolStripItemGroup();
+			sut.Add(toolStripMenuItem);
+			sut.Add(toolStripButton);
+			sut.Add(toolStripMenuButton);
+
+			sut.ForEach(i => Assert.IsTrue(i.Available));
+			Assert.IsTrue(sut.Visible);
+			sut.Visible = false;
+			sut.ForEach(i => Assert.IsFalse(i.Available));
+			Assert.IsFalse(sut.Visible);
 		}
 	}
 }

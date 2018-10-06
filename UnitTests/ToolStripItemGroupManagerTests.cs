@@ -24,13 +24,9 @@ namespace TNT.ToolStripItemManager.Tests
 			Assert.AreEqual(one.Text, toolStripMenuItem.Text);
 			Assert.AreEqual(one.ToolTipText, toolStripMenuItem.ToolTipText);
 
-			//Assert.IsTrue(called);
-		}
+			toolStripMenuItem.PerformClick();
 
-		[TestMethod()]
-		public void Create_Test()
-		{
-
+			Assert.IsTrue(called);
 		}
 
 		public class ProtectedAccess : ToolStripItemGroupManager
