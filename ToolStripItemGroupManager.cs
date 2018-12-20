@@ -43,8 +43,8 @@ namespace TNT.ToolStripItemManager
 		/// <param name="image"><see cref="Image"/> that should be used</param>
 		/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
 		/// <param name="onClick">Event that handles a mouse click</param>
-		/// <returns></returns>
-		public T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null) where T : ToolStripItemGroup, new()
+		/// <returns>Newly create object <typeparamref name="T"/></returns>
+		public virtual T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null) where T : ToolStripItemGroup, new()
 		{
 			T t = new T
 			{

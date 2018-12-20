@@ -52,6 +52,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Groups\Center.cs" />
+    <Compile Include="Groups\Right.cs" />
+    <Compile Include="Groups\Left.cs" />
     <Compile Include="Groups\Four.cs" />
     <Compile Include="Groups\One.cs" />
     <Compile Include="Groups\Three.cs" />
