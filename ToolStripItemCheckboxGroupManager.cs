@@ -50,7 +50,7 @@ namespace TNT.ToolStripItemManager
 				return;
 			}
 
-			if (toolStripItem != null && TryGetValue(toolStripItem.Text, out ToolStripItemGroup toolStripItemGroup))
+			if (TryGetValue(toolStripItem.Text, out ToolStripItemGroup toolStripItemGroup))
 			{
 				foreach (var item in this.Values)
 				{
