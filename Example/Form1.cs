@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using Test.Groups;
 using TNT.ToolStripItemManager;
@@ -27,8 +28,8 @@ namespace Test
 			_Three = ItemGroupManager.Create<Three>(new ToolStripItem[] { threeToolStripMenuItem, toolStripButton3, cToolStripMenuItem });
 			_Four = ItemGroupManager.Create<Four>(new ToolStripItem[] { toolStripButton4 });
 
-			CheckboxItemGroupManager.Create<Left>(new ToolStripItem[] { tsb1, leftToolStripMenuItem },externalObject: label1).Checked = true;
-			CheckboxItemGroupManager.Create<Center>(new ToolStripItem[] { tsb2, centerToolStripMenuItem}, externalObject: label1);
+			CheckboxItemGroupManager.Create<Left>(new ToolStripItem[] { tsb1, leftToolStripMenuItem }, externalObject: label1).Checked = true;
+			CheckboxItemGroupManager.Create<Center>(new ToolStripItem[] { tsb2, centerToolStripMenuItem }, externalObject: label1);
 			CheckboxItemGroupManager.Create<Right>(new ToolStripItem[] { tsb3, rightToolStripMenuItem }, externalObject: label1);
 		}
 
@@ -37,6 +38,15 @@ namespace Test
 			using (OpenFileDialog ofd = new OpenFileDialog())
 			{
 				ofd.ShowDialog();
+			}
+		}
+
+		private void label1_Click(object sender, EventArgs e)
+		{
+			var checkedItemGroup = CheckboxItemGroupManager.FirstOrDefault(i => i.Value.Checked == true).Value;
+			if (checkedItemGroup != null)
+			{
+				checkedItemGroup.Checked = false;
 			}
 		}
 	}

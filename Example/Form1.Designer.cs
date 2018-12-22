@@ -35,6 +35,10 @@
 			this.twoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.threeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.alignmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.leftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.centerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.rightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -51,10 +55,6 @@
 			this.bToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label1 = new System.Windows.Forms.Label();
-			this.alignmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.leftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.centerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.rightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -99,6 +99,34 @@
 			this.menuStrip1.Size = new System.Drawing.Size(735, 24);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// alignmentToolStripMenuItem
+			// 
+			this.alignmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.leftToolStripMenuItem,
+            this.centerToolStripMenuItem,
+            this.rightToolStripMenuItem});
+			this.alignmentToolStripMenuItem.Name = "alignmentToolStripMenuItem";
+			this.alignmentToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
+			this.alignmentToolStripMenuItem.Text = "Alignment";
+			// 
+			// leftToolStripMenuItem
+			// 
+			this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
+			this.leftToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+			this.leftToolStripMenuItem.Text = "Left";
+			// 
+			// centerToolStripMenuItem
+			// 
+			this.centerToolStripMenuItem.Name = "centerToolStripMenuItem";
+			this.centerToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+			this.centerToolStripMenuItem.Text = "Center";
+			// 
+			// rightToolStripMenuItem
+			// 
+			this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
+			this.rightToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+			this.rightToolStripMenuItem.Text = "Right";
 			// 
 			// toolStripStatusLabel1
 			// 
@@ -237,34 +265,7 @@
 			this.label1.TabIndex = 3;
 			this.label1.Text = "label1";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// alignmentToolStripMenuItem
-			// 
-			this.alignmentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.leftToolStripMenuItem,
-            this.centerToolStripMenuItem,
-            this.rightToolStripMenuItem});
-			this.alignmentToolStripMenuItem.Name = "alignmentToolStripMenuItem";
-			this.alignmentToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
-			this.alignmentToolStripMenuItem.Text = "Alignment";
-			// 
-			// leftToolStripMenuItem
-			// 
-			this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
-			this.leftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.leftToolStripMenuItem.Text = "Left";
-			// 
-			// centerToolStripMenuItem
-			// 
-			this.centerToolStripMenuItem.Name = "centerToolStripMenuItem";
-			this.centerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.centerToolStripMenuItem.Text = "Center";
-			// 
-			// rightToolStripMenuItem
-			// 
-			this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
-			this.rightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.rightToolStripMenuItem.Text = "Right";
+			this.label1.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// Form1
 			// 
