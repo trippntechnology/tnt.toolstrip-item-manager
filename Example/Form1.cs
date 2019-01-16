@@ -28,7 +28,7 @@ namespace Test
 			_Three = ItemGroupManager.Create<Three>(new ToolStripItem[] { threeToolStripMenuItem, toolStripButton3, cToolStripMenuItem });
 			_Four = ItemGroupManager.Create<Four>(new ToolStripItem[] { toolStripButton4 });
 
-			CheckboxItemGroupManager.Create<Left>(new ToolStripItem[] { tsb1, leftToolStripMenuItem }, externalObject: label1).Checked = true;
+			CheckboxItemGroupManager.CreateHome<Left>(new ToolStripItem[] { tsb1, leftToolStripMenuItem }, externalObject: label1).Checked = true;
 			CheckboxItemGroupManager.Create<Center>(new ToolStripItem[] { tsb2, centerToolStripMenuItem }, externalObject: label1);
 			CheckboxItemGroupManager.Create<Right>(new ToolStripItem[] { tsb3, rightToolStripMenuItem }, externalObject: label1);
 		}
@@ -48,6 +48,11 @@ namespace Test
 			{
 				checkedItemGroup.Checked = false;
 			}
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			CheckboxItemGroupManager.Toggle();
 		}
 	}
 }

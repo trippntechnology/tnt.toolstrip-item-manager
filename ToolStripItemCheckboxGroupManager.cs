@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace TNT.ToolStripItemManager
@@ -10,6 +11,16 @@ namespace TNT.ToolStripItemManager
 	/// </summary>
 	public class ToolStripItemCheckboxGroupManager : ToolStripItemGroupManager
 	{
+		/// <summary>
+		/// Indicates the home group
+		/// </summary>
+		public ToolStripItemGroup HomeGroup { get; protected set; } = null;
+
+		/// <summary>
+		/// Previously checked <see cref="ToolStripItemGroup"/> that was not the <see cref="HomeGroup"/>
+		/// </summary>
+		public ToolStripItemGroup PreviouslyCheckedGroup { get; protected set; } = null;
+
 		/// <summary>	
 		/// Initializes a <see cref="ToolStripItemCheckboxGroupManager"/> that manages a <see cref="Dictionary{TKey, TValue}"/> of <see cref="ToolStripItemGroup"/>
 		/// </summary>
@@ -37,6 +48,51 @@ namespace TNT.ToolStripItemManager
 		}
 
 		/// <summary>
+		/// Creates a new <see cref="ToolStripItemGroup"/> which is also managed as like a radio button with other <see cref="ToolStripItemGroup"/>. The 
+		/// <typeparamref name="T"/> created will be considered the home item.
+		/// </summary>
+		/// <typeparam name="T"><see cref="ToolStripItemGroup"/> type</typeparam>
+		/// <param name="items"><see cref="ToolStripItem"/> array that should be added to the <see cref="ToolStripItemGroup"/></param>
+		/// <param name="image"><see cref="Image"/> that should be used</param>
+		/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
+		/// <param name="onClick">Event that handles a mouse click</param>
+		/// <returns>Newly create object <typeparamref name="T"/></returns>
+		public T CreateHome<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null) where T : ToolStripItemGroup, new()
+		{
+			T itemGroup = this.Create<T>(items, image, externalObject, onClick);
+			HomeGroup = itemGroup;
+			return itemGroup;
+		}
+
+		/// <summary>
+		/// Returns the <see cref="ToolStripItemGroup"/> that is checked if exists
+		/// </summary>
+		/// <returns><see cref="ToolStripItemGroup"/> that is checked if exists, null otherwise</returns>
+		public ToolStripItemGroup GetCheckedGroup()
+		{
+			return this.Values.FirstOrDefault(i => i.Checked == true);
+		}
+
+		/// <summary>
+		/// Toggles check between <see cref="HomeGroup"/> and <see cref="PreviouslyCheckedGroup"/>
+		/// </summary>
+		public void Toggle()
+		{
+			if (HomeGroup == null || PreviouslyCheckedGroup == null) return;
+
+			if (HomeGroup.Checked == true)
+			{
+				HomeGroup.Checked = false;
+				PreviouslyCheckedGroup.Checked = true;
+			}
+			else
+			{
+				PreviouslyCheckedGroup.Checked = false;
+				HomeGroup.Checked = true;
+			}
+		}
+
+		/// <summary>
 		/// Managers the <see cref="ToolStripItemGroup"/> items as a radio button group
 		/// </summary>
 		/// <param name="sender"><see cref="ToolStripItem"/> that was clicked</param>
@@ -44,6 +100,10 @@ namespace TNT.ToolStripItemManager
 		protected void MouseClick(object sender, EventArgs e)
 		{
 			var toolStripItem = sender as ToolStripItem;
+			var currentlyChecked = GetCheckedGroup();
+
+			// Keep track that the item was selected previously if not the HomeGroup
+			if (currentlyChecked != HomeGroup) PreviouslyCheckedGroup = currentlyChecked;
 
 			if (toolStripItem.GetChecked())
 			{
@@ -56,6 +116,8 @@ namespace TNT.ToolStripItemManager
 				{
 					item.Checked = item == toolStripItemGroup;
 				}
+
+				if (toolStripItemGroup != HomeGroup) PreviouslyCheckedGroup = toolStripItemGroup;
 			}
 		}
 	}

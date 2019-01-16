@@ -46,6 +46,47 @@ namespace TNT.ToolStripItemManager.Tests
 			Assert.IsTrue(toolStripButtonTwo.Checked);
 		}
 
+
+		[TestMethod]
+		public void ToolStripItemGroupManager_CreateHome()
+		{
+			var toolStripStatusLabel = new ToolStripStatusLabel();
+			var toolStripMenuItemOne = new ToolStripMenuItem();
+			var toolStripButtonOne = new ToolStripButton();
+			var toolStripMenuItemTwo = new ToolStripMenuItem();
+			var toolStripButtonTwo = new ToolStripButton();
+			var obj = new object();
+			var bitmap = ToolStripItemGroup.ResourceToImage("TNT.ToolStripItemManager.Tests.Images.shape_align_bottom.png");
+			var itemGroupManager = new ProtectedAccess(toolStripStatusLabel);
+			var nonHomeGroup= itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItemOne, toolStripButtonOne }, bitmap, obj);
+
+			Assert.IsFalse(nonHomeGroup.Checked);
+			Assert.IsNull(itemGroupManager.HomeGroup);
+
+			itemGroupManager.Toggle();
+			Assert.IsFalse(nonHomeGroup.Checked);
+
+			var homeGroup = itemGroupManager.CreateHome<Two>(new ToolStripItem[] { toolStripMenuItemTwo, toolStripButtonTwo }, bitmap, obj);
+
+			Assert.AreEqual(homeGroup, itemGroupManager.HomeGroup);
+
+			Assert.IsNull(itemGroupManager.PreviouslyCheckedGroup);
+			toolStripMenuItemTwo.PerformClick();
+			Assert.IsNull(itemGroupManager.PreviouslyCheckedGroup);
+
+			toolStripMenuItemOne.PerformClick();
+			Assert.AreEqual(nonHomeGroup, itemGroupManager.PreviouslyCheckedGroup);
+			Assert.IsTrue(nonHomeGroup.Checked);
+
+			itemGroupManager.Toggle();
+			Assert.IsFalse(nonHomeGroup.Checked);
+			Assert.IsTrue(homeGroup.Checked);
+
+			itemGroupManager.Toggle();
+			Assert.IsTrue(nonHomeGroup.Checked);
+			Assert.IsFalse(homeGroup.Checked);
+		}
+
 		public class ProtectedAccess : ToolStripItemCheckboxGroupManager
 		{
 			public ProtectedAccess(ToolStripStatusLabel statusLabel)

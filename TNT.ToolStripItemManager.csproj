@@ -35,7 +35,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyInfo_Title>ToolStripItem Manager</AssemblyInfo_Title>
-    <AssemblyInfo_MinorVersion>3</AssemblyInfo_MinorVersion>
+    <AssemblyInfo_MinorVersion>4</AssemblyInfo_MinorVersion>
     <AssemblyInfo_PatchVersion>0</AssemblyInfo_PatchVersion>
   </PropertyGroup>
   <ItemGroup>
