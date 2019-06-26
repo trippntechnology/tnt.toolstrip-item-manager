@@ -60,14 +60,14 @@ namespace TNT.ToolStripItemManager
 		/// <param name="onClick">Event that handles a mouse click</param>
 		/// <param name="isLicensed"><see cref="Func{T, TResult}"/> that indicates whether the actions managed by the group are licensed</param>
 		/// <returns>Newly create object <typeparamref name="T"/></returns>
-		public virtual T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null, Func<bool> isLicensed = null) where T : ToolStripItemGroup, new()
+		public virtual T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null, Func<bool, bool> isLicensed = null) where T : ToolStripItemGroup, new()
 		{
 			T t = new T
 			{
 				ToolStripStatusLabel = this.StatusLabel,
 				ToolStripItemGroupManager = this,
 				ExternalObject = externalObject,
-				IsLicensed = isLicensed != null ? isLicensed : () => true
+				IsLicensed = isLicensed ?? ((userInteractionAllowed) => true)
 			};
 
 			if (image != null)
