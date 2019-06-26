@@ -57,6 +57,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -236,9 +237,10 @@
 			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aToolStripMenuItem,
             this.bToolStripMenuItem,
-            this.cToolStripMenuItem});
+            this.cToolStripMenuItem,
+            this.dToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(82, 70);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(82, 92);
 			// 
 			// aToolStripMenuItem
 			// 
@@ -288,6 +290,12 @@
 			this.checkBox1.TabIndex = 5;
 			this.checkBox1.Text = "Licensed";
 			this.checkBox1.UseVisualStyleBackColor = true;
+			// 
+			// dToolStripMenuItem
+			// 
+			this.dToolStripMenuItem.Name = "dToolStripMenuItem";
+			this.dToolStripMenuItem.Size = new System.Drawing.Size(81, 22);
+			this.dToolStripMenuItem.Text = "d";
 			// 
 			// Form1
 			// 
@@ -345,6 +353,7 @@
 		private System.Windows.Forms.ToolStripMenuItem rightToolStripMenuItem;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.ToolStripMenuItem dToolStripMenuItem;
 	}
 }
 

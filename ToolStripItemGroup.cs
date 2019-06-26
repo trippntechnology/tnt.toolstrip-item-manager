@@ -49,7 +49,7 @@ namespace TNT.ToolStripItemManager
 		/// <summary>
 		/// Indicates that the actions managed by this group are licensed
 		/// </summary>
-		public virtual Func<bool> IsLicensed { get; set; } = () => true;
+		public virtual Func<bool, bool> IsLicensed { get; set; } = (userInteractionAllowed) => true;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether the group of <see cref="ToolStripItem"/> are checked or not checked
@@ -227,9 +227,13 @@ namespace TNT.ToolStripItemManager
 		/// <param name="e">Information about the event</param>
 		public virtual void MouseClick(object sender, EventArgs e)
 		{
-			if (IsLicensed())
+			if (IsLicensed(true))
 			{
 				this.OnMouseClick?.Invoke(sender, e);
+			}
+			else
+			{
+				(sender as ToolStripItem).SetChecked(false);
 			}
 		}
 
@@ -240,7 +244,10 @@ namespace TNT.ToolStripItemManager
 		/// <param name="e">Arguments associated with event</param>
 		public virtual void CheckedChanged(object sender, EventArgs e)
 		{
-			this.Checked = (sender as ToolStripItem).GetChecked();
+			if (IsLicensed(false))
+			{
+				this.Checked = (sender as ToolStripItem).GetChecked();
+			}
 		}
 	}
 }

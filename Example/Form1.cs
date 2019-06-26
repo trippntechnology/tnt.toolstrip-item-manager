@@ -24,18 +24,18 @@ namespace Test
 			CheckboxItemGroupManager = new ToolStripItemCheckboxGroupManager(toolStripStatusLabel1);
 
 			_One = ItemGroupManager.Create<One>(new ToolStripItem[] { oneToolStripMenuItem, toolStripButton1, aToolStripMenuItem }, oneToolStripMenuItem.Image, this);
-			_Two = ItemGroupManager.Create<Two>(new ToolStripItem[] { twoToolStripMenuItem, toolStripSplitButton2, bToolStripMenuItem }, onClick: Open_OnMouseClick, isLicensed: isLicensed);
+			_Two = ItemGroupManager.Create<Two>(new ToolStripItem[] { twoToolStripMenuItem, toolStripSplitButton2, bToolStripMenuItem }, onClick: Open_OnMouseClick, isLicensed: IsLicensed);
 			_Three = ItemGroupManager.Create<Three>(new ToolStripItem[] { threeToolStripMenuItem, toolStripButton3, cToolStripMenuItem });
-			_Four = ItemGroupManager.Create<Four>(new ToolStripItem[] { toolStripButton4 });
+			_Four = ItemGroupManager.Create<Four>(new ToolStripItem[] { toolStripButton4, dToolStripMenuItem }, isLicensed: IsLicensed);
 
 			CheckboxItemGroupManager.CreateHome<Left>(new ToolStripItem[] { tsb1, leftToolStripMenuItem }, externalObject: label1).Checked = true;
 			CheckboxItemGroupManager.Create<Center>(new ToolStripItem[] { tsb2, centerToolStripMenuItem }, externalObject: label1);
 			CheckboxItemGroupManager.Create<Right>(new ToolStripItem[] { tsb3, rightToolStripMenuItem }, externalObject: label1);
 		}
 
-		private bool isLicensed()
+		private bool IsLicensed(bool userInteractionAllowed)
 		{
-			if (!checkBox1.Checked)
+			if (!checkBox1.Checked && userInteractionAllowed)
 			{
 				MessageBox.Show(this, "This feature is not licensed", "Not licensed", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
