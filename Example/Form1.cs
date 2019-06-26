@@ -24,13 +24,22 @@ namespace Test
 			CheckboxItemGroupManager = new ToolStripItemCheckboxGroupManager(toolStripStatusLabel1);
 
 			_One = ItemGroupManager.Create<One>(new ToolStripItem[] { oneToolStripMenuItem, toolStripButton1, aToolStripMenuItem }, oneToolStripMenuItem.Image, this);
-			_Two = ItemGroupManager.Create<Two>(new ToolStripItem[] { twoToolStripMenuItem, toolStripSplitButton2, bToolStripMenuItem }, onClick: Open_OnMouseClick);
+			_Two = ItemGroupManager.Create<Two>(new ToolStripItem[] { twoToolStripMenuItem, toolStripSplitButton2, bToolStripMenuItem }, onClick: Open_OnMouseClick, isLicensed: isLicensed);
 			_Three = ItemGroupManager.Create<Three>(new ToolStripItem[] { threeToolStripMenuItem, toolStripButton3, cToolStripMenuItem });
 			_Four = ItemGroupManager.Create<Four>(new ToolStripItem[] { toolStripButton4 });
 
 			CheckboxItemGroupManager.CreateHome<Left>(new ToolStripItem[] { tsb1, leftToolStripMenuItem }, externalObject: label1).Checked = true;
 			CheckboxItemGroupManager.Create<Center>(new ToolStripItem[] { tsb2, centerToolStripMenuItem }, externalObject: label1);
 			CheckboxItemGroupManager.Create<Right>(new ToolStripItem[] { tsb3, rightToolStripMenuItem }, externalObject: label1);
+		}
+
+		private bool isLicensed()
+		{
+			if (!checkBox1.Checked)
+			{
+				MessageBox.Show(this, "This feature is not licensed", "Not licensed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			return checkBox1.Checked;
 		}
 
 		private void Open_OnMouseClick(object sender, EventArgs e)

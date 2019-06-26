@@ -47,6 +47,11 @@ namespace TNT.ToolStripItemManager
 		public virtual bool CheckOnClick => false;
 
 		/// <summary>
+		/// Indicates that the actions managed by this group are licensed
+		/// </summary>
+		public virtual Func<bool> IsLicensed { get; set; } = () => true;
+
+		/// <summary>
 		/// Gets or sets a value indicating whether the group of <see cref="ToolStripItem"/> are checked or not checked
 		/// </summary>
 		public virtual bool Checked
@@ -80,7 +85,6 @@ namespace TNT.ToolStripItemManager
 						//toolStripButton.CheckedChanged += CheckedChanged;
 					}
 				});
-
 			}
 		}
 
@@ -134,6 +138,7 @@ namespace TNT.ToolStripItemManager
 		/// <param name="e">Event args</param>
 		public virtual void OnApplicationIdle(object sender, EventArgs e)
 		{
+
 		}
 
 		/// <summary>
@@ -222,7 +227,10 @@ namespace TNT.ToolStripItemManager
 		/// <param name="e">Information about the event</param>
 		public virtual void MouseClick(object sender, EventArgs e)
 		{
-			this.OnMouseClick?.Invoke(sender, e);
+			if (IsLicensed())
+			{
+				this.OnMouseClick?.Invoke(sender, e);
+			}
 		}
 
 		/// <summary>

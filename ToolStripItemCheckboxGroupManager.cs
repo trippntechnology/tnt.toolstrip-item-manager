@@ -32,23 +32,24 @@ namespace TNT.ToolStripItemManager
 		}
 
 		/// <summary>
-		/// Creates a new <see cref="ToolStripItemGroup"/> which is also managed as like a radio button with other <see cref="ToolStripItemGroup"/>
+		/// Creates a new <see cref="ToolStripItemGroup"/> which is also managed as a radio button with other <see cref="ToolStripItemGroup"/>
 		/// </summary>
 		/// <typeparam name="T"><see cref="ToolStripItemGroup"/> type</typeparam>
 		/// <param name="items"><see cref="ToolStripItem"/> array that should be added to the <see cref="ToolStripItemGroup"/></param>
 		/// <param name="image"><see cref="Image"/> that should be used</param>
 		/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
 		/// <param name="onClick">Event that handles a mouse click</param>
+		/// <param name="isLicensed"><see cref="Func{T, TResult}"/> that indicates whether the actions managed by the group are licensed</param>
 		/// <returns>Newly create object <typeparamref name="T"/></returns>
-		public override T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null)
+		public override T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null, Func<bool> isLicensed = null)
 		{
-			T itemGroup = base.Create<T>(items, image, externalObject, onClick);
+			T itemGroup = base.Create<T>(items, image, externalObject, onClick, isLicensed);
 			itemGroup.OnMouseClick += this.MouseClick;
 			return itemGroup;
 		}
 
 		/// <summary>
-		/// Creates a new <see cref="ToolStripItemGroup"/> which is also managed as like a radio button with other <see cref="ToolStripItemGroup"/>. The 
+		/// Creates a new <see cref="ToolStripItemGroup"/> which is also managed as a radio button with other <see cref="ToolStripItemGroup"/>. The 
 		/// <typeparamref name="T"/> created will be considered the home item.
 		/// </summary>
 		/// <typeparam name="T"><see cref="ToolStripItemGroup"/> type</typeparam>
@@ -56,10 +57,11 @@ namespace TNT.ToolStripItemManager
 		/// <param name="image"><see cref="Image"/> that should be used</param>
 		/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
 		/// <param name="onClick">Event that handles a mouse click</param>
+		/// <param name="isLicensed"><see cref="Func{T, TResult}"/> that indicates whether the actions managed by the group are licensed</param>
 		/// <returns>Newly create object <typeparamref name="T"/></returns>
-		public T CreateHome<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null) where T : ToolStripItemGroup, new()
+		public T CreateHome<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null, Func<bool> isLicensed = null) where T : ToolStripItemGroup, new()
 		{
-			T itemGroup = this.Create<T>(items, image, externalObject, onClick);
+			T itemGroup = this.Create<T>(items, image, externalObject, onClick, isLicensed);
 			HomeGroup = itemGroup;
 			return itemGroup;
 		}

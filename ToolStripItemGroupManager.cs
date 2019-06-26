@@ -12,13 +12,28 @@ namespace TNT.ToolStripItemManager
 	{
 		private ToolStripStatusLabel StatusLabel;
 
+		//private bool _IsLicensed = false;
+		//public bool IsLicensed
+		//{
+		//	get { return _IsLicensed; }
+		//	set
+		//	{
+		//		_IsLicensed = value;
+		//		foreach (var tsig in Values)
+		//		{
+		//			tsig.IsLicensed = _IsLicensed;
+		//		}
+		//	}
+		//}
+
 		/// <summary>	
 		/// Initializes a ToolStripItemGroupManager that manages a <see cref="Dictionary{TKey, TValue}"/> of <see cref="ToolStripItemGroup"/>
 		/// </summary>
 		/// <param name="statusLabel">Provide for tool tip hints</param>
-		public ToolStripItemGroupManager(ToolStripStatusLabel statusLabel)
+		public ToolStripItemGroupManager(ToolStripStatusLabel statusLabel) //, bool isLicensed = true)
 		{
 			this.StatusLabel = statusLabel;
+			//this.IsLicensed = isLicensed;
 			Application.Idle += Application_Idle;
 		}
 
@@ -43,14 +58,16 @@ namespace TNT.ToolStripItemManager
 		/// <param name="image"><see cref="Image"/> that should be used</param>
 		/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
 		/// <param name="onClick">Event that handles a mouse click</param>
+		/// <param name="isLicensed"><see cref="Func{T, TResult}"/> that indicates whether the actions managed by the group are licensed</param>
 		/// <returns>Newly create object <typeparamref name="T"/></returns>
-		public virtual T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null) where T : ToolStripItemGroup, new()
+		public virtual T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null, Func<bool> isLicensed = null) where T : ToolStripItemGroup, new()
 		{
 			T t = new T
 			{
 				ToolStripStatusLabel = this.StatusLabel,
 				ToolStripItemGroupManager = this,
-				ExternalObject = externalObject
+				ExternalObject = externalObject,
+				IsLicensed = isLicensed != null ? isLicensed : () => true
 			};
 
 			if (image != null)
