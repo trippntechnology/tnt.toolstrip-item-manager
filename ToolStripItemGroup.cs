@@ -221,7 +221,7 @@ namespace TNT.ToolStripItemManager
 		/// </summary>
 		/// <param name="sender">Object that was clicked</param>
 		/// <param name="e">Information about the event</param>
-		protected virtual void OnMouseClick(object sender, EventArgs e)
+		public virtual void OnMouseClick(object sender, EventArgs e)
 		{
 		}
 
