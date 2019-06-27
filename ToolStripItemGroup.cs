@@ -24,7 +24,7 @@ namespace TNT.ToolStripItemManager
 		/// <summary>
 		/// Mouse click event handler
 		/// </summary>
-		public EventHandler OnMouseClick { get; internal set; }
+		internal EventHandler MouseClicked { get; set; }
 
 		/// <summary>
 		/// <see cref="Image"/> used by all <see cref="ToolStripItem"/>
@@ -49,7 +49,7 @@ namespace TNT.ToolStripItemManager
 		/// <summary>
 		/// Indicates that the actions managed by this group are licensed
 		/// </summary>
-		public virtual Func<bool, bool> IsLicensed { get; set; } = (userInteractionAllowed) => true;
+		public virtual Func<bool, ToolStripItemGroup, bool> IsLicensed { get; set; } = null;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether the group of <see cref="ToolStripItem"/> are checked or not checked
@@ -74,15 +74,11 @@ namespace TNT.ToolStripItemManager
 
 					if (toolStripMenuItem != null)
 					{
-						//toolStripMenuItem.CheckedChanged -= CheckedChanged;
-						toolStripMenuItem.CheckState = value ? CheckState.Checked : CheckState.Unchecked;// Checked = value;
-																																														 //toolStripMenuItem.CheckedChanged += CheckedChanged;
+						toolStripMenuItem.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
 					}
 					else if (toolStripButton != null)
 					{
-						//toolStripButton.CheckedChanged -= CheckedChanged;
 						toolStripButton.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
-						//toolStripButton.CheckedChanged += CheckedChanged;
 					}
 				});
 			}
@@ -221,15 +217,25 @@ namespace TNT.ToolStripItemManager
 		}
 
 		/// <summary>
-		/// Calls the <see cref="OnMouseClick"/> event if assigned
+		/// Implement by subclass to define what action should occur when a mouse is clicked
 		/// </summary>
 		/// <param name="sender">Object that was clicked</param>
 		/// <param name="e">Information about the event</param>
-		public virtual void MouseClick(object sender, EventArgs e)
+		protected virtual void OnMouseClick(object sender, EventArgs e)
 		{
-			if (IsLicensed(true))
+		}
+
+		/// <summary>
+		/// Calls <see cref="OnMouseClick"/> if licensed
+		/// </summary>
+		/// <param name="sender">Object that was clicked</param>
+		/// <param name="e">Information about the event</param>
+		private void MouseClick(object sender, EventArgs e)
+		{
+			if (IsLicensed(true, this))
 			{
-				this.OnMouseClick?.Invoke(sender, e);
+				OnMouseClick(sender, e);
+				this.MouseClicked?.Invoke(sender, e);
 			}
 			else
 			{
@@ -244,7 +250,7 @@ namespace TNT.ToolStripItemManager
 		/// <param name="e">Arguments associated with event</param>
 		public virtual void CheckedChanged(object sender, EventArgs e)
 		{
-			if (IsLicensed(false))
+			if (IsLicensed(false, this))
 			{
 				this.Checked = (sender as ToolStripItem).GetChecked();
 			}

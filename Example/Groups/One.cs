@@ -12,9 +12,8 @@ namespace Test.Groups
 
 		}
 
-		public override void MouseClick(object sender, EventArgs e)
+		protected override void OnMouseClick(object sender, EventArgs e)
 		{
-			base.MouseClick(sender, e);
 			using (OpenFileDialog ofd = new OpenFileDialog())
 			{
 				ofd.ShowDialog();
@@ -30,15 +29,10 @@ namespace Test.Groups
 		public override void OnApplicationIdle(object sender, EventArgs e)
 		{
 			base.OnApplicationIdle(sender, e);
+			base.ToolStripItemGroupManager.TryGetValue("Three", out ToolStripItemGroup three);
+			base.ToolStripItemGroupManager.TryGetValue("Four", out ToolStripItemGroup four);
 
-			ToolStripItemGroup three;// = base.ToolStripItemGroupManager["Three"];
-			ToolStripItemGroup four;// = base.ToolStripItemGroupManager["Four"];
-
-
-			base.ToolStripItemGroupManager.TryGetValue("Three", out three);
-			base.ToolStripItemGroupManager.TryGetValue("Four", out four);
-
-			if (three!= null)
+			if (three != null)
 				Enabled = three.Checked;
 			if (four != null)
 				Visible = four.Checked;

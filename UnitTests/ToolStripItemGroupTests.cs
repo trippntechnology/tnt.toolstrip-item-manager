@@ -93,8 +93,7 @@ namespace TNT.ToolStripItemManager.Tests
 				Checked = true
 			};
 
-			var mouseClicked1Called = false;
-			sut = tsiGroupManager.Create<TestToolStripItemGroup>(new[] { item }, ToolStripItemGroupImage, onClick: (s, e) => { mouseClicked1Called = true; });
+			sut = tsiGroupManager.Create<TestToolStripItemGroup>(new[] { item }, ToolStripItemGroupImage);
 
 			sut.Add(item);
 
@@ -116,7 +115,6 @@ namespace TNT.ToolStripItemManager.Tests
 
 			item.PerformClick();
 			//sut.MouseClick(null, null);
-			Assert.IsTrue(mouseClicked1Called);
 			Assert.IsTrue(mouseClick2Called);
 
 			Assert.AreEqual(sut.Image, item.Image);
@@ -136,8 +134,7 @@ namespace TNT.ToolStripItemManager.Tests
 				Checked = true
 			};
 
-			var mouseClicked1Called = false;
-			sut = tsiGroupManager.Create<TestToolStripItemGroup>(new[] { item }, ToolStripItemGroupImage, onClick: (s, e) => { mouseClicked1Called = true; });
+			sut = tsiGroupManager.Create<TestToolStripItemGroup>(new[] { item }, ToolStripItemGroupImage);
 
 			sut.Add(item);
 
@@ -153,7 +150,6 @@ namespace TNT.ToolStripItemManager.Tests
 			sut.MyMouseClick += (s, e) => { mouseClick2Called = true; };
 
 			item.PerformClick();
-			Assert.IsTrue(mouseClicked1Called);
 			Assert.IsTrue(mouseClick2Called);
 
 			Assert.AreEqual(sut.Image, item.Image);
@@ -169,8 +165,7 @@ namespace TNT.ToolStripItemManager.Tests
 
 			var item = new ToolStripSplitButton();
 
-			var mouseClicked1Called = false;
-			sut = tsiGroupManager.Create<TestToolStripItemGroup>(new[] { item }, ToolStripItemGroupImage, onClick: (s, e) => { mouseClicked1Called = true; });
+			sut = tsiGroupManager.Create<TestToolStripItemGroup>(new[] { item }, ToolStripItemGroupImage);
 
 			sut.Add(item);
 
@@ -178,7 +173,6 @@ namespace TNT.ToolStripItemManager.Tests
 			sut.MyMouseClick += (s, e) => { mouseClick2Called = true; };
 
 			item.PerformButtonClick();
-			Assert.IsTrue(mouseClicked1Called);
 			Assert.IsTrue(mouseClick2Called);
 
 			Assert.AreEqual(sut.Image, item.Image);

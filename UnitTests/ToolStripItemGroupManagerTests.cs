@@ -10,23 +10,17 @@ namespace TNT.ToolStripItemManager.Tests
 		[TestMethod()]
 		public void ToolStripItemGroupManager_Test()
 		{
-			var called = false;
 			var toolStripStatusLabel = new ToolStripStatusLabel();
 			var toolStripMenuItem = new ToolStripMenuItem();
 			var obj = new object();
 			var bitmap = ToolStripItemGroup.ResourceToImage("TNT.ToolStripItemManager.Tests.Images.shape_align_bottom.png");
 			var itemGroupManager = new ProtectedAccess(toolStripStatusLabel);
-			var one = itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItem }, bitmap, obj, (a, b) =>
-			 {
-				 called = true;
-			 });
+			var one = itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItem }, bitmap, obj);
 
 			Assert.AreEqual(one.Text, toolStripMenuItem.Text);
 			Assert.AreEqual(one.ToolTipText, toolStripMenuItem.ToolTipText);
 
 			toolStripMenuItem.PerformClick();
-
-			Assert.IsTrue(called);
 		}
 
 		public class ProtectedAccess : ToolStripItemGroupManager

@@ -1,4 +1,6 @@
-﻿using TNT.ToolStripItemManager;
+﻿using System;
+using System.Windows.Forms;
+using TNT.ToolStripItemManager;
 
 namespace Test.Groups
 {
@@ -13,5 +15,13 @@ namespace Test.Groups
 		public override string Text => "Two";
 
 		public override string ToolTipText => "Tool tip two";
+
+		protected override void OnMouseClick(object sender, EventArgs e)
+		{
+			using (OpenFileDialog ofd = new OpenFileDialog())
+			{
+				ofd.ShowDialog();
+			}
+		}
 	}
 }

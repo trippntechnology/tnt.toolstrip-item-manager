@@ -10,8 +10,6 @@ namespace TNT.ToolStripItemManager.Tests
 		[TestMethod]
 		public void ToolStripItemCheckboxGroupManager_Test()
 		{
-			var called1 = false;
-			var called2 = false;
 			var toolStripStatusLabel = new ToolStripStatusLabel();
 			var toolStripMenuItemOne = new ToolStripMenuItem();
 			var toolStripButtonOne = new ToolStripButton();
@@ -20,8 +18,8 @@ namespace TNT.ToolStripItemManager.Tests
 			var obj = new object();
 			var bitmap = ToolStripItemGroup.ResourceToImage("TNT.ToolStripItemManager.Tests.Images.shape_align_bottom.png");
 			var itemGroupManager = new ProtectedAccess(toolStripStatusLabel);
-			var one = itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItemOne, toolStripButtonOne }, bitmap, obj, (a, b) => { called1 = true; });
-			var two = itemGroupManager.Create<Two>(new ToolStripItem[] { toolStripMenuItemTwo, toolStripButtonTwo }, bitmap, obj, (a, b) => { called2 = true; });
+			var one = itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItemOne, toolStripButtonOne }, bitmap, obj);
+			var two = itemGroupManager.Create<Two>(new ToolStripItem[] { toolStripMenuItemTwo, toolStripButtonTwo }, bitmap, obj);
 
 			one.Checked = true;
 
@@ -35,10 +33,8 @@ namespace TNT.ToolStripItemManager.Tests
 			Assert.IsFalse(toolStripButtonTwo.Checked);
 
 			toolStripMenuItemOne.PerformClick();
-			Assert.IsTrue(called1);
 
 			toolStripMenuItemTwo.PerformClick();
-			Assert.IsTrue(called2);
 
 			Assert.IsFalse(toolStripMenuItemOne.Checked);
 			Assert.IsFalse(toolStripButtonOne.Checked);

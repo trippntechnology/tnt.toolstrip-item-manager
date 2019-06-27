@@ -11,29 +11,17 @@ namespace TNT.ToolStripItemManager
 	public class ToolStripItemGroupManager : Dictionary<string, ToolStripItemGroup>
 	{
 		private ToolStripStatusLabel StatusLabel;
-
-		//private bool _IsLicensed = false;
-		//public bool IsLicensed
-		//{
-		//	get { return _IsLicensed; }
-		//	set
-		//	{
-		//		_IsLicensed = value;
-		//		foreach (var tsig in Values)
-		//		{
-		//			tsig.IsLicensed = _IsLicensed;
-		//		}
-		//	}
-		//}
+		private Func<bool, ToolStripItemGroup, bool> IsLicensed = null;
 
 		/// <summary>	
 		/// Initializes a ToolStripItemGroupManager that manages a <see cref="Dictionary{TKey, TValue}"/> of <see cref="ToolStripItemGroup"/>
 		/// </summary>
 		/// <param name="statusLabel">Provide for tool tip hints</param>
-		public ToolStripItemGroupManager(ToolStripStatusLabel statusLabel) //, bool isLicensed = true)
+		/// <param name="isLicensed"><see cref="Func{T1, T2, TResult}"/> that can be called to find out if the feature is licensed.</param>
+		public ToolStripItemGroupManager(ToolStripStatusLabel statusLabel, Func<bool, ToolStripItemGroup, bool> isLicensed = null)
 		{
 			this.StatusLabel = statusLabel;
-			//this.IsLicensed = isLicensed;
+			this.IsLicensed = isLicensed ?? ((allowMessageBox, toolStripItemGroup) => true);
 			Application.Idle += Application_Idle;
 		}
 
@@ -57,27 +45,20 @@ namespace TNT.ToolStripItemManager
 		/// <param name="items"><see cref="ToolStripItem"/> array that should be added to the <see cref="ToolStripItemGroup"/></param>
 		/// <param name="image"><see cref="Image"/> that should be used</param>
 		/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
-		/// <param name="onClick">Event that handles a mouse click</param>
-		/// <param name="isLicensed"><see cref="Func{T, TResult}"/> that indicates whether the actions managed by the group are licensed</param>
 		/// <returns>Newly create object <typeparamref name="T"/></returns>
-		public virtual T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null, Func<bool, bool> isLicensed = null) where T : ToolStripItemGroup, new()
+		public virtual T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null) where T : ToolStripItemGroup, new()
 		{
 			T t = new T
 			{
 				ToolStripStatusLabel = this.StatusLabel,
 				ToolStripItemGroupManager = this,
 				ExternalObject = externalObject,
-				IsLicensed = isLicensed ?? ((userInteractionAllowed) => true)
+				IsLicensed = this.IsLicensed 
 			};
 
 			if (image != null)
 			{
 				t.Image = image;
-			}
-
-			if (onClick != null)
-			{
-				t.OnMouseClick = onClick;
 			}
 
 			this[t.Text] = t;

@@ -25,8 +25,9 @@ namespace TNT.ToolStripItemManager
 		/// Initializes a <see cref="ToolStripItemCheckboxGroupManager"/> that manages a <see cref="Dictionary{TKey, TValue}"/> of <see cref="ToolStripItemGroup"/>
 		/// </summary>
 		/// <param name="statusLabel">Provide for tool tip hints</param>
-		public ToolStripItemCheckboxGroupManager(ToolStripStatusLabel statusLabel)
-			: base(statusLabel)
+		/// <param name="isLicensed"><see cref="Func{T1, T2, TResult}"/> that can be called to check if the feature is licensed</param>
+		public ToolStripItemCheckboxGroupManager(ToolStripStatusLabel statusLabel, Func<bool, ToolStripItemGroup, bool> isLicensed = null)
+			: base(statusLabel, isLicensed)
 		{
 
 		}
@@ -38,13 +39,11 @@ namespace TNT.ToolStripItemManager
 		/// <param name="items"><see cref="ToolStripItem"/> array that should be added to the <see cref="ToolStripItemGroup"/></param>
 		/// <param name="image"><see cref="Image"/> that should be used</param>
 		/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
-		/// <param name="onClick">Event that handles a mouse click</param>
-		/// <param name="isLicensed"><see cref="Func{T, TResult}"/> that indicates whether the actions managed by the group are licensed</param>
 		/// <returns>Newly create object <typeparamref name="T"/></returns>
-		public override T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null, Func<bool, bool> isLicensed = null)
+		public override T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null)
 		{
-			T itemGroup = base.Create<T>(items, image, externalObject, onClick, isLicensed);
-			itemGroup.OnMouseClick += this.MouseClick;
+			T itemGroup = base.Create<T>(items, image, externalObject);
+			itemGroup.MouseClicked += this.MouseClick;
 			return itemGroup;
 		}
 
@@ -56,12 +55,10 @@ namespace TNT.ToolStripItemManager
 		/// <param name="items"><see cref="ToolStripItem"/> array that should be added to the <see cref="ToolStripItemGroup"/></param>
 		/// <param name="image"><see cref="Image"/> that should be used</param>
 		/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
-		/// <param name="onClick">Event that handles a mouse click</param>
-		/// <param name="isLicensed"><see cref="Func{T, TResult}"/> that indicates whether the actions managed by the group are licensed</param>
 		/// <returns>Newly create object <typeparamref name="T"/></returns>
-		public T CreateHome<T>(ToolStripItem[] items, Image image = null, object externalObject = null, EventHandler onClick = null, Func<bool, bool> isLicensed = null) where T : ToolStripItemGroup, new()
+		public T CreateHome<T>(ToolStripItem[] items, Image image = null, object externalObject = null) where T : ToolStripItemGroup, new()
 		{
-			T itemGroup = this.Create<T>(items, image, externalObject, onClick, isLicensed);
+			T itemGroup = this.Create<T>(items, image, externalObject);
 			HomeGroup = itemGroup;
 			return itemGroup;
 		}

@@ -20,34 +20,26 @@ namespace Test
 		{
 			InitializeComponent();
 
-			ItemGroupManager = new ToolStripItemGroupManager(toolStripStatusLabel1);
-			CheckboxItemGroupManager = new ToolStripItemCheckboxGroupManager(toolStripStatusLabel1);
+			ItemGroupManager = new ToolStripItemGroupManager(toolStripStatusLabel1, IsLicensed);
+			CheckboxItemGroupManager = new ToolStripItemCheckboxGroupManager(toolStripStatusLabel1, IsLicensed);
 
 			_One = ItemGroupManager.Create<One>(new ToolStripItem[] { oneToolStripMenuItem, toolStripButton1, aToolStripMenuItem }, oneToolStripMenuItem.Image, this);
-			_Two = ItemGroupManager.Create<Two>(new ToolStripItem[] { twoToolStripMenuItem, toolStripSplitButton2, bToolStripMenuItem }, onClick: Open_OnMouseClick, isLicensed: IsLicensed);
+			_Two = ItemGroupManager.Create<Two>(new ToolStripItem[] { twoToolStripMenuItem, toolStripSplitButton2, bToolStripMenuItem });
 			_Three = ItemGroupManager.Create<Three>(new ToolStripItem[] { threeToolStripMenuItem, toolStripButton3, cToolStripMenuItem });
-			_Four = ItemGroupManager.Create<Four>(new ToolStripItem[] { toolStripButton4, dToolStripMenuItem }, isLicensed: IsLicensed);
+			_Four = ItemGroupManager.Create<Four>(new ToolStripItem[] { toolStripButton4, dToolStripMenuItem });
 
 			CheckboxItemGroupManager.CreateHome<Left>(new ToolStripItem[] { tsb1, leftToolStripMenuItem }, externalObject: label1).Checked = true;
 			CheckboxItemGroupManager.Create<Center>(new ToolStripItem[] { tsb2, centerToolStripMenuItem }, externalObject: label1);
 			CheckboxItemGroupManager.Create<Right>(new ToolStripItem[] { tsb3, rightToolStripMenuItem }, externalObject: label1);
 		}
 
-		private bool IsLicensed(bool userInteractionAllowed)
+		private bool IsLicensed(bool allowMessageBox, ToolStripItemGroup toolStripItemGroup)
 		{
-			if (!checkBox1.Checked && userInteractionAllowed)
+			if (!checkBox1.Checked && allowMessageBox)
 			{
 				MessageBox.Show(this, "This feature is not licensed", "Not licensed", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			return checkBox1.Checked;
-		}
-
-		private void Open_OnMouseClick(object sender, EventArgs e)
-		{
-			using (OpenFileDialog ofd = new OpenFileDialog())
-			{
-				ofd.ShowDialog();
-			}
 		}
 
 		private void label1_Click(object sender, EventArgs e)
