@@ -16,7 +16,7 @@ namespace Test.Groups
 
 		public override string ToolTipText => "Tool tip two";
 
-		protected override void OnMouseClick(object sender, EventArgs e)
+		public override void OnMouseClick(object sender, EventArgs e)
 		{
 			using (OpenFileDialog ofd = new OpenFileDialog())
 			{

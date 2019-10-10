@@ -134,7 +134,7 @@ namespace TNT.ToolStripItemManager
 		/// <param name="e">Event args</param>
 		public virtual void OnApplicationIdle(object sender, EventArgs e)
 		{
-
+			if (!IsLicensed(false, this)) { Checked = false; }
 		}
 
 		/// <summary>

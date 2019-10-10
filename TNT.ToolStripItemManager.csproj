@@ -4,16 +4,26 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{813AAD59-F72A-42B6-B943-C561E2722D83}</ProjectGuid>
+    <ProjectGuid>{3BD6FF42-B525-490D-9152-3261C89C244A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TNT.ToolStripItemManager</RootNamespace>
     <AssemblyName>TNT.ToolStripItemManager</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
+    <ShouldCreateLogs>True</ShouldCreateLogs>
+    <AdvancedSettingsExpanded>True</AdvancedSettingsExpanded>
+    <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+    <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+    <UpdateAssemblyInfoVersion>True</UpdateAssemblyInfoVersion>
+    <AssemblyInfoVersionSettings>
+    </AssemblyInfoVersionSettings>
+    <UpdatePackageVersion>False</UpdatePackageVersion>
+    <AssemblyInfoVersionType>SemVer1</AssemblyInfoVersionType>
+    <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
+    <AssemblyInfoVersionSemVerSettings>AssemblyVersion.IncrementOnce.Preview</AssemblyInfoVersionSemVerSettings>
+    <AssemblyVersion>1.5.0</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\TNT.ToolStripItemManager.xml</DocumentationFile>
+    <AssemblyInfoVersionSemVerSettings>AssemblyFileVersion.NoneWithAutoReset.Preview</AssemblyInfoVersionSemVerSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,11 +42,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyInfo_Title>ToolStripItem Manager</AssemblyInfo_Title>
-    <AssemblyInfo_MinorVersion>5</AssemblyInfo_MinorVersion>
-    <AssemblyInfo_PatchVersion>0</AssemblyInfo_PatchVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -57,19 +62,8 @@
     <Compile Include="ToolStripItemGroup.cs" />
     <Compile Include="ToolStripItemGroupManager.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="TNT.ToolStripItemManager.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets" Condition="Exists('packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets'))" />
-    <Error Condition="!Exists('packages\TNT.AssemblyInfo.1.4.1\build\TNT.AssemblyInfo.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\TNT.AssemblyInfo.1.4.1\build\TNT.AssemblyInfo.targets'))" />
-  </Target>
-  <Import Project="packages\TNT.AssemblyInfo.1.4.1\build\TNT.AssemblyInfo.targets" Condition="Exists('packages\TNT.AssemblyInfo.1.4.1\build\TNT.AssemblyInfo.targets')" />
 </Project>

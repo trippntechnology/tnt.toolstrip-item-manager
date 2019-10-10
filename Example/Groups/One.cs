@@ -12,7 +12,7 @@ namespace Test.Groups
 
 		}
 
-		protected override void OnMouseClick(object sender, EventArgs e)
+		public override void OnMouseClick(object sender, EventArgs e)
 		{
 			using (OpenFileDialog ofd = new OpenFileDialog())
 			{

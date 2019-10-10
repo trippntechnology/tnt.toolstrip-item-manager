@@ -10,7 +10,7 @@ namespace TNT.ToolStripItemManager.Tests
 	public class ToolStripItemGroupTests
 	{
 		static TestToolStripItemGroup sut = null;
-		static Image ToolStripItemGroupImage = ToolStripItemGroup.ResourceToImage("TNT.ToolStripItemManager.Tests.Images.shape_align_bottom.png");
+		static Image ToolStripItemGroupImage = ToolStripItemGroup.ResourceToImage("UnitTests.Images.shape_align_bottom.png");
 
 		[ClassInitialize]
 		public static void InitializeClass(TestContext tc)

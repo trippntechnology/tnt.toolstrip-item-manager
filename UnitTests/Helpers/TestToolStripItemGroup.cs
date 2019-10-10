@@ -19,7 +19,7 @@ namespace TNT.ToolStripItemManager.Tests.Helpers
 
 		public override string ToolTipText => "Tool Tip Test";
 
-		protected override void OnMouseClick(object sender, EventArgs e)
+		public override void OnMouseClick(object sender, EventArgs e)
 		{
 			MyMouseClick?.Invoke(sender, e);
 			base.OnMouseClick(sender, e);
