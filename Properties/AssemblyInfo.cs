@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ToolStripItem Manager")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Manages groups of ToolStripItems")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tripp'n Technology, LLC.")]
 [assembly: AssemblyProduct("TNT.ToolStripItemManager")]
@@ -31,6 +31,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.5.2.9")]
-[assembly: AssemblyFileVersion("1.5.2.9")]
-[assembly: AssemblyInformationalVersion("1.5.0-preview-01")]
+[assembly: AssemblyVersion("1.5.0.7")]
+[assembly: AssemblyFileVersion("1.5.0.7")]
+[assembly: AssemblyInformationalVersion("1.5.0-preview-07")]

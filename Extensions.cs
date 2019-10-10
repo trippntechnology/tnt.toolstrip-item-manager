@@ -14,14 +14,11 @@ namespace TNT.ToolStripItemManager
 		/// <param name="isChecked">Value to set Checked property</param>
 		public static void SetChecked(this ToolStripItem toolStripItem, bool isChecked)
 		{
-			ToolStripMenuItem toolStripMenuItem = toolStripItem as ToolStripMenuItem;
-			ToolStripButton toolStripButton = toolStripItem as ToolStripButton;
-
-			if (toolStripMenuItem != null)
+			if (toolStripItem is ToolStripMenuItem toolStripMenuItem)
 			{
 				toolStripMenuItem.Checked = isChecked;
 			}
-			else if (toolStripButton != null)
+			else if (toolStripItem is ToolStripButton toolStripButton)
 			{
 				toolStripButton.Checked = isChecked;
 			}

@@ -34,6 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AssemblyInfoVersionSemVerSettings>AssemblyFileVersion.NoneWithAutoReset.Preview</AssemblyInfoVersionSemVerSettings>
+    <DocumentationFile>bin\Debug\TNT.ToolStripItemManager.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
