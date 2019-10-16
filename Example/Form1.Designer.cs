@@ -54,10 +54,10 @@
 			this.aToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.label1 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.dToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -77,19 +77,19 @@
 			// oneToolStripMenuItem
 			// 
 			this.oneToolStripMenuItem.Name = "oneToolStripMenuItem";
-			this.oneToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+			this.oneToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.oneToolStripMenuItem.Text = "One";
 			// 
 			// twoToolStripMenuItem
 			// 
 			this.twoToolStripMenuItem.Name = "twoToolStripMenuItem";
-			this.twoToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+			this.twoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.twoToolStripMenuItem.Text = "Two";
 			// 
 			// threeToolStripMenuItem
 			// 
 			this.threeToolStripMenuItem.Name = "threeToolStripMenuItem";
-			this.threeToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+			this.threeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
 			this.threeToolStripMenuItem.Text = "Three";
 			// 
 			// menuStrip1
@@ -260,6 +260,12 @@
 			this.cToolStripMenuItem.Size = new System.Drawing.Size(81, 22);
 			this.cToolStripMenuItem.Text = "c";
 			// 
+			// dToolStripMenuItem
+			// 
+			this.dToolStripMenuItem.Name = "dToolStripMenuItem";
+			this.dToolStripMenuItem.Size = new System.Drawing.Size(81, 22);
+			this.dToolStripMenuItem.Text = "d";
+			// 
 			// label1
 			// 
 			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -290,12 +296,7 @@
 			this.checkBox1.TabIndex = 5;
 			this.checkBox1.Text = "Licensed";
 			this.checkBox1.UseVisualStyleBackColor = true;
-			// 
-			// dToolStripMenuItem
-			// 
-			this.dToolStripMenuItem.Name = "dToolStripMenuItem";
-			this.dToolStripMenuItem.Size = new System.Drawing.Size(81, 22);
-			this.dToolStripMenuItem.Text = "d";
+			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
 			// 
 			// Form1
 			// 

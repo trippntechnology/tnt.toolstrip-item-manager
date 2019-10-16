@@ -20,8 +20,14 @@ namespace Test
 		{
 			InitializeComponent();
 
-			ItemGroupManager = new ToolStripItemGroupManager(toolStripStatusLabel1, IsLicensed);
-			CheckboxItemGroupManager = new ToolStripItemCheckboxGroupManager(toolStripStatusLabel1, IsLicensed);
+			ItemGroupManager = new ToolStripItemGroupManager(toolStripStatusLabel1)
+			{
+				IsLicensed = IsLicensed
+			};
+			CheckboxItemGroupManager = new ToolStripItemCheckboxGroupManager(toolStripStatusLabel1)
+			{
+				IsLicensed = IsLicensed
+			};
 
 			_One = ItemGroupManager.Create<One>(new ToolStripItem[] { oneToolStripMenuItem, toolStripButton1, aToolStripMenuItem }, oneToolStripMenuItem.Image, this);
 			_Two = ItemGroupManager.Create<Two>(new ToolStripItem[] { twoToolStripMenuItem, toolStripSplitButton2, bToolStripMenuItem });
@@ -54,6 +60,13 @@ namespace Test
 		private void button1_Click(object sender, EventArgs e)
 		{
 			CheckboxItemGroupManager.Toggle();
+		}
+
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		{
+			var checkBox = sender as CheckBox;
+			ItemGroupManager.LicensedChanged(checkBox.Checked);
+			CheckboxItemGroupManager.LicensedChanged(checkBox.Checked);
 		}
 	}
 }

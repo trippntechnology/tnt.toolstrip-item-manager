@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace TNT.ToolStripItemManager
@@ -10,33 +11,37 @@ namespace TNT.ToolStripItemManager
 	/// </summary>
 	public class ToolStripItemGroupManager : Dictionary<string, ToolStripItemGroup>
 	{
-		private ToolStripStatusLabel StatusLabel;
-		private Func<bool, ToolStripItemGroup, bool> IsLicensed = null;
+		private readonly ToolStripStatusLabel StatusLabel;
+		protected List<ToolStripItemGroup> Items { get { return this.Values.ToList(); } }
+
+		/// <summary>
+		/// Callback called when <see cref="ToolStripItemGroup.MouseClicked"/> and <see cref="ToolStripItemGroup.CheckedChanged(object, EventArgs)"/>
+		/// are called to control what happens
+		/// </summary>
+		public Func<bool, ToolStripItemGroup, bool> IsLicensed { get; set; } = (allowMessageBox, ToolStripItemGroup) => true;
 
 		/// <summary>	
 		/// Initializes a ToolStripItemGroupManager that manages a <see cref="Dictionary{TKey, TValue}"/> of <see cref="ToolStripItemGroup"/>
 		/// </summary>
 		/// <param name="statusLabel">Provide for tool tip hints</param>
-		/// <param name="isLicensed"><see cref="Func{T1, T2, TResult}"/> that can be called to find out if the feature is licensed.</param>
-		public ToolStripItemGroupManager(ToolStripStatusLabel statusLabel, Func<bool, ToolStripItemGroup, bool> isLicensed = null)
+		public ToolStripItemGroupManager(ToolStripStatusLabel statusLabel)
 		{
 			this.StatusLabel = statusLabel;
-			this.IsLicensed = isLicensed ?? ((allowMessageBox, toolStripItemGroup) => true);
 			Application.Idle += Application_Idle;
 		}
+
+		/// <summary>
+		/// Call to notify each <see cref="ToolStripItemGroup"/> that the license changed.
+		/// </summary>
+		/// <param name="isLicensed">Indicates whether the app is licensed</param>
+		public virtual void LicensedChanged(bool isLicensed) => Items.ForEach(i => i.OnLicenseChanged(isLicensed));
 
 		/// <summary>
 		/// Called by <see cref="Application.Idle"/> which calls each <see cref="ToolStripItemGroup.OnApplicationIdle(object, EventArgs)"/>
 		/// </summary>
 		/// <param name="sender">Not used</param>
 		/// <param name="e">Not used</param>
-		protected void Application_Idle(object sender, EventArgs e)
-		{
-			foreach (var toolStripItemGroup in this.Values)
-			{
-				toolStripItemGroup.OnApplicationIdle(sender, e);
-			}
-		}
+		protected void Application_Idle(object sender, EventArgs e) => Items.ForEach(i => i.OnApplicationIdle(sender, e));
 
 		/// <summary>
 		/// Creates a new <see cref="ToolStripItemGroup"/>
@@ -53,7 +58,7 @@ namespace TNT.ToolStripItemManager
 				ToolStripStatusLabel = this.StatusLabel,
 				ToolStripItemGroupManager = this,
 				ExternalObject = externalObject,
-				IsLicensed = this.IsLicensed 
+				IsLicensed = this.IsLicensed
 			};
 
 			if (image != null)

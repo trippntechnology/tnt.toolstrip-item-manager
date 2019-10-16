@@ -25,11 +25,9 @@ namespace TNT.ToolStripItemManager
 		/// Initializes a <see cref="ToolStripItemCheckboxGroupManager"/> that manages a <see cref="Dictionary{TKey, TValue}"/> of <see cref="ToolStripItemGroup"/>
 		/// </summary>
 		/// <param name="statusLabel">Provide for tool tip hints</param>
-		/// <param name="isLicensed"><see cref="Func{T1, T2, TResult}"/> that can be called to check if the feature is licensed</param>
-		public ToolStripItemCheckboxGroupManager(ToolStripStatusLabel statusLabel, Func<bool, ToolStripItemGroup, bool> isLicensed = null)
-			: base(statusLabel, isLicensed)
+		public ToolStripItemCheckboxGroupManager(ToolStripStatusLabel statusLabel)
+			: base(statusLabel)
 		{
-
 		}
 
 		/// <summary>
@@ -64,6 +62,19 @@ namespace TNT.ToolStripItemManager
 		}
 
 		/// <summary>
+		/// Called when the license changes
+		/// </summary>
+		/// <param name="isLicensed">Indicates if the app is licensed</param>
+		public override void LicensedChanged(bool isLicensed)
+		{
+			if (!isLicensed)
+			{
+				base.Items.ForEach(i => i.Checked = false);
+			}
+			base.LicensedChanged(isLicensed);
+		}
+
+		/// <summary>
 		/// Returns the <see cref="ToolStripItemGroup"/> that is checked if exists
 		/// </summary>
 		/// <returns><see cref="ToolStripItemGroup"/> that is checked if exists, null otherwise</returns>
@@ -92,7 +103,7 @@ namespace TNT.ToolStripItemManager
 		}
 
 		/// <summary>
-		/// Managers the <see cref="ToolStripItemGroup"/> items as a radio button group
+		/// Manages the <see cref="ToolStripItemGroup"/> items as a radio button group
 		/// </summary>
 		/// <param name="sender"><see cref="ToolStripItem"/> that was clicked</param>
 		/// <param name="e">Not used</param>

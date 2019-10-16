@@ -33,14 +33,11 @@ namespace TNT.ToolStripItemManager
 		{
 			bool isChecked = false;
 
-			ToolStripMenuItem toolStripMenuItem = toolStripItem as ToolStripMenuItem;
-			ToolStripButton toolStripButton = toolStripItem as ToolStripButton;
-
-			if (toolStripMenuItem != null)
+			if (toolStripItem is ToolStripMenuItem toolStripMenuItem)
 			{
 				isChecked = toolStripMenuItem.Checked;
 			}
-			else if (toolStripButton != null)
+			else if (toolStripItem is ToolStripButton toolStripButton)
 			{
 				isChecked = toolStripButton.Checked;
 			}

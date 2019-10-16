@@ -69,14 +69,11 @@ namespace TNT.ToolStripItemManager
 			{
 				base.ForEach(t =>
 				{
-					ToolStripMenuItem toolStripMenuItem = t as ToolStripMenuItem;
-					ToolStripButton toolStripButton = t as ToolStripButton;
-
-					if (toolStripMenuItem != null)
+					if (t is ToolStripMenuItem toolStripMenuItem )
 					{
 						toolStripMenuItem.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
 					}
-					else if (toolStripButton != null)
+					else if (t is ToolStripButton toolStripButton )
 					{
 						toolStripButton.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
 					}
@@ -131,10 +128,9 @@ namespace TNT.ToolStripItemManager
 		/// Implement to enable/disable <see cref="ToolStripItem"/>
 		/// </summary>
 		/// <param name="sender">Sender</param>
-		/// <param name="e">Event args</param>
+		/// <param name="e"><see cref="EventArgs"/></param>
 		public virtual void OnApplicationIdle(object sender, EventArgs e)
 		{
-			if (!IsLicensed(false, this)) { Checked = false; }
 		}
 
 		/// <summary>
@@ -222,6 +218,14 @@ namespace TNT.ToolStripItemManager
 		/// <param name="sender">Object that was clicked</param>
 		/// <param name="e">Information about the event</param>
 		public virtual void OnMouseClick(object sender, EventArgs e)
+		{
+		}
+
+		/// <summary>
+		/// Implement to handle a license change
+		/// </summary>
+		/// <param name="isLicensed">Indicates whether the app is licensed or not</param>
+		public virtual void OnLicenseChanged(bool isLicensed)
 		{
 		}
 

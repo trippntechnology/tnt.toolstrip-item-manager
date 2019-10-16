@@ -10,7 +10,7 @@ namespace TNT.ToolStripItemManager.Tests
 	public class ToolStripItemGroupTests
 	{
 		static TestToolStripItemGroup sut = null;
-		static Image ToolStripItemGroupImage = ToolStripItemGroup.ResourceToImage("UnitTests.Images.shape_align_bottom.png");
+		static readonly Image ToolStripItemGroupImage = ToolStripItemGroup.ResourceToImage("UnitTests.Images.shape_align_bottom.png");
 
 		[ClassInitialize]
 		public static void InitializeClass(TestContext tc)
@@ -269,10 +269,12 @@ namespace TNT.ToolStripItemManager.Tests
 			var toolStripMenuItem = new ToolStripMenuItem();
 			var toolStripButton = new ToolStripButton();
 			var toolStripMenuButton = new ToolStripSplitButton();
-			var sut = new TestToolStripItemGroup();
-			sut.Add(toolStripMenuItem);
-			sut.Add(toolStripButton);
-			sut.Add(toolStripMenuButton);
+			var sut = new TestToolStripItemGroup
+			{
+				toolStripMenuItem,
+				toolStripButton,
+				toolStripMenuButton
+			};
 
 			sut.ForEach(i => Assert.IsTrue(i.Enabled));
 			Assert.IsTrue(sut.Enabled);
@@ -287,10 +289,12 @@ namespace TNT.ToolStripItemManager.Tests
 			var toolStripMenuItem = new ToolStripMenuItem() { Text = "Menu" };
 			var toolStripButton = new ToolStripButton() { Text = "Button" };
 			var toolStripMenuButton = new ToolStripSplitButton() { Text = "Split" };
-			var sut = new TestToolStripItemGroup();
-			sut.Add(toolStripMenuItem);
-			sut.Add(toolStripButton);
-			sut.Add(toolStripMenuButton);
+			var sut = new TestToolStripItemGroup
+			{
+				toolStripMenuItem,
+				toolStripButton,
+				toolStripMenuButton
+			};
 
 			sut.ForEach(i => Assert.IsTrue(i.Available));
 			Assert.IsTrue(sut.Visible);

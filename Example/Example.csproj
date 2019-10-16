@@ -35,7 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AssemblyInfoVersionSemVerSettings>AssemblyFileVersion.NoneWithAutoReset.Preview</AssemblyInfoVersionSemVerSettings>
+    <AssemblyInfoVersionSemVerSettings>AssemblyFileVersion.NoneWithAutoReset.None</AssemblyInfoVersionSemVerSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

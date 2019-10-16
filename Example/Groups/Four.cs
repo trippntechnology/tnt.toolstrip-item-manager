@@ -15,5 +15,11 @@ namespace Test.Groups
 		public override string ToolTipText => "Tool tip four";
 
 		public override bool CheckOnClick => true;
+
+		public override void OnLicenseChanged(bool isLicensed)
+		{
+			base.OnLicenseChanged(isLicensed);
+			if (!isLicensed) Checked = false;
+		}
 	}
 }

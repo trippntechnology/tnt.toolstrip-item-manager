@@ -17,13 +17,13 @@
     <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
     <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
     <UpdateAssemblyInfoVersion>True</UpdateAssemblyInfoVersion>
-    <AssemblyInfoVersionSettings>
-    </AssemblyInfoVersionSettings>
+    <AssemblyInfoVersionSettings>IncrementOnDemand.IncrementOnDemand.IncrementOnDemand.IncrementWithResetOnIncrease</AssemblyInfoVersionSettings>
     <UpdatePackageVersion>False</UpdatePackageVersion>
-    <AssemblyInfoVersionType>SemVer1</AssemblyInfoVersionType>
+    <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
-    <AssemblyInfoVersionSemVerSettings>AssemblyVersion.IncrementOnce.Preview</AssemblyInfoVersionSemVerSettings>
-    <AssemblyVersion>1.5.0</AssemblyVersion>
+    <AssemblyInfoVersionSemVerSettings>
+    </AssemblyInfoVersionSemVerSettings>
+    <AssemblyVersion>1.5.2.2</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
