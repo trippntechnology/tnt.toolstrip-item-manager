@@ -1,34 +1,36 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using TNT.ToolStripItemManager;
 
-namespace TNT.ToolStripItemManager.Tests.Helpers
+namespace UnitTests.Helpers;
+
+[ExcludeFromCodeCoverage]
+public class ApplicationIdleToolStripItemGroup : ToolStripItemGroup
 {
-	public class ApplicationIdleToolStripItemGroup : ToolStripItemGroup
+	public bool ApplicationIdleCalled { get; set; } = false;
+
+	public override string Text => "Application Idle ToolStripItemGroup Text";
+
+	public override string ToolTipText => "Application Idle ToolStripItemGroup ToolTipText";
+
+	public override void OnApplicationIdle(object sender, EventArgs e)
 	{
-		public bool ApplicationIdleCalled { get; set; } = false;
+		ApplicationIdleCalled = true;
+		base.OnApplicationIdle(sender, e);
+	}
 
-		public override string Text => "Application Idle ToolStripItemGroup Text";
+	public class Group1 : ApplicationIdleToolStripItemGroup
+	{
+		public override string Text => "Group 1";
+	}
 
-		public override string ToolTipText => "Application Idle ToolStripItemGroup ToolTipText";
+	public class Group2 : ApplicationIdleToolStripItemGroup
+	{
+		public override string Text => "Group 2";
+	}
 
-		public override void OnApplicationIdle(object sender, EventArgs e)
-		{
-			ApplicationIdleCalled = true;
-			base.OnApplicationIdle(sender, e);
-		}
-
-		public class Group1 : ApplicationIdleToolStripItemGroup
-		{
-			public override string Text => "Group 1";
-		}
-
-		public class Group2 : ApplicationIdleToolStripItemGroup
-		{
-			public override string Text => "Group 2";
-		}
-
-		public class Group3 : ApplicationIdleToolStripItemGroup
-		{
-			public override string Text => "Group 3";
-		}
+	public class Group3 : ApplicationIdleToolStripItemGroup
+	{
+		public override string Text => "Group 3";
 	}
 }

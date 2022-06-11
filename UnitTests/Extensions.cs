@@ -1,14 +1,14 @@
-﻿using System;
-using TNT.ToolStripItemManager.Tests.Helpers;
+﻿using System.Diagnostics.CodeAnalysis;
+using UnitTests.Helpers;
 
-namespace TNT.ToolStripItemManager.Tests
+namespace UnitTests;
+
+[ExcludeFromCodeCoverage]
+public static class Extensions
 {
-	public static class Extensions
+	public static ApplicationIdleToolStripItemGroup Apply(this ApplicationIdleToolStripItemGroup manager, Action<ApplicationIdleToolStripItemGroup> block)
 	{
-		public static ApplicationIdleToolStripItemGroup Apply(this ApplicationIdleToolStripItemGroup manager, Action<ApplicationIdleToolStripItemGroup> block)
-		{
-			block(manager);
-			return manager;
-		}
+		block(manager);
+		return manager;
 	}
 }

@@ -1,9 +1,12 @@
-﻿namespace TNT.ToolStripItemManager.Tests.Groups
-{
-	public class Two : ToolStripItemGroup
-	{
-		public override string Text => "Two Text";
+﻿using System.Diagnostics.CodeAnalysis;
+using TNT.ToolStripItemManager;
 
-		public override string ToolTipText => "Two ToolTipText";
-	}
+namespace UnitTests.Groups;
+
+[ExcludeFromCodeCoverage]
+public class Two : ToolStripItemGroup
+{
+	public override string Text => "Two Text";
+
+	public override string ToolTipText => "Two ToolTipText";
 }

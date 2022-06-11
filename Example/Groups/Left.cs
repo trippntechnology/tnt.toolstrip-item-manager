@@ -1,27 +1,24 @@
-﻿using System;
-using System.Windows.Forms;
-using TNT.ToolStripItemManager;
+﻿using TNT.ToolStripItemManager;
 
-namespace Test.Groups
+namespace Example.Groups;
+
+class Left : ToolStripItemGroup
 {
-	class Left : ToolStripItemGroup
+	public Left()
+		: base(ResourceToImage("Example.Images.shape_align_left.png"))
 	{
-		public Left()
-			: base(ResourceToImage("Test.Images.shape_align_left.png"))
-		{
-		}
+	}
 
-		public override string Text => "Left";
+	public override string Text => "Left";
 
-		public override string ToolTipText => "Left TT";
+	public override string ToolTipText => "Left TT";
 
-		public override void CheckedChanged(object sender, EventArgs e)
-		{
-			var toolStripItem = sender as ToolStripItem;
-			if (!toolStripItem.GetChecked()) return;
+	public override void CheckedChanged(object sender, EventArgs e)
+	{
+		var toolStripItem = sender as ToolStripItem;
+		if (!toolStripItem.GetChecked()) return;
 
-			(ExternalObject as Label).TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			base.CheckedChanged(sender, e);
-		}
+		(ExternalObject as Label).TextAlign = ContentAlignment.MiddleLeft;
+		base.CheckedChanged(sender, e);
 	}
 }

@@ -1,27 +1,24 @@
-﻿using System;
-using System.Windows.Forms;
-using TNT.ToolStripItemManager;
+﻿using TNT.ToolStripItemManager;
 
-namespace Test.Groups
+namespace Example.Groups;
+
+class Center : ToolStripItemGroup
 {
-	class Center : ToolStripItemGroup
+	public Center()
+		: base(ResourceToImage("Example.Images.shape_align_center.png"))
 	{
-		public Center()
-			: base(ResourceToImage("Test.Images.shape_align_center.png"))
-		{
-		}
+	}
 
-		public override string Text => "Center";
+	public override string Text => "Center";
 
-		public override string ToolTipText => "Center TT";
+	public override string ToolTipText => "Center TT";
 
-		public override void CheckedChanged(object sender, EventArgs e)
-		{
-			var toolStripItem = sender as ToolStripItem;
-			if (!toolStripItem.GetChecked()) return;
+	public override void CheckedChanged(object sender, EventArgs e)
+	{
+		var toolStripItem = sender as ToolStripItem;
+		if (!toolStripItem.GetChecked()) return;
 
-			(ExternalObject as Label).TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			base.CheckedChanged(sender, e);
-		}
+		(ExternalObject as Label).TextAlign = ContentAlignment.MiddleCenter;
+		base.CheckedChanged(sender, e);
 	}
 }

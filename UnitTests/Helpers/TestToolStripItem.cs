@@ -1,21 +1,20 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Diagnostics.CodeAnalysis;
 
-namespace TNT.ToolStripItemManager.Tests.Helpers
+namespace UnitTests.Helpers;
+
+[ExcludeFromCodeCoverage]
+class TestToolStripItem : ToolStripItem
 {
-	class TestToolStripItem : ToolStripItem
+	public new virtual event EventHandler MouseEnter;
+	public new virtual event EventHandler MouseLeave;
+
+	public void PerformMouseEnter(EventArgs e)
 	{
-		public virtual new event EventHandler MouseEnter;
-		public virtual new event EventHandler MouseLeave;
+		MouseEnter?.Invoke(null, e);
+	}
 
-		public void PerformMouseEnter(EventArgs e)
-		{
-			MouseEnter?.Invoke(null, e);
-		}
-
-		public void PerformMouseLeave(EventArgs e)
-		{
-			MouseLeave?.Invoke(null, e);
-		}
+	public void PerformMouseLeave(EventArgs e)
+	{
+		MouseLeave?.Invoke(null, e);
 	}
 }
