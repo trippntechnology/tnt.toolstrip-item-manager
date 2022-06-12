@@ -61,8 +61,10 @@ public partial class Form1 : Form
 
 	private void checkBox1_CheckedChanged(object sender, EventArgs e)
 	{
-		var checkBox = sender as CheckBox;
-		ItemGroupManager.LicensedChanged(checkBox.Checked);
-		CheckboxItemGroupManager.LicensedChanged(checkBox.Checked);
+		if (sender is CheckBox checkBox)
+		{
+			ItemGroupManager.LicensedChanged(checkBox.Checked);
+			CheckboxItemGroupManager.LicensedChanged(checkBox.Checked);
+		}
 	}
 }

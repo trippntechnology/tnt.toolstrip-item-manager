@@ -10,22 +10,22 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// <summary>
 	/// <see cref="System.Windows.Forms.ToolStripStatusLabel"/> used to display the tool tip hint
 	/// </summary>
-	public ToolStripStatusLabel ToolStripStatusLabel { get; internal set; }
+	public ToolStripStatusLabel? ToolStripStatusLabel { get; internal set; }
 
 	/// <summary>
 	/// Group manager used to access other <see cref="ToolStripItemGroup"/>
 	/// </summary>
-	public ToolStripItemGroupManager ToolStripItemGroupManager { get; internal set; }
+	public ToolStripItemGroupManager? ToolStripItemGroupManager { get; internal set; }
 
 	/// <summary>
 	/// Mouse click event handler
 	/// </summary>
-	internal EventHandler MouseClicked { get; set; }
+	internal EventHandler? MouseClicked { get; set; }// = (_, _ => { });
 
 	/// <summary>
 	/// <see cref="Image"/> used by all <see cref="ToolStripItem"/>
 	/// </summary>
-	public Image Image { get; internal set; }
+	public Image? Image { get; internal set; }
 
 	/// <summary>
 	/// Text used by all <see cref="ToolStripItem"/>
@@ -45,7 +45,7 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// <summary>
 	/// Indicates that the actions managed by this group are licensed
 	/// </summary>
-	public virtual Func<bool, ToolStripItemGroup, bool> IsLicensed { get; set; } = null;
+	public virtual Func<bool, ToolStripItemGroup, bool>? IsLicensed { get; set; } = null;
 
 	/// <summary>
 	/// Gets or sets a value indicating whether the group of <see cref="ToolStripItem"/> are checked or not checked
@@ -109,13 +109,13 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// Holds the object(s) that are external that this <see cref="ToolStripItemGroup"/>
 	/// needs access to
 	/// </summary>
-	public object ExternalObject { get; internal set; }
+	public object? ExternalObject { get; internal set; }
 
 	/// <summary>
 	/// Constructs a <see cref="ToolStripItemGroup"/>
 	/// </summary>
 	/// <param name="image">Image to set on the <see cref="ToolStripItem"/> in the group</param>
-	public ToolStripItemGroup(Image image = null)
+	public ToolStripItemGroup(Image? image = null)
 	{
 		this.Image = image;
 	}
@@ -125,7 +125,7 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// </summary>
 	/// <param name="sender">Sender</param>
 	/// <param name="e"><see cref="EventArgs"/></param>
-	public virtual void OnApplicationIdle(object sender, EventArgs e)
+	public virtual void OnApplicationIdle(object? sender, EventArgs e)
 	{
 	}
 
@@ -136,25 +136,23 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// <param name="toolStripItem"><see cref="ToolStripItem"/> to add</param>
 	public virtual void Add<T>(T toolStripItem) where T : ToolStripItem
 	{
-		if (toolStripItem is ToolStripButton)
+		if (toolStripItem is ToolStripButton toolStripButton)
 		{
-			ToolStripButton toolStripButton = toolStripItem as ToolStripButton;
 			toolStripButton.CheckOnClick = this.CheckOnClick;
 			toolStripButton.Checked = this.Checked;
 			toolStripButton.CheckedChanged += CheckedChanged;
 			toolStripItem.Click += this.MouseClick;
 		}
-		else if (toolStripItem is ToolStripMenuItem)
+		else if (toolStripItem is ToolStripMenuItem toolStripMenuItem)
 		{
-			ToolStripMenuItem toolStripMenuItem = toolStripItem as ToolStripMenuItem;
 			toolStripMenuItem.CheckOnClick = this.CheckOnClick;
 			toolStripMenuItem.Checked = this.Checked;
 			toolStripMenuItem.CheckedChanged += CheckedChanged;
 			toolStripItem.Click += this.MouseClick;
 		}
-		else if (toolStripItem is ToolStripSplitButton)
+		else if (toolStripItem is ToolStripSplitButton toolStripSplitButton)
 		{
-			(toolStripItem as ToolStripSplitButton).ButtonClick += this.MouseClick;
+			toolStripSplitButton.ButtonClick += this.MouseClick;
 		}
 		else
 		{
@@ -175,7 +173,7 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// </summary>
 	/// <param name="resource">Name of resource in the calling assembly</param>
 	/// <returns>Image associated with the <paramref name="resource"/> value within the calling assembly</returns>
-	public static Image ResourceToImage(string resource)
+	public static Image? ResourceToImage(string resource)
 	{
 		var assembly = Assembly.GetCallingAssembly();
 		var resourceStream = assembly.GetManifestResourceStream(resource);
@@ -187,7 +185,7 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// </summary>
 	/// <param name="sender"><see cref="object"/> that triggered event</param>
 	/// <param name="e">Arguments associated with event</param>
-	protected virtual void MouseEnter(object sender, EventArgs e)
+	protected virtual void MouseEnter(object? sender, EventArgs e)
 	{
 		if (ToolStripStatusLabel != null)
 		{
@@ -200,7 +198,7 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// </summary>
 	/// <param name="sender"><see cref="object"/> that triggered event</param>
 	/// <param name="e">Arguments associated with event</param>
-	protected virtual void MouseLeave(object sender, EventArgs e)
+	protected virtual void MouseLeave(object? sender, EventArgs e)
 	{
 		if (ToolStripStatusLabel != null)
 		{
@@ -213,7 +211,7 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// </summary>
 	/// <param name="sender">Object that was clicked</param>
 	/// <param name="e">Information about the event</param>
-	public virtual void OnMouseClick(object sender, EventArgs e)
+	public virtual void OnMouseClick(object? sender, EventArgs e)
 	{
 	}
 
@@ -230,16 +228,16 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// </summary>
 	/// <param name="sender">Object that was clicked</param>
 	/// <param name="e">Information about the event</param>
-	private void MouseClick(object sender, EventArgs e)
+	private void MouseClick(object? sender, EventArgs e)
 	{
-		if (IsLicensed(true, this))
+		if (IsLicensed?.Invoke(true, this) == true)
 		{
 			OnMouseClick(sender, e);
 			this.MouseClicked?.Invoke(sender, e);
 		}
 		else
 		{
-			(sender as ToolStripItem).SetChecked(false);
+			(sender as ToolStripItem)?.SetChecked(false);
 		}
 	}
 
@@ -248,11 +246,11 @@ public abstract class ToolStripItemGroup : List<ToolStripItem>
 	/// </summary>
 	/// <param name="sender"><see cref="object"/> that triggered event</param>
 	/// <param name="e">Arguments associated with event</param>
-	public virtual void CheckedChanged(object sender, EventArgs e)
+	public virtual void CheckedChanged(object? sender, EventArgs e)
 	{
-		if (IsLicensed(false, this))
+		if (IsLicensed?.Invoke(false, this) == true)
 		{
-			this.Checked = (sender as ToolStripItem).GetChecked();
+			this.Checked = (sender as ToolStripItem)?.GetChecked() ?? false;
 		}
 	}
 }

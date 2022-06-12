@@ -13,12 +13,13 @@ class Center : ToolStripItemGroup
 
 	public override string ToolTipText => "Center TT";
 
-	public override void CheckedChanged(object sender, EventArgs e)
+	public override void CheckedChanged(object? sender, EventArgs e)
 	{
-		var toolStripItem = sender as ToolStripItem;
-		if (!toolStripItem.GetChecked()) return;
-
-		(ExternalObject as Label).TextAlign = ContentAlignment.MiddleCenter;
+		if (sender is ToolStripItem toolStripItem)
+		{
+			if (!toolStripItem.GetChecked()) return;
+		}
+		if (ExternalObject is Label label) { label.TextAlign = ContentAlignment.MiddleCenter; }
 		base.CheckedChanged(sender, e);
 	}
 }

@@ -6,9 +6,9 @@ namespace UnitTests.Helpers;
 [ExcludeFromCodeCoverage]
 class TestToolStripItemGroup : ToolStripItemGroup
 {
-	public EventHandler MyMouseClick { get; set; }
+	public EventHandler? MyMouseClick { get; set; }
 
-	public TestToolStripItemGroup(Image image = null)
+	public TestToolStripItemGroup(Image? image = null)
 		: base(image)
 	{
 
@@ -20,7 +20,7 @@ class TestToolStripItemGroup : ToolStripItemGroup
 
 	public override string ToolTipText => "Tool Tip Test";
 
-	public override void OnMouseClick(object sender, EventArgs e)
+	public override void OnMouseClick(object? sender, EventArgs e)
 	{
 		MyMouseClick?.Invoke(sender, e);
 		base.OnMouseClick(sender, e);

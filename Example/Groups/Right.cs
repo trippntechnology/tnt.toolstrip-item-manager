@@ -13,12 +13,14 @@ class Right : ToolStripItemGroup
 
 	public override string ToolTipText => "Right TT";
 
-	public override void CheckedChanged(object sender, EventArgs e)
+	public override void CheckedChanged(object? sender, EventArgs e)
 	{
-		var toolStripItem = sender as ToolStripItem;
-		if (!toolStripItem.GetChecked()) return;
+		if (sender is ToolStripItem toolStripItem)
+		{
+			if (!toolStripItem.GetChecked()) return;
+			if (ExternalObject is Label label) label.TextAlign = ContentAlignment.MiddleRight;
+		}
 
-		(ExternalObject as Label).TextAlign = ContentAlignment.MiddleRight;
 		base.CheckedChanged(sender, e);
 	}
 }

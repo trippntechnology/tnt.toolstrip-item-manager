@@ -10,13 +10,15 @@ public class One : ToolStripItemGroup
 
 	}
 
-	public override void OnMouseClick(object sender, EventArgs e)
+	public override void OnMouseClick(object? sender, EventArgs e)
 	{
 		using (OpenFileDialog ofd = new OpenFileDialog())
 		{
 			ofd.ShowDialog();
-			Form1 form = ExternalObject as Form1;
-			form.Text = ofd.FileName;
+			if (ExternalObject is Form1 form)
+			{
+				form.Text = ofd.FileName;
+			}
 		}
 	}
 
@@ -24,11 +26,13 @@ public class One : ToolStripItemGroup
 
 	public override string ToolTipText => "Tool tip one";
 
-	public override void OnApplicationIdle(object sender, EventArgs e)
+	public override void OnApplicationIdle(object? sender, EventArgs e)
 	{
 		base.OnApplicationIdle(sender, e);
-		ToolStripItemGroupManager.TryGetValue("Three", out ToolStripItemGroup three);
-		ToolStripItemGroupManager.TryGetValue("Four", out ToolStripItemGroup four);
+		if (ToolStripItemGroupManager == null) return;
+
+		ToolStripItemGroupManager.TryGetValue("Three", out ToolStripItemGroup? three );
+		ToolStripItemGroupManager.TryGetValue("Four", out ToolStripItemGroup? four);
 
 		if (three != null)
 			Enabled = three.Checked;

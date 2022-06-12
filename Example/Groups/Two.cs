@@ -16,7 +16,7 @@ public class Two : ToolStripItemGroup
 
 	public override string ToolTipText => "Tool tip two";
 
-	public override void OnMouseClick(object sender, EventArgs e)
+	public override void OnMouseClick(object? sender, EventArgs e)
 	{
 		using (OpenFileDialog ofd = new OpenFileDialog())
 		{

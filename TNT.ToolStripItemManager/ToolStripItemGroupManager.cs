@@ -6,6 +6,10 @@
 public class ToolStripItemGroupManager : Dictionary<string, ToolStripItemGroup>
 {
 	private readonly ToolStripStatusLabel StatusLabel;
+
+	/// <summary>
+	/// <see cref="ToolStripItemGroup"/> items represented by this <see cref="ToolStripItemGroupManager"/>
+	/// </summary>
 	protected List<ToolStripItemGroup> Items { get { return this.Values.ToList(); } }
 
 	/// <summary>
@@ -35,7 +39,7 @@ public class ToolStripItemGroupManager : Dictionary<string, ToolStripItemGroup>
 	/// </summary>
 	/// <param name="sender">Not used</param>
 	/// <param name="e">Not used</param>
-	protected void Application_Idle(object sender, EventArgs e) => Items.ForEach(i => i.OnApplicationIdle(sender, e));
+	protected void Application_Idle(object? sender, EventArgs e) => Items.ForEach(i => i.OnApplicationIdle(sender, e));
 
 	/// <summary>
 	/// Creates a new <see cref="ToolStripItemGroup"/>
@@ -45,7 +49,7 @@ public class ToolStripItemGroupManager : Dictionary<string, ToolStripItemGroup>
 	/// <param name="image"><see cref="Image"/> that should be used</param>
 	/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
 	/// <returns>Newly create object <typeparamref name="T"/></returns>
-	public virtual T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null) where T : ToolStripItemGroup, new()
+	public virtual T Create<T>(ToolStripItem[] items, Image? image = null, object? externalObject = null) where T : ToolStripItemGroup, new()
 	{
 		T t = new T
 		{

@@ -8,12 +8,12 @@ public class ToolStripItemCheckboxGroupManager : ToolStripItemGroupManager
 	/// <summary>
 	/// Indicates the home group
 	/// </summary>
-	public ToolStripItemGroup HomeGroup { get; protected set; } = null;
+	public ToolStripItemGroup? HomeGroup { get; protected set; } = null;
 
 	/// <summary>
 	/// Previously checked <see cref="ToolStripItemGroup"/> that was not the <see cref="HomeGroup"/>
 	/// </summary>
-	public ToolStripItemGroup PreviouslyCheckedGroup { get; protected set; } = null;
+	public ToolStripItemGroup? PreviouslyCheckedGroup { get; protected set; } = null;
 
 	/// <summary>	
 	/// Initializes a <see cref="ToolStripItemCheckboxGroupManager"/> that manages a <see cref="Dictionary{TKey, TValue}"/> of <see cref="ToolStripItemGroup"/>
@@ -32,10 +32,10 @@ public class ToolStripItemCheckboxGroupManager : ToolStripItemGroupManager
 	/// <param name="image"><see cref="Image"/> that should be used</param>
 	/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
 	/// <returns>Newly create object <typeparamref name="T"/></returns>
-	public override T Create<T>(ToolStripItem[] items, Image image = null, object externalObject = null)
+	public override T Create<T>(ToolStripItem[] items, Image? image = null, object? externalObject = null)
 	{
 		T itemGroup = base.Create<T>(items, image, externalObject);
-		itemGroup.MouseClicked += this.MouseClick;
+		itemGroup.MouseClicked += MouseClick;
 		return itemGroup;
 	}
 
@@ -48,7 +48,7 @@ public class ToolStripItemCheckboxGroupManager : ToolStripItemGroupManager
 	/// <param name="image"><see cref="Image"/> that should be used</param>
 	/// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
 	/// <returns>Newly create object <typeparamref name="T"/></returns>
-	public T CreateHome<T>(ToolStripItem[] items, Image image = null, object externalObject = null) where T : ToolStripItemGroup, new()
+	public T CreateHome<T>(ToolStripItem[] items, Image? image = null, object? externalObject = null) where T : ToolStripItemGroup, new()
 	{
 		T itemGroup = this.Create<T>(items, image, externalObject);
 		HomeGroup = itemGroup;
@@ -72,7 +72,7 @@ public class ToolStripItemCheckboxGroupManager : ToolStripItemGroupManager
 	/// Returns the <see cref="ToolStripItemGroup"/> that is checked if exists
 	/// </summary>
 	/// <returns><see cref="ToolStripItemGroup"/> that is checked if exists, null otherwise</returns>
-	public ToolStripItemGroup GetCheckedGroup()
+	public ToolStripItemGroup? GetCheckedGroup()
 	{
 		return this.Values.FirstOrDefault(i => i.Checked == true);
 	}
@@ -101,7 +101,7 @@ public class ToolStripItemCheckboxGroupManager : ToolStripItemGroupManager
 	/// </summary>
 	/// <param name="sender"><see cref="ToolStripItem"/> that was clicked</param>
 	/// <param name="e">Not used</param>
-	protected void MouseClick(object sender, EventArgs e)
+	protected void MouseClick(object? sender, EventArgs e)
 	{
 		var toolStripItem = sender as ToolStripItem;
 		var currentlyChecked = GetCheckedGroup();
@@ -109,12 +109,9 @@ public class ToolStripItemCheckboxGroupManager : ToolStripItemGroupManager
 		// Keep track that the item was selected previously if not the HomeGroup
 		if (currentlyChecked != HomeGroup) PreviouslyCheckedGroup = currentlyChecked;
 
-		if (toolStripItem.GetChecked())
-		{
-			return;
-		}
+		if (toolStripItem == null || toolStripItem.GetChecked()) return;
 
-		if (TryGetValue(toolStripItem.Text, out ToolStripItemGroup toolStripItemGroup))
+		if (TryGetValue(toolStripItem.Text, out ToolStripItemGroup? toolStripItemGroup))
 		{
 			foreach (var item in this.Values)
 			{

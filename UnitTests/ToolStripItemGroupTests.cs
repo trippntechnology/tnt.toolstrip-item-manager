@@ -8,8 +8,8 @@ namespace UnitTests;
 [TestClass]
 public class ToolStripItemGroupTests
 {
-	static TestToolStripItemGroup sut = null;
-	static readonly Image ToolStripItemGroupImage = ToolStripItemGroup.ResourceToImage("UnitTests.Images.shape_align_bottom.png");
+	static TestToolStripItemGroup? sut = null;
+	static readonly Image? ToolStripItemGroupImage = ToolStripItemGroup.ResourceToImage("UnitTests.Images.shape_align_bottom.png");
 
 	[ClassInitialize]
 	public static void InitializeClass(TestContext tc)
@@ -241,7 +241,7 @@ public class ToolStripItemGroupTests
 		Assert.IsTrue(mouseEntered);
 		Assert.AreEqual(sut.ToolTipText, statusLabel.Text);
 
-		item.PerformMouseLeave(null);
+		item.PerformMouseLeave(new EventArgs());
 		Assert.IsTrue(mouseLeft);
 		Assert.AreEqual(string.Empty, statusLabel.Text);
 	}
@@ -250,7 +250,7 @@ public class ToolStripItemGroupTests
 	public void ToolStripItemGroup_ApplicationIdle()
 	{
 		var testItem = new TestToolStripItem();
-		var sut = new ToolStripItemGroupManager(null);
+		var sut = new ToolStripItemGroupManager(new ToolStripStatusLabel());
 		var group1 = sut.Create<ApplicationIdleToolStripItemGroup.Group1>(new ToolStripItem[] { testItem });
 		var group2 = sut.Create<ApplicationIdleToolStripItemGroup.Group2>(new ToolStripItem[] { testItem });
 		var group3 = sut.Create<ApplicationIdleToolStripItemGroup.Group3>(new ToolStripItem[] { testItem });
