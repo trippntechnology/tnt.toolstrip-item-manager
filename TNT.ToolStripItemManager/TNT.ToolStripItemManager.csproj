@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0-windows7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>2.0.0</Version>
+		<Version>2.0.2</Version>
 		<Authors>Tripp'n Technology, LLC.</Authors>
 		<Company>$(Author)</Company>
 		<UseWindowsForms>true</UseWindowsForms>
@@ -13,14 +13,13 @@
 		<PackageProjectUrl></PackageProjectUrl>
 		<Copyright>Copywrite $(Authors) 2022</Copyright>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<Configurations>Debug;Release;Debug_Nuget_Local</Configurations>
+		<Configurations>Debug;Release</Configurations>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
 	</ItemGroup>
-	<Target Name="DeplyNugetLocal" AfterTargets="Pack" Condition="$(Configuration) == 'Debug_Nuget_Local'">
+	<Target Name="DeplyNugetLocal" AfterTargets="Pack" Condition="$(Configuration) == 'Release'">
 		<Exec Command="copy $(ProjectDir)bin\$(Configuration)\$(ProjectName).$(PackageVersion).nupkg D:\NugetRepo" />
-		<Exec Command="copy $(ProjectDir)bin\$(Configuration)\$(ProjectName).$(PackageVersion).symbols.nupkg D:\NugetRepo" />
 	</Target>
 </Project>
