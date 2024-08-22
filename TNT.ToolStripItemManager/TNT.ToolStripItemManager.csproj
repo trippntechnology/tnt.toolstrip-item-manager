@@ -1,24 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0-windows7.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>2.0.2</Version>
 		<Authors>Tripp'n Technology, LLC.</Authors>
-		<Company>$(Author)</Company>
-		<UseWindowsForms>true</UseWindowsForms>
-		<Description>Manages groups of ToolStripItems</Description>
-		<PackageProjectUrl></PackageProjectUrl>
-		<Copyright>Copywrite $(Authors) 2022</Copyright>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<Company>$(Authors)</Company>
 		<Configurations>Debug;Release</Configurations>
+		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
+		<Copyright>Copywrite 2022 $(Authors)</Copyright>
+		<DebugType>embedded</DebugType>
+		<Description>Manages groups of ToolStripItems</Description>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<IncludeSymbols>False</IncludeSymbols>
+		<Nullable>enable</Nullable>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<TargetFramework>net8.0-windows7.0</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<Title>TNT Toolstrip Item Manager</Title>
+		<Version>2.0.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="docs\readme.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
 	<Target Name="DeplyNugetLocal" AfterTargets="Pack" Condition="$(Configuration) == 'Release'">
 		<Exec Command="copy $(ProjectDir)bin\$(Configuration)\$(ProjectName).$(PackageVersion).nupkg D:\NugetRepo" />
 	</Target>
