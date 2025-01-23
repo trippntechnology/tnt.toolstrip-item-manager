@@ -13,7 +13,7 @@ public class ApplicationIdleToolStripItemGroup : ToolStripItemGroup
 
 	public override string ToolTipText => "Application Idle ToolStripItemGroup ToolTipText";
 
-	public override void OnApplicationIdle(object sender, EventArgs e)
+	public override void OnApplicationIdle(object? sender, EventArgs e)
 	{
 		ApplicationIdleCalled = true;
 		base.OnApplicationIdle(sender, e);

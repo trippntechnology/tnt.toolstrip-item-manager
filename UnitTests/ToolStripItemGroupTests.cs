@@ -255,7 +255,7 @@ public class ToolStripItemGroupTests
 		var group2 = sut.Create<ApplicationIdleToolStripItemGroup.Group2>(new ToolStripItem[] { testItem });
 		var group3 = sut.Create<ApplicationIdleToolStripItemGroup.Group3>(new ToolStripItem[] { testItem });
 
-		Application.RaiseIdle(null);
+		Application.RaiseIdle(EventArgs.Empty);
 
 		Assert.IsTrue(group1.ApplicationIdleCalled);
 		Assert.IsTrue(group2.ApplicationIdleCalled);

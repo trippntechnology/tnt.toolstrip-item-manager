@@ -33,7 +33,7 @@ public class ToolStripItemGroupManagerTests
 
 		public void CallApplicationIdle()
 		{
-			base.Application_Idle(null, null);
+			base.Application_Idle(null, EventArgs.Empty);
 		}
 	}
 }
