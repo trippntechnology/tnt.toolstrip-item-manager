@@ -4,17 +4,17 @@ using TNT.ToolStripItemManager;
 
 namespace Example.Groups;
 
-public class Two : ToolStripItemGroup
+public class Open : ToolStripItemGroup
 {
-	public Two()
-		: base(ResourceToImage("Example.Images.shape_align_center.png"))
+	public Open()
+		: base(ResourceToImage("Example.Images.folder.png"))
 	{
 
 	}
 
-	public override string Text => "Two";
+	public override string Text => "File Open";
 
-	public override string ToolTipText => "Tool tip two";
+	public override string ToolTipText => "File Open Example (License Required)";
 
 	public override void OnMouseClick(object? sender, EventArgs e)
 	{

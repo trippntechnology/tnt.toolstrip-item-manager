@@ -2,17 +2,17 @@
 
 namespace Example.Groups;
 
-public class Four : ToolStripItemGroup
+public class HideShow : ToolStripItemGroup
 {
-	public Four()
-		: base(ResourceToImage("Example.Images.shape_align_middle.png"))
+	public HideShow()
+		: base(ResourceToImage("Example.Images.eye.png"))
 	{
 
 	}
 
-	public override string Text => "Four";
+	public override string Text => "Hide/Show";
 
-	public override string ToolTipText => "Tool tip four";
+	public override string ToolTipText => "Hide/Show Example (Licensed Required)";
 
 	public override bool CheckOnClick => true;
 

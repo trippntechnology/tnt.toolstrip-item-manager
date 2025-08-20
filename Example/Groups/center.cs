@@ -11,7 +11,7 @@ class Center : ToolStripItemGroup
 
 	public override string Text => "Center";
 
-	public override string ToolTipText => "Center TT";
+	public override string ToolTipText => "Center TT (License Required)";
 
 	public override void CheckedChanged(object? sender, EventArgs e)
 	{

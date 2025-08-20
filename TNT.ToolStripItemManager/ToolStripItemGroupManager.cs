@@ -18,6 +18,11 @@ public class ToolStripItemGroupManager : Dictionary<string, ToolStripItemGroup>
 	/// </summary>
 	public Func<bool, ToolStripItemGroup, bool> IsLicensed { get; set; } = (allowMessageBox, ToolStripItemGroup) => true;
 
+  /// <summary>
+  /// Callback called when a <see cref="ToolStripItem"/> is clicked.
+  /// </summary>
+  public Action<ToolStripItem> OnItemClicked { get; set; } = item => { };
+
 	/// <summary>	
 	/// Initializes a ToolStripItemGroupManager that manages a <see cref="Dictionary{TKey, TValue}"/> of <see cref="ToolStripItemGroup"/>
 	/// </summary>
@@ -28,11 +33,11 @@ public class ToolStripItemGroupManager : Dictionary<string, ToolStripItemGroup>
 		Application.Idle += Application_Idle;
 	}
 
-	/// <summary>
-	/// Call to notify each <see cref="ToolStripItemGroup"/> that the license changed.
-	/// </summary>
-	/// <param name="isLicensed">Indicates whether the app is licensed</param>
-	public virtual void LicensedChanged(bool isLicensed) => Items.ForEach(i => i.OnLicenseChanged(isLicensed));
+  /// <summary>
+  /// Call to notify each <see cref="ToolStripItemGroup"/> that the license changed.
+  /// </summary>
+  /// <param name="isLicensed">Indicates whether the app is licensed</param>
+  public virtual void LicensedChanged(bool isLicensed) => Items.ForEach(i => i.OnLicenseChanged(isLicensed));
 
 	/// <summary>
 	/// Called by <see cref="Application.Idle"/> which calls each <see cref="ToolStripItemGroup.OnApplicationIdle(object, EventArgs)"/>
@@ -56,7 +61,8 @@ public class ToolStripItemGroupManager : Dictionary<string, ToolStripItemGroup>
 			ToolStripStatusLabel = this.StatusLabel,
 			ToolStripItemGroupManager = this,
 			ExternalObject = externalObject,
-			IsLicensed = this.IsLicensed
+			IsLicensed = this.IsLicensed,
+			OnItemClicked = this.OnItemClicked,
 		};
 
 		if (image != null)

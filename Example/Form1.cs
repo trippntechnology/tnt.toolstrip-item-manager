@@ -6,9 +6,9 @@ namespace Example;
 public partial class Form1 : Form
 {
 	private One _One;
-	private Two _Two;
-	private Three _Three;
-	private Four _Four;
+	private Open _Two;
+	private Enable _Three;
+	private HideShow _Four;
 
 	ToolStripItemGroupManager ItemGroupManager;
 	ToolStripItemCheckboxGroupManager CheckboxItemGroupManager;
@@ -19,17 +19,25 @@ public partial class Form1 : Form
 
 		ItemGroupManager = new ToolStripItemGroupManager(toolStripStatusLabel1)
 		{
-			IsLicensed = IsLicensed
+			IsLicensed = IsLicensed,
+			OnItemClicked = item =>
+			{
+				System.Diagnostics.Debug.WriteLine($"ItemGroupManager");
+			}
 		};
 		CheckboxItemGroupManager = new ToolStripItemCheckboxGroupManager(toolStripStatusLabel1)
 		{
-			IsLicensed = IsLicensed
-		};
+			IsLicensed = IsLicensed,
+      OnItemClicked = item =>
+      {
+        System.Diagnostics.Debug.WriteLine($"CheckboxItemGroupManager");
+      }
+    };
 
 		_One = ItemGroupManager.Create<One>(new ToolStripItem[] { oneToolStripMenuItem, toolStripButton1, aToolStripMenuItem }, oneToolStripMenuItem.Image, this);
-		_Two = ItemGroupManager.Create<Two>(new ToolStripItem[] { twoToolStripMenuItem, toolStripSplitButton2, bToolStripMenuItem });
-		_Three = ItemGroupManager.Create<Three>(new ToolStripItem[] { threeToolStripMenuItem, toolStripButton3, cToolStripMenuItem });
-		_Four = ItemGroupManager.Create<Four>(new ToolStripItem[] { toolStripButton4, dToolStripMenuItem });
+		_Two = ItemGroupManager.Create<Open>(new ToolStripItem[] { twoToolStripMenuItem, toolStripSplitButton2, bToolStripMenuItem });
+		_Three = ItemGroupManager.Create<Enable>(new ToolStripItem[] { threeToolStripMenuItem, toolStripButton3, cToolStripMenuItem });
+		_Four = ItemGroupManager.Create<HideShow>(new ToolStripItem[] { toolStripButton4, dToolStripMenuItem });
 
 		CheckboxItemGroupManager.CreateHome<Left>(new ToolStripItem[] { tsb1, leftToolStripMenuItem }, externalObject: label1).Checked = true;
 		CheckboxItemGroupManager.Create<Center>(new ToolStripItem[] { tsb2, centerToolStripMenuItem }, externalObject: label1);

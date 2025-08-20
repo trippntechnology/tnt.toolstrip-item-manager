@@ -9,25 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\accept.png" />
+    <None Remove="Images\eye.png" />
+    <None Remove="Images\folder.png" />
     <None Remove="Images\shape_align_bottom.png" />
     <None Remove="Images\shape_align_center.png" />
     <None Remove="Images\shape_align_left.png" />
-    <None Remove="Images\shape_align_middle.png" />
     <None Remove="Images\shape_align_right.png" />
-    <None Remove="Images\shape_align_top.png" />
-    <None Remove="Images\shape_flip_horizontal.png" />
-    <None Remove="Images\shape_flip_vertical.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Images\accept.png" />
+    <EmbeddedResource Include="Images\eye.png" />
+    <EmbeddedResource Include="Images\folder.png" />
     <EmbeddedResource Include="Images\shape_align_bottom.png" />
     <EmbeddedResource Include="Images\shape_align_center.png" />
     <EmbeddedResource Include="Images\shape_align_left.png" />
-    <EmbeddedResource Include="Images\shape_align_middle.png" />
     <EmbeddedResource Include="Images\shape_align_right.png" />
-    <EmbeddedResource Include="Images\shape_align_top.png" />
-    <EmbeddedResource Include="Images\shape_flip_horizontal.png" />
-    <EmbeddedResource Include="Images\shape_flip_vertical.png" />
   </ItemGroup>
 
   <ItemGroup>

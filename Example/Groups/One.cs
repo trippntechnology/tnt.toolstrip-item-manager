@@ -31,12 +31,12 @@ public class One : ToolStripItemGroup
 		base.OnApplicationIdle(sender, e);
 		if (ToolStripItemGroupManager == null) return;
 
-		ToolStripItemGroupManager.TryGetValue("Three", out ToolStripItemGroup? three );
-		ToolStripItemGroupManager.TryGetValue("Four", out ToolStripItemGroup? four);
+		ToolStripItemGroupManager.TryGetValue("Enable", out ToolStripItemGroup? isEnabled );
+		ToolStripItemGroupManager.TryGetValue("Hide/Show", out ToolStripItemGroup? isVisible);
 
-		if (three != null)
-			Enabled = three.Checked;
-		if (four != null)
-			Visible = four.Checked;
+		if (isEnabled != null)
+			Enabled = isEnabled.Checked;
+		if (isVisible != null)
+			Visible = isVisible.Checked;
 	}
 }

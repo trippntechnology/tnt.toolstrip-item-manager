@@ -11,7 +11,7 @@ class Left : ToolStripItemGroup
 
 	public override string Text => "Left";
 
-	public override string ToolTipText => "Left TT";
+	public override string ToolTipText => "Left TT (License Required)";
 
 	public override void CheckedChanged(object? sender, EventArgs e)
 	{
