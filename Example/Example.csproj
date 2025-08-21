@@ -6,6 +6,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <Configurations>Debug;Release;Preview</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

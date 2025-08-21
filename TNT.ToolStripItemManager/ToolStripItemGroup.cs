@@ -32,6 +32,11 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   public Image? Image { get; internal set; } = image;
 
   /// <summary>
+  /// Gets or sets an object that contains data about the <see cref="ToolStripItemGroup"/>.
+  /// </summary>
+  public virtual object? Tag { get; set; } = null;
+
+  /// <summary>
   /// Text used by all <see cref="ToolStripItem"/>
   /// </summary>
   public abstract string Text { get; }
@@ -52,9 +57,9 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   public virtual Func<bool, ToolStripItemGroup, bool>? IsLicensed { get; set; } = null;
 
   /// <summary>
-  /// Action invoked when a <see cref="ToolStripItem"/> in the group is clicked.
+  /// Action invoked when a <see cref="ToolStripItem"/> in the group is clicked. This can be used to perform custom logic when any ToolStripItem in the group is clicked.
   /// </summary>
-  public Action<ToolStripItem> OnItemClicked = item => { };
+  public Action<ToolStripItemGroup> OnItemGroupClicked = item => { };
 
   /// <summary>
   /// Gets or sets a value indicating whether the group of <see cref="ToolStripItem"/> are checked or not checked
@@ -230,7 +235,7 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   /// <param name="e">Information about the event</param>
   private void MouseClick(object? sender, EventArgs e)
   {
-    if (sender is ToolStripItem item) OnItemClicked(item);
+    OnItemGroupClicked(this);
 
     if (IsLicensed?.Invoke(true, this) == true)
     {

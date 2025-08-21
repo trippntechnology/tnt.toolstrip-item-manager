@@ -20,17 +20,17 @@ public partial class Form1 : Form
 		ItemGroupManager = new ToolStripItemGroupManager(toolStripStatusLabel1)
 		{
 			IsLicensed = IsLicensed,
-			OnItemClicked = item =>
+			OnItemGroupClicked = item =>
 			{
-				System.Diagnostics.Debug.WriteLine($"ItemGroupManager");
+				System.Diagnostics.Debug.WriteLine($"ItemGroupManager: {item}");
 			}
 		};
 		CheckboxItemGroupManager = new ToolStripItemCheckboxGroupManager(toolStripStatusLabel1)
 		{
 			IsLicensed = IsLicensed,
-      OnItemClicked = item =>
+      OnItemGroupClicked = item =>
       {
-        System.Diagnostics.Debug.WriteLine($"CheckboxItemGroupManager");
+        System.Diagnostics.Debug.WriteLine($"CheckboxItemGroupManager: {item}");
       }
     };
 

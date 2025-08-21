@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<Authors>Tripp'n Technology, LLC.</Authors>
 		<Company>$(Authors)</Company>
-		<Configurations>Debug;Release</Configurations>
+		<Configurations>Debug;Release;Preview</Configurations>
 		<ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
 		<Copyright>Copywrite 2022 $(Authors)</Copyright>
 		<DebugType>embedded</DebugType>
@@ -28,7 +28,7 @@
 		<None Include="docs\readme.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
-	<Target Name="DeplyNugetLocal" AfterTargets="Pack" Condition="$(Configuration) == 'Release'">
+	<Target Name="Create Preview" AfterTargets="Pack" Condition="$(Configuration) == 'Preview'">
 		<Exec Command="copy $(ProjectDir)bin\$(Configuration)\$(ProjectName).$(PackageVersion).nupkg D:\NugetRepo" />
 	</Target>
 </Project>

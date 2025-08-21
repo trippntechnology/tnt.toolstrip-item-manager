@@ -21,7 +21,7 @@ public class ToolStripItemGroupManager : Dictionary<string, ToolStripItemGroup>
   /// <summary>
   /// Callback called when a <see cref="ToolStripItem"/> is clicked.
   /// </summary>
-  public Action<ToolStripItem> OnItemClicked { get; set; } = item => { };
+  public Action<ToolStripItemGroup> OnItemGroupClicked { get; set; } = item => { };
 
 	/// <summary>	
 	/// Initializes a ToolStripItemGroupManager that manages a <see cref="Dictionary{TKey, TValue}"/> of <see cref="ToolStripItemGroup"/>
@@ -62,7 +62,7 @@ public class ToolStripItemGroupManager : Dictionary<string, ToolStripItemGroup>
 			ToolStripItemGroupManager = this,
 			ExternalObject = externalObject,
 			IsLicensed = this.IsLicensed,
-			OnItemClicked = this.OnItemClicked,
+			OnItemGroupClicked = this.OnItemGroupClicked,
 		};
 
 		if (image != null)
