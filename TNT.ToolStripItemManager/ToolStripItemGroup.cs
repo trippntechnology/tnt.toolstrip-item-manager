@@ -11,55 +11,14 @@ namespace TNT.ToolStripItemManager;
 /// <param name="image">Image to set on the <see cref="ToolStripItem"/> in the group</param>
 public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripItem>
 {
-  /// <summary>
-  /// <see cref="System.Windows.Forms.ToolStripStatusLabel"/> used to display the tool tip hint
-  /// </summary>
-  public ToolStripStatusLabel? ToolStripStatusLabel { get; internal set; }
-
-  /// <summary>
-  /// Group manager used to access other <see cref="ToolStripItemGroup"/>
-  /// </summary>
-  public ToolStripItemGroupManager? ToolStripItemGroupManager { get; internal set; }
+  // Fields
 
   /// <summary>
   /// Mouse click event handler
   /// </summary>
-  internal EventHandler? MouseClicked { get; set; }// = (_, _ => { });
+  internal EventHandler? MouseClicked { get; set; }
 
-  /// <summary>
-  /// <see cref="Image"/> used by all <see cref="ToolStripItem"/>
-  /// </summary>
-  public Image? Image { get; internal set; } = image;
-
-  /// <summary>
-  /// Gets or sets an object that contains data about the <see cref="ToolStripItemGroup"/>.
-  /// </summary>
-  public virtual object? Tag { get; set; } = null;
-
-  /// <summary>
-  /// Text used by all <see cref="ToolStripItem"/>
-  /// </summary>
-  public abstract string Text { get; }
-
-  /// <summary>
-  /// ToolTipText used by all <see cref="ToolStripItem"/>
-  /// </summary>
-  public abstract string ToolTipText { get; }
-
-  /// <summary>
-  /// Indicates that all <see cref="ToolStripItem"/> should act as a check box or not
-  /// </summary>
-  public virtual bool CheckOnClick => false;
-
-  /// <summary>
-  /// Indicates that the actions managed by this group are licensed
-  /// </summary>
-  public virtual Func<bool, ToolStripItemGroup, bool>? IsLicensed { get; set; } = null;
-
-  /// <summary>
-  /// Action invoked when a <see cref="ToolStripItem"/> in the group is clicked. This can be used to perform custom logic when any ToolStripItem in the group is clicked.
-  /// </summary>
-  public Action<ToolStripItemGroup> OnItemGroupClicked = item => { };
+  // Properties
 
   /// <summary>
   /// Gets or sets a value indicating whether the group of <see cref="ToolStripItem"/> are checked or not checked
@@ -72,7 +31,6 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
       {
         return base[0].GetChecked();
       }
-
       return false;
     }
     set
@@ -92,18 +50,9 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   }
 
   /// <summary>
-  /// Gets or sets a value indicating whether the group of <see cref="ToolStripItem"/> are visible or not visible
+  /// Indicates that all <see cref="ToolStripItem"/> should act as a check box or not
   /// </summary>
-  public bool Visible
-  {
-    get
-    {
-      var isVisible = true;
-      base.ForEach(i => isVisible = (i.Available && isVisible));
-      return isVisible;
-    }
-    set { base.ForEach(t => t.Visible = value); }
-  }
+  public virtual bool CheckOnClick => false;
 
   /// <summary>
   /// Gets or sets a value indicating whether the group of <see cref="ToolStripItem"/> are enabled or not enabled
@@ -126,13 +75,60 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   public object? ExternalObject { get; internal set; }
 
   /// <summary>
-  /// Implement to enable/disable <see cref="ToolStripItem"/>
+  /// <see cref="Image"/> used by all <see cref="ToolStripItem"/>
   /// </summary>
-  /// <param name="sender">Sender</param>
-  /// <param name="e"><see cref="EventArgs"/></param>
-  public virtual void OnApplicationIdle(object? sender, EventArgs e)
+  public Image? Image { get; internal set; } = image;
+
+  /// <summary>
+  /// Indicates that the actions managed by this group are licensed
+  /// </summary>
+  public virtual Func<bool, ToolStripItemGroup, bool>? IsLicensed { get; set; }
+
+  /// <summary>
+  /// Gets or sets an object that contains data about the <see cref="ToolStripItemGroup"/>.
+  /// </summary>
+  public virtual object? Tag { get; set; }
+
+  /// <summary>
+  /// Text used by all <see cref="ToolStripItem"/>
+  /// </summary>
+  public abstract string Text { get; }
+
+  /// <summary>
+  /// ToolStripItemGroupManager used to access other <see cref="ToolStripItemGroup"/>
+  /// </summary>
+  public ToolStripItemGroupManager? ToolStripItemGroupManager { get; internal set; }
+
+  /// <summary>
+  /// <see cref="System.Windows.Forms.ToolStripStatusLabel"/> used to display the tool tip hint
+  /// </summary>
+  public ToolStripStatusLabel? ToolStripStatusLabel { get; internal set; }
+
+  /// <summary>
+  /// ToolTipText used by all <see cref="ToolStripItem"/>
+  /// </summary>
+  public abstract string ToolTipText { get; }
+
+  /// <summary>
+  /// Action invoked when a <see cref="ToolStripItem"/> in the group is clicked. This can be used to perform custom logic when any ToolStripItem in the group is clicked.
+  /// </summary>
+  public Action<ToolStripItemGroup> OnItemGroupClicked = item => { };
+
+  /// <summary>
+  /// Gets or sets a value indicating whether the group of <see cref="ToolStripItem"/> are visible or not visible
+  /// </summary>
+  public bool Visible
   {
+    get
+    {
+      var isVisible = true;
+      base.ForEach(i => isVisible = (i.Available && isVisible));
+      return isVisible;
+    }
+    set { base.ForEach(t => t.Visible = value); }
   }
+
+  // Methods
 
   /// <summary>
   /// Adds a <see cref="ToolStripItem"/> to the <see cref="ToolStripItemGroup"/>
@@ -174,15 +170,36 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   }
 
   /// <summary>
-  /// Gets an image associated with the <paramref name="resource"/> value within the calling assembly
+  /// Assigned to the <see cref="ToolStripItem"/> CheckedChanged event handler
   /// </summary>
-  /// <param name="resource">Name of resource in the calling assembly</param>
-  /// <returns>Image associated with the <paramref name="resource"/> value within the calling assembly</returns>
-  public static Image? ResourceToImage(string resource)
+  /// <param name="sender"><see cref="object"/> that triggered event</param>
+  /// <param name="e">Arguments associated with event</param>
+  public virtual void CheckedChanged(object? sender, EventArgs e)
   {
-    var assembly = Assembly.GetCallingAssembly();
-    var resourceStream = assembly.GetManifestResourceStream(resource);
-    return resourceStream == null ? null : new Bitmap(resourceStream);
+    if (IsLicensed?.Invoke(false, this) == true)
+    {
+      this.Checked = (sender as ToolStripItem)?.GetChecked() ?? false;
+    }
+  }
+
+  /// <summary>
+  /// Handles the mouse click event for a <see cref="ToolStripItem"/> in the group, invoking <see cref="OnMouseClick"/> and the <see cref="MouseClicked"/> event if licensed.
+  /// </summary>
+  /// <param name="sender">Object that was clicked</param>
+  /// <param name="e">Information about the event</param>
+  private void MouseClick(object? sender, EventArgs e)
+  {
+    OnItemGroupClicked(this);
+
+    if (IsLicensed?.Invoke(true, this) == true)
+    {
+      OnMouseClick(sender, e);
+      this.MouseClicked?.Invoke(sender, e);
+    }
+    else
+    {
+      (sender as ToolStripItem)?.SetChecked(false);
+    }
   }
 
   /// <summary>
@@ -212,52 +229,34 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   }
 
   /// <summary>
-  /// Implement by subclass to define what action should occur when a mouse is clicked
+  /// Implement to enable/disable <see cref="ToolStripItem"/>
   /// </summary>
-  /// <param name="sender">Object that was clicked</param>
-  /// <param name="e">Information about the event</param>
-  public virtual void OnMouseClick(object? sender, EventArgs e)
-  {
-  }
+  /// <param name="sender">Sender</param>
+  /// <param name="e"><see cref="EventArgs"/></param>
+  public virtual void OnApplicationIdle(object? sender, EventArgs e) { }
 
   /// <summary>
   /// Implement to handle a license change
   /// </summary>
   /// <param name="isLicensed">Indicates whether the app is licensed or not</param>
-  public virtual void OnLicenseChanged(bool isLicensed)
-  {
-  }
+  public virtual void OnLicenseChanged(bool isLicensed) { }
 
   /// <summary>
-  /// Handles the mouse click event for a <see cref="ToolStripItem"/> in the group, invoking <see cref="OnMouseClick"/> and the <see cref="MouseClicked"/> event if licensed.
+  /// Implement by subclass to define what action should occur when a mouse is clicked
   /// </summary>
   /// <param name="sender">Object that was clicked</param>
   /// <param name="e">Information about the event</param>
-  private void MouseClick(object? sender, EventArgs e)
-  {
-    OnItemGroupClicked(this);
-
-    if (IsLicensed?.Invoke(true, this) == true)
-    {
-      OnMouseClick(sender, e);
-      this.MouseClicked?.Invoke(sender, e);
-    }
-    else
-    {
-      (sender as ToolStripItem)?.SetChecked(false);
-    }
-  }
+  public virtual void OnMouseClick(object? sender, EventArgs e) { }
 
   /// <summary>
-  /// Assigned to the <see cref="ToolStripItem"/> CheckedChanged event handler
+  /// Gets an image associated with the <paramref name="resource"/> value within the calling assembly
   /// </summary>
-  /// <param name="sender"><see cref="object"/> that triggered event</param>
-  /// <param name="e">Arguments associated with event</param>
-  public virtual void CheckedChanged(object? sender, EventArgs e)
+  /// <param name="resource">Name of resource in the calling assembly</param>
+  /// <returns>Image associated with the <paramref name="resource"/> value within the calling assembly</returns>
+  public static Image? ResourceToImage(string resource)
   {
-    if (IsLicensed?.Invoke(false, this) == true)
-    {
-      this.Checked = (sender as ToolStripItem)?.GetChecked() ?? false;
-    }
+    var assembly = Assembly.GetCallingAssembly();
+    var resourceStream = assembly.GetManifestResourceStream(resource);
+    return resourceStream == null ? null : new Bitmap(resourceStream);
   }
 }
