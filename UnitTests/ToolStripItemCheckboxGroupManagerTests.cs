@@ -19,8 +19,8 @@ public class ToolStripItemCheckboxGroupManagerTests
     var obj = new object();
     var bitmap = ToolStripItemGroup.ResourceToImage("TNT.ToolStripItemManager.Tests.Images.shape_align_bottom.png");
     var itemGroupManager = new ProtectedAccess(toolStripStatusLabel);
-    var one = itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItemOne, toolStripButtonOne }, bitmap, obj);
-    var two = itemGroupManager.Create<Two>(new ToolStripItem[] { toolStripMenuItemTwo, toolStripButtonTwo }, bitmap, obj);
+    var one = itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItemOne, toolStripButtonOne }, bitmap);
+    var two = itemGroupManager.Create<Two>(new ToolStripItem[] { toolStripMenuItemTwo, toolStripButtonTwo }, bitmap);
 
     one.Checked = true;
 
@@ -55,7 +55,7 @@ public class ToolStripItemCheckboxGroupManagerTests
     var obj = new object();
     var bitmap = ToolStripItemGroup.ResourceToImage("TNT.ToolStripItemManager.Tests.Images.shape_align_bottom.png");
     var itemGroupManager = new ProtectedAccess(toolStripStatusLabel);
-    var nonHomeGroup = itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItemOne, toolStripButtonOne }, bitmap, obj);
+    var nonHomeGroup = itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItemOne, toolStripButtonOne }, bitmap);
 
     Assert.IsFalse(nonHomeGroup.Checked);
     Assert.IsNull(itemGroupManager.HomeGroup);
@@ -63,7 +63,7 @@ public class ToolStripItemCheckboxGroupManagerTests
     itemGroupManager.Toggle();
     Assert.IsFalse(nonHomeGroup.Checked);
 
-    var homeGroup = itemGroupManager.CreateHome<Two>(new ToolStripItem[] { toolStripMenuItemTwo, toolStripButtonTwo }, bitmap, obj);
+    var homeGroup = itemGroupManager.CreateHome<Two>(new ToolStripItem[] { toolStripMenuItemTwo, toolStripButtonTwo }, bitmap);
 
     Assert.AreEqual(homeGroup, itemGroupManager.HomeGroup);
 

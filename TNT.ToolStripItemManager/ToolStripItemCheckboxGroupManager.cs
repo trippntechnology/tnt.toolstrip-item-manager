@@ -30,11 +30,10 @@ public class ToolStripItemCheckboxGroupManager : ToolStripItemGroupManager
   /// <typeparam name="T"><see cref="ToolStripItemGroup"/> type</typeparam>
   /// <param name="items"><see cref="ToolStripItem"/> array that should be added to the <see cref="ToolStripItemGroup"/></param>
   /// <param name="image"><see cref="Image"/> that should be used</param>
-  /// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
   /// <returns>Newly create object <typeparamref name="T"/></returns>
-  public override T Create<T>(ToolStripItem[] items, Image? image = null, object? externalObject = null)
+  public override T Create<T>(ToolStripItem[] items, Image? image = null)
   {
-    T itemGroup = base.Create<T>(items, image, externalObject);
+    T itemGroup = base.Create<T>(items, image);
     itemGroup.MouseClicked += MouseClick;
     return itemGroup;
   }
@@ -46,11 +45,10 @@ public class ToolStripItemCheckboxGroupManager : ToolStripItemGroupManager
   /// <typeparam name="T"><see cref="ToolStripItemGroup"/> type</typeparam>
   /// <param name="items"><see cref="ToolStripItem"/> array that should be added to the <see cref="ToolStripItemGroup"/></param>
   /// <param name="image"><see cref="Image"/> that should be used</param>
-  /// <param name="externalObject">External object that this <see cref="ToolStripItemGroup"/> needs access</param>
   /// <returns>Newly create object <typeparamref name="T"/></returns>
-  public T CreateHome<T>(ToolStripItem[] items, Image? image = null, object? externalObject = null) where T : ToolStripItemGroup, new()
+  public T CreateHome<T>(ToolStripItem[] items, Image? image = null) where T : ToolStripItemGroup, new()
   {
-    T itemGroup = this.Create<T>(items, image, externalObject);
+    T itemGroup = this.Create<T>(items, image);
     HomeGroup = itemGroup;
     return itemGroup;
   }

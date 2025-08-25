@@ -2,16 +2,11 @@
 
 namespace Example.Groups;
 
-public class Enable : ToolStripItemGroup
+public class Enable() : ToolStripItemGroup(ResourceToImage("Example.Images.accept.png"))
 {
-	public Enable()
-		: base(ResourceToImage("Example.Images.accept.png"))
-	{
-	}
+  public override string Text => "Enable";
 
-	public override string Text => "Enable";
+  public override string ToolTipText => "Enable Example (License Required)";
 
-	public override string ToolTipText => "Enable Example (License Required)";
-
-	public override bool CheckOnClick => true;
+  public override bool CheckOnClick => true;
 }

@@ -69,11 +69,6 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   }
 
   /// <summary>
-  /// Gets or sets an external object that this <see cref="ToolStripItemGroup"/> needs access to.
-  /// </summary>
-  public object? ExternalObject { get; internal set; }
-
-  /// <summary>
   /// Gets or sets the <see cref="Image"/> used by all <see cref="ToolStripItem"/> controls in the group.
   /// </summary>
   public Image? Image { get; internal set; } = image;
@@ -114,7 +109,7 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   /// <summary>
   /// Gets or sets the action invoked when a <see cref="ToolStripItem"/> in the group is clicked. This can be used to perform custom logic when any <see cref="ToolStripItem"/> in the group is clicked.
   /// </summary>
-  public Action<ToolStripItemGroup> OnItemGroupClicked = item => { };
+  public Action<ToolStripItemGroup> OnClick = item => { };
 
   /// <summary>
   /// Gets or sets a value indicating whether all <see cref="ToolStripItem"/> controls in the group are visible.
@@ -143,27 +138,28 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
     {
       toolStripButton.CheckOnClick = this.CheckOnClick;
       toolStripButton.Checked = this.Checked;
-      toolStripButton.CheckedChanged += CheckedChanged;
-      toolStripItem.Click += this.MouseClick;
+      toolStripButton.CheckedChanged += OnCheckedChanged;
+      toolStripItem.Click += this.OnToolStripItemClick;
     }
     else if (toolStripItem is ToolStripMenuItem toolStripMenuItem)
     {
       toolStripMenuItem.CheckOnClick = this.CheckOnClick;
       toolStripMenuItem.Checked = this.Checked;
-      toolStripMenuItem.CheckedChanged += CheckedChanged;
-      toolStripItem.Click += this.MouseClick;
+      toolStripMenuItem.CheckedChanged += OnCheckedChanged;
+      toolStripItem.Click += this.OnToolStripItemClick;
     }
     else if (toolStripItem is ToolStripSplitButton toolStripSplitButton)
     {
-      toolStripSplitButton.ButtonClick += this.MouseClick;
+      // Attach the OnClick event handler to the ButtonClick. Click fires when the drop down arrow is also clicked.
+      toolStripSplitButton.ButtonClick += this.OnToolStripItemClick;
     }
     else
     {
-      toolStripItem.Click += this.MouseClick;
+      toolStripItem.Click += this.OnToolStripItemClick;
     }
 
-    toolStripItem.MouseEnter += this.MouseEnter;
-    toolStripItem.MouseLeave += this.MouseLeave;
+    toolStripItem.MouseEnter += this.OnMouseEnter;
+    toolStripItem.MouseLeave += this.OnMouseLeave;
     toolStripItem.Image = this.Image;
     toolStripItem.Text = this.Text;
     toolStripItem.ToolTipText = this.ToolTipText;
@@ -172,11 +168,11 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   }
 
   /// <summary>
-  /// Handles the <see cref="CheckedChanged"/> event for a <see cref="ToolStripItem"/> in the group.
+  /// Handles the <see cref="OnCheckedChanged"/> event for a <see cref="ToolStripItem"/> in the group.
   /// </summary>
   /// <param name="sender">The <see cref="object"/> that triggered the event.</param>
   /// <param name="e">The event data.</param>
-  public virtual void CheckedChanged(object? sender, EventArgs e)
+  public virtual void OnCheckedChanged(object? sender, EventArgs e)
   {
     if (IsLicensed?.Invoke(false, this) == true)
     {
@@ -189,14 +185,12 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   /// </summary>
   /// <param name="sender">The object that was clicked.</param>
   /// <param name="e">The event data.</param>
-  private void MouseClick(object? sender, EventArgs e)
+  private void OnToolStripItemClick(object? sender, EventArgs e)
   {
-    OnItemGroupClicked(this);
-
     if (IsLicensed?.Invoke(true, this) == true)
     {
-      OnMouseClick(sender, e);
       this.MouseClicked?.Invoke(sender, e);
+      OnClick(this);
     }
     else
     {
@@ -205,11 +199,11 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   }
 
   /// <summary>
-  /// Handles the <see cref="MouseEnter"/> event for a <see cref="ToolStripItem"/> in the group, updating the status label with the tool tip text.
+  /// Handles the <see cref="OnMouseEnter"/> event for a <see cref="ToolStripItem"/> in the group, updating the status label with the tool tip text.
   /// </summary>
   /// <param name="sender">The <see cref="object"/> that triggered the event.</param>
   /// <param name="e">The event data.</param>
-  protected virtual void MouseEnter(object? sender, EventArgs e)
+  protected virtual void OnMouseEnter(object? sender, EventArgs e)
   {
     if (ToolStripStatusLabel != null)
     {
@@ -218,11 +212,11 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   }
 
   /// <summary>
-  /// Handles the <see cref="MouseLeave"/> event for a <see cref="ToolStripItem"/> in the group, clearing the status label.
+  /// Handles the <see cref="OnMouseLeave"/> event for a <see cref="ToolStripItem"/> in the group, clearing the status label.
   /// </summary>
   /// <param name="sender">The <see cref="object"/> that triggered the event.</param>
   /// <param name="e">The event data.</param>
-  protected virtual void MouseLeave(object? sender, EventArgs e)
+  protected virtual void OnMouseLeave(object? sender, EventArgs e)
   {
     if (ToolStripStatusLabel != null)
     {
@@ -242,13 +236,6 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   /// </summary>
   /// <param name="isLicensed">Indicates whether the application is licensed.</param>
   public virtual void OnLicenseChanged(bool isLicensed) { }
-
-  /// <summary>
-  /// Called when a <see cref="ToolStripItem"/> in the group is clicked. Subclasses should override to define custom click behavior.
-  /// </summary>
-  /// <param name="sender">The object that was clicked.</param>
-  /// <param name="e">The event data.</param>
-  public virtual void OnMouseClick(object? sender, EventArgs e) { }
 
   /// <summary>
   /// Gets an <see cref="Image"/> associated with the specified resource name from the calling assembly.

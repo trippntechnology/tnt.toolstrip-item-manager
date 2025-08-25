@@ -16,7 +16,7 @@ public class ToolStripItemGroupManagerTests
 		var obj = new object();
 		var bitmap = ToolStripItemGroup.ResourceToImage("TNT.ToolStripItemManager.Tests.Images.shape_align_bottom.png");
 		var itemGroupManager = new ProtectedAccess(toolStripStatusLabel);
-		var one = itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItem }, bitmap, obj);
+		var one = itemGroupManager.Create<One>(new ToolStripItem[] { toolStripMenuItem }, bitmap);
 
 		Assert.AreEqual(one.Text, toolStripMenuItem.Text);
 		Assert.AreEqual(one.ToolTipText, toolStripMenuItem.ToolTipText);

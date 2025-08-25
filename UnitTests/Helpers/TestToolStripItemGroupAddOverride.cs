@@ -19,7 +19,7 @@ class TestToolStripItemGroupAddOverride : TestToolStripItemGroup
     if (ttsmi == null) return;
 
     base.Add(ttsmi);
-    ttsmi.MouseEnter += this.MouseEnter;
-    ttsmi.MouseLeave += this.MouseLeave;
+    ttsmi.MouseEnter += this.OnMouseEnter;
+    ttsmi.MouseLeave += this.OnMouseLeave;
   }
 }
