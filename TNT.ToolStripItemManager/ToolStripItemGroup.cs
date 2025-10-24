@@ -1,85 +1,61 @@
-﻿using System.Reflection;
+﻿using TNT.ToolStripItemManager.Extension;
 
 namespace TNT.ToolStripItemManager;
 
 /// <summary>
-/// Represents a group of <see cref="ToolStripItem"/> controls that can be managed collectively.
+/// Represents a group of <see cref="ToolStripItem"/> controls that can be managed collectively, providing unified management for properties such as text, tooltip, image, checked state, and licensing.
 /// </summary>
 /// <remarks>
-/// Provides common functionality for managing a set of <see cref="ToolStripItem"/> instances, such as enabling/disabling, visibility, checked state, and licensing.
+/// Use this class to manage a set of <see cref="ToolStripItem"/> instances together, allowing for consistent configuration and event handling across all items in the group.
 /// </remarks>
-/// <param name="image">The image to set on each <see cref="ToolStripItem"/> in the group.</param>
-public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripItem>
+/// <param name="text">The text to display for all <see cref="ToolStripItem"/> controls in the group.</param>
+/// <param name="toolTipText">The tooltip text to display for all <see cref="ToolStripItem"/> controls in the group. Optional.</param>
+/// <param name="checkOnClick">A value indicating whether <see cref="ToolStripButton"/> and <see cref="ToolStripMenuItem"/> items in the group should be checked when clicked.</param>
+/// <param name="image">The image to set on each <see cref="ToolStripItem"/> in the group. Optional.</param>
+public abstract class ToolStripItemGroup(string text, string? toolTipText = null, bool checkOnClick = false, Image? image = null) : List<ToolStripItem>
 {
   // Fields
 
   /// <summary>
-  /// Occurs when a <see cref="ToolStripItem"/> in the group is clicked.
+  /// Gets the image associated with all <see cref="ToolStripItem"/> controls in the group.
   /// </summary>
-  internal EventHandler? MouseClicked { get; set; }
+  public readonly Image? Image = image;
+
+  /// <summary>
+  /// Gets the text displayed for all <see cref="ToolStripItem"/> controls in the group.
+  /// </summary>
+  public readonly string Text = text;
+
+  /// <summary>
+  /// Gets the tooltip text displayed for all <see cref="ToolStripItem"/> controls in the group.
+  /// </summary>
+  public readonly string ToolTipText = toolTipText ?? String.Empty;
+
+  /// <summary>
+  /// Gets a value indicating whether <see cref="ToolStripButton"/> and <see cref="ToolStripMenuItem"/> items in the group should be checked when clicked.
+  /// </summary>
+  public readonly bool CheckOnClick = checkOnClick;
 
   // Properties
 
   /// <summary>
-  /// Gets or sets a value indicating whether the group of <see cref="ToolStripItem"/> controls are checked.
+  /// Gets or sets a value indicating whether all <see cref="ToolStripItem"/> controls in the group are checked.
+  /// When getting, returns the checked state of the first item in the group. When setting, applies the checked state to all items.
   /// </summary>
   public virtual bool Checked
   {
-    get
-    {
-      if (base.Count > 0)
-      {
-        return base[0].GetChecked();
-      }
-      return false;
-    }
-    set
-    {
-      base.ForEach(t =>
-      {
-        if (t is ToolStripMenuItem toolStripMenuItem)
-        {
-          toolStripMenuItem.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
-        }
-        else if (t is ToolStripButton toolStripButton)
-        {
-          toolStripButton.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
-        }
-      });
-    }
+    get { return base.Count > 0 ? base[0].GetChecked() : false; }
+    set { base.ForEach(t => t.SetChecked(value)); }
   }
-
-  /// <summary>
-  /// Gets a value indicating whether all <see cref="ToolStripItem"/> controls in the group should act as check boxes.
-  /// </summary>
-  public virtual bool CheckOnClick => false;
 
   /// <summary>
   /// Gets or sets a value indicating whether all <see cref="ToolStripItem"/> controls in the group are enabled.
   /// </summary>
   public bool Enabled
   {
-    get
-    {
-      var isEnabled = true;
-      base.ForEach(i => isEnabled = (i.Enabled && isEnabled));
-      return isEnabled;
-    }
+    get { return base.TrueForAll(i => i.Enabled); }
     set { base.ForEach(t => t.Enabled = value); }
   }
-
-  /// <summary>
-  /// Gets or sets the <see cref="Image"/> used by all <see cref="ToolStripItem"/> controls in the group.
-  /// </summary>
-  public Image? Image { get; internal set; } = image;
-
-  /// <summary>
-  /// Gets or sets a delegate that determines whether the actions managed by this group are licensed.
-  /// </summary>
-  /// <remarks>
-  /// The delegate receives a boolean indicating the context (e.g., click or check) and the group itself.
-  /// </remarks>
-  public virtual Func<bool, ToolStripItemGroup, bool>? IsLicensed { get; set; }
 
   /// <summary>
   /// Gets or sets an object that contains data about the <see cref="ToolStripItemGroup"/>.
@@ -87,41 +63,27 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   public virtual object? Tag { get; set; }
 
   /// <summary>
-  /// Gets the text used by all <see cref="ToolStripItem"/> controls in the group.
+  /// Gets or sets the action invoked when a <see cref="ToolStripItem"/> in the group is clicked.
   /// </summary>
-  public abstract string Text { get; }
+  /// <remarks>
+  /// The action receives the <see cref="ToolStripItemGroup"/> instance that was clicked.
+  /// </remarks>
+  public Action<ToolStripItemGroup> OnClick = toolStripItemGroup => { };
 
   /// <summary>
-  /// Gets or sets the <see cref="ToolStripItemGroupManager"/> used to access other <see cref="ToolStripItemGroup"/> instances.
+  /// Gets or sets the action invoked when the mouse enters or leaves a <see cref="ToolStripItem"/> in the group.
   /// </summary>
-  public ToolStripItemGroupManager? ToolStripItemGroupManager { get; internal set; }
-
-  /// <summary>
-  /// Gets or sets the <see cref="System.Windows.Forms.ToolStripStatusLabel"/> used to display the tool tip hint.
-  /// </summary>
-  public ToolStripStatusLabel? ToolStripStatusLabel { get; internal set; }
-
-  /// <summary>
-  /// Gets the tool tip text used by all <see cref="ToolStripItem"/> controls in the group.
-  /// </summary>
-  public abstract string ToolTipText { get; }
-
-  /// <summary>
-  /// Gets or sets the action invoked when a <see cref="ToolStripItem"/> in the group is clicked. This can be used to perform custom logic when any <see cref="ToolStripItem"/> in the group is clicked.
-  /// </summary>
-  public Action<ToolStripItemGroup> OnClick = item => { };
+  /// <remarks>
+  /// The action receives the tooltip text to display. An empty string is passed when the mouse leaves.
+  /// </remarks>
+  public Action<string> OnToolTipChange = toolTipText => { };
 
   /// <summary>
   /// Gets or sets a value indicating whether all <see cref="ToolStripItem"/> controls in the group are visible.
   /// </summary>
   public bool Visible
   {
-    get
-    {
-      var isVisible = true;
-      base.ForEach(i => isVisible = (i.Available && isVisible));
-      return isVisible;
-    }
+    get { return base.TrueForAll(i => i.Visible); }
     set { base.ForEach(t => t.Visible = value); }
   }
 
@@ -130,6 +92,10 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   /// <summary>
   /// Adds a <see cref="ToolStripItem"/> to the <see cref="ToolStripItemGroup"/> and configures its properties and event handlers.
   /// </summary>
+  /// <remarks>
+  /// The item's text, tooltip text, and image are set to match the group's properties. Event handlers for click and mouse events are automatically attached.
+  /// For <see cref="ToolStripButton"/> and <see cref="ToolStripMenuItem"/>, the <see cref="ToolStripItemGroup.CheckOnClick"/> property is applied.
+  /// </remarks>
   /// <typeparam name="T">The type of <see cref="ToolStripItem"/> to add.</typeparam>
   /// <param name="toolStripItem">The <see cref="ToolStripItem"/> to add.</param>
   public virtual void Add<T>(T toolStripItem) where T : ToolStripItem
@@ -137,15 +103,13 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
     if (toolStripItem is ToolStripButton toolStripButton)
     {
       toolStripButton.CheckOnClick = this.CheckOnClick;
-      toolStripButton.Checked = this.Checked;
-      toolStripButton.CheckedChanged += OnCheckedChanged;
+      toolStripButton.CheckedChanged += CheckedChanged;
       toolStripItem.Click += this.OnToolStripItemClick;
     }
     else if (toolStripItem is ToolStripMenuItem toolStripMenuItem)
     {
       toolStripMenuItem.CheckOnClick = this.CheckOnClick;
-      toolStripMenuItem.Checked = this.Checked;
-      toolStripMenuItem.CheckedChanged += OnCheckedChanged;
+      toolStripMenuItem.CheckedChanged += CheckedChanged;
       toolStripItem.Click += this.OnToolStripItemClick;
     }
     else if (toolStripItem is ToolStripSplitButton toolStripSplitButton)
@@ -168,84 +132,33 @@ public abstract class ToolStripItemGroup(Image? image = null) : List<ToolStripIt
   }
 
   /// <summary>
-  /// Handles the <see cref="OnCheckedChanged"/> event for a <see cref="ToolStripItem"/> in the group.
+  /// Handles the <see cref="ToolStripItem.CheckedChanged"/> event for <see cref="ToolStripButton"/> and <see cref="ToolStripMenuItem"/> items in the group.
   /// </summary>
-  /// <param name="sender">The <see cref="object"/> that triggered the event.</param>
+  /// <remarks>
+  /// Updates the group's checked state based on the checked state of the item that triggered the event.
+  /// </remarks>
+  /// <param name="sender">The <see cref="ToolStripItem"/> that triggered the event.</param>
   /// <param name="e">The event data.</param>
-  public virtual void OnCheckedChanged(object? sender, EventArgs e)
-  {
-    if (IsLicensed?.Invoke(false, this) == true)
-    {
-      this.Checked = (sender as ToolStripItem)?.GetChecked() ?? false;
-    }
-  }
+  public virtual void CheckedChanged(object? sender, EventArgs e) => this.Checked = (sender as ToolStripItem)?.GetChecked() ?? false;
 
   /// <summary>
-  /// Handles the mouse click event for a <see cref="ToolStripItem"/> in the group, invoking <see cref="OnMouseClick"/> and the <see cref="MouseClicked"/> event if licensed.
+  /// Handles the click event for a <see cref="ToolStripItem"/> in the group, invoking the <see cref="OnClick"/> action.
   /// </summary>
-  /// <param name="sender">The object that was clicked.</param>
+  /// <param name="sender">The <see cref="ToolStripItem"/> that was clicked.</param>
   /// <param name="e">The event data.</param>
-  private void OnToolStripItemClick(object? sender, EventArgs e)
-  {
-    if (IsLicensed?.Invoke(true, this) == true)
-    {
-      this.MouseClicked?.Invoke(sender, e);
-      OnClick(this);
-    }
-    else
-    {
-      (sender as ToolStripItem)?.SetChecked(false);
-    }
-  }
+  private void OnToolStripItemClick(object? sender, EventArgs e) => OnClick(this);
 
   /// <summary>
-  /// Handles the <see cref="OnMouseEnter"/> event for a <see cref="ToolStripItem"/> in the group, updating the status label with the tool tip text.
+  /// Handles the mouse enter event for a <see cref="ToolStripItem"/> in the group, invoking <see cref="OnToolTipChange"/> with the group's tooltip text.
   /// </summary>
-  /// <param name="sender">The <see cref="object"/> that triggered the event.</param>
+  /// <param name="sender">The <see cref="ToolStripItem"/> that the mouse entered.</param>
   /// <param name="e">The event data.</param>
-  protected virtual void OnMouseEnter(object? sender, EventArgs e)
-  {
-    if (ToolStripStatusLabel != null)
-    {
-      ToolStripStatusLabel.Text = ToolTipText;
-    }
-  }
+  protected virtual void OnMouseEnter(object? sender, EventArgs e) => OnToolTipChange(ToolTipText);
 
   /// <summary>
-  /// Handles the <see cref="OnMouseLeave"/> event for a <see cref="ToolStripItem"/> in the group, clearing the status label.
+  /// Handles the mouse leave event for a <see cref="ToolStripItem"/> in the group, invoking <see cref="OnToolTipChange"/> with an empty string.
   /// </summary>
-  /// <param name="sender">The <see cref="object"/> that triggered the event.</param>
+  /// <param name="sender">The <see cref="ToolStripItem"/> that the mouse left.</param>
   /// <param name="e">The event data.</param>
-  protected virtual void OnMouseLeave(object? sender, EventArgs e)
-  {
-    if (ToolStripStatusLabel != null)
-    {
-      ToolStripStatusLabel.Text = string.Empty;
-    }
-  }
-
-  /// <summary>
-  /// Called by <see cref="Application.Idle"/> to enable or disable <see cref="ToolStripItem"/> controls in the group as needed.
-  /// </summary>
-  /// <param name="sender">The sender of the event.</param>
-  /// <param name="e">The event data.</param>
-  public virtual void OnApplicationIdle(object? sender, EventArgs e) { }
-
-  /// <summary>
-  /// Called when the license state changes, allowing the group to update its state accordingly.
-  /// </summary>
-  /// <param name="isLicensed">Indicates whether the application is licensed.</param>
-  public virtual void OnLicenseChanged(bool isLicensed) { }
-
-  /// <summary>
-  /// Gets an <see cref="Image"/> associated with the specified resource name from the calling assembly.
-  /// </summary>
-  /// <param name="resource">The name of the resource in the calling assembly.</param>
-  /// <returns>The <see cref="Image"/> associated with the specified resource, or <c>null</c> if not found.</returns>
-  public static Image? ResourceToImage(string resource)
-  {
-    var assembly = Assembly.GetCallingAssembly();
-    var resourceStream = assembly.GetManifestResourceStream(resource);
-    return resourceStream == null ? null : new Bitmap(resourceStream);
-  }
+  protected virtual void OnMouseLeave(object? sender, EventArgs e) => OnToolTipChange(String.Empty);
 }

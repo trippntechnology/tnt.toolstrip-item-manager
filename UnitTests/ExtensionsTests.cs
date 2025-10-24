@@ -1,5 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using TNT.ToolStripItemManager;
+using System.Diagnostics.CodeAnalysis;
+using TNT.ToolStripItemManager.Extension;
 
 namespace UnitTests;
 
@@ -26,6 +26,63 @@ public class ExtensionsTests
 		toolStripItems.ForEach(it => Assert.IsTrue(it.GetChecked()));
 		toolStripItems.ForEach(it => it.SetChecked(false));
 		toolStripItems.ForEach(it => Assert.IsFalse(it.GetChecked()));
+	}
+
+	[TestMethod()]
+	public void Extensions_ToImage_WithValidResource_ReturnsImage()
+	{
+		// Arrange
+		string resourceName = "UnitTests.Images.shape_align_bottom.png";
+
+		// Act
+		Image? result = resourceName.ToImage();
+
+		// Assert
+		Assert.IsNotNull(result);
+		Assert.IsInstanceOfType(result, typeof(Bitmap));
+		//Assert.IsTrue(result.Width > 0);
+		//Assert.IsTrue(result.Height > 0);
+	}
+
+	[TestMethod()]
+	public void Extensions_ToImage_WithInvalidResource_ReturnsNull()
+	{
+		// Arrange
+		string resourceName = "NonExistent.Resource.png";
+
+		// Act
+		Image? result = resourceName.ToImage();
+
+		// Assert
+		Assert.IsNull(result);
+	}
+
+	[TestMethod()]
+	public void Extensions_ToImage_WithValidResource_DisposesProperly()
+	{
+		// Arrange
+		string resourceName = "UnitTests.Images.shape_align_bottom.png";
+
+		// Act
+		Image? result = resourceName.ToImage();
+
+		// Assert
+		Assert.IsNotNull(result);
+		// Should not throw when disposed
+		result.Dispose();
+	}
+
+	[TestMethod()]
+	public void Extensions_ToImage_WithEmptyString_ReturnsNull()
+	{
+		// Arrange
+		string resourceName = string.Empty;
+
+		// Act
+		Image? result = resourceName.ToImage();
+
+		// Assert
+		Assert.IsNull(result);
 	}
 
 	//[TestMethod()]
