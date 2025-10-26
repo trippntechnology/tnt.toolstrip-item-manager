@@ -27,6 +27,17 @@ internal class ToolStripItemGroupTests
         /// Public wrapper for testing the protected OnMouseLeave method.
         /// </summary>
         public void TestOnMouseLeave(object? sender, EventArgs e) => OnMouseLeave(sender, e);
+
+        /// <summary>
+        /// Public wrapper for testing the private OnToolStripItemClick method.
+        /// </summary>
+        public void TestOnToolStripItemClick(object? sender, EventArgs e)
+        {
+            // Use reflection to invoke the private method
+            var method = typeof(ToolStripItemGroup).GetMethod("OnToolStripItemClick",
+                  System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            method?.Invoke(this, new object?[] { sender, e });
+        }
     }
 
     [Test]
@@ -173,5 +184,44 @@ internal class ToolStripItemGroupTests
         // Assert
         Assert.That(capturedTooltips.Count, Is.EqualTo(4));
         Assert.That(capturedTooltips, Is.All.Empty);
+    }
+
+    [Test]
+    public void OnToolStripItemClick_WhenItemIsClicked_InvokesOnClickAction()
+    {
+        // Arrange
+        var group = new TestToolStripItemGroup("Test Button", "Click me");
+        var clickedGroups = new List<ToolStripItemGroup>();
+        group.OnClick = (clickedGroup) => clickedGroups.Add(clickedGroup);
+
+        var toolStripButton = new ToolStripButton();
+        group.Add(toolStripButton);
+
+        // Act
+        group.TestOnToolStripItemClick(toolStripButton, EventArgs.Empty);
+
+        // Assert
+        Assert.That(clickedGroups.Count, Is.EqualTo(1));
+        Assert.That(clickedGroups[0], Is.SameAs(group));
+    }
+
+    [Test]
+    public void CheckedChanged_WhenButtonIsChecked_UpdatesGroupCheckedState()
+    {
+        // Arrange
+        var group = new TestToolStripItemGroup("Test", checkOnClick: true);
+        var button = new ToolStripButton();
+        group.Add(button);
+
+        // Verify initial state
+        Assert.That(group.Checked, Is.False);
+        Assert.That(button.Checked, Is.False);
+
+        // Act - simulate button being checked
+        button.Checked = true;
+        group.CheckedChanged(button, EventArgs.Empty);
+
+        // Assert - group's checked state should match button's checked state
+        Assert.That(group.Checked, Is.True);
     }
 }
