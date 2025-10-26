@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Preview" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Project Path="Example/Example.csproj" />
+  <Project Path="NUnitTests/NUnitTests.csproj">
+    <BuildType Solution="Preview|*" Project="Release" />
+  </Project>
+  <Project Path="TNT.ToolStripItemManager/TNT.ToolStripItemManager.csproj" />
+</Solution>
