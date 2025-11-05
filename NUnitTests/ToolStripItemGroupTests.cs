@@ -322,4 +322,37 @@ internal class ToolStripItemGroupTests
         Assert.That(button2.Visible, Is.False);
         Assert.That(menuItem1.Visible, Is.False);
     }
+
+    [Test]
+    public void Checked_WhenGroupIsEmpty_ReturnsFalse()
+    {
+        // Arrange
+        var group = new TestToolStripItemGroup("Test");
+        // Act & Assert
+        Assert.That(group.Count, Is.EqualTo(0));
+        Assert.That(group.Checked, Is.False);
+    }
+
+    [Test]
+    public void Add_WithToolStripSplitButton_ConfiguresAndAddsToGroup()
+    {
+        // Arrange
+        var group = new TestToolStripItemGroup("SplitButtonText", "SplitButtonTooltip");
+        var splitButton = new ToolStripSplitButton();
+        bool clickHandled = false;
+        group.OnClick = _ => clickHandled = true;
+
+        // Act
+        group.Add(splitButton);
+
+        // Assert: item is added
+        Assert.That(group.Contains(splitButton), Is.True);
+        // Assert: text and tooltip are set
+        Assert.That(splitButton.Text, Is.EqualTo("SplitButtonText"));
+        Assert.That(splitButton.ToolTipText, Is.EqualTo("SplitButtonTooltip"));
+
+        // Assert: ButtonClick is wired to OnClick
+        splitButton.PerformButtonClick();
+        Assert.That(clickHandled, Is.True);
+    }
 }
