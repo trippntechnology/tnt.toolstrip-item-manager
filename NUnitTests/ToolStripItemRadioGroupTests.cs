@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
 using TNT.ToolStripItemManager;
 
 namespace NUnitTests;
 
 [TestFixture]
+[ExcludeFromCodeCoverage]
 public class ToolStripItemRadioGroupTests
 {
     private class TestRadioGroup1() : ToolStripItemRadioGroup("Rest Radio Group 1");
@@ -89,5 +91,15 @@ public class ToolStripItemRadioGroupTests
         Assert.That(group.CheckOnClick, Is.True);
         Assert.That(button1.CheckOnClick, Is.True);
         Assert.That(menuItem.CheckOnClick, Is.True);
+    }
+
+    /// <summary>
+    /// NOTE: This test really doens't test any functionality, but was added for test coverage
+    /// </summary>
+    [Test]
+    public void CheckedChanged_SenderIsNull_DoesNothing()
+    {
+        var group = new ToolStripItemRadioGroup("Test");
+        Assert.DoesNotThrow(() => group.CheckedChanged(null, EventArgs.Empty));
     }
 }
