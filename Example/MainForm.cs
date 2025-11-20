@@ -54,7 +54,7 @@ public partial class MainForm : Form
         }
     }
 
-    private void Application_Idle(object? sender, EventArgs e)
+    private void Application_Idle(ToolStripItemGroup sender, EventArgs e)
     {
         if (sender is Settings settings)
         {
