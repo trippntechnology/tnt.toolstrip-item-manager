@@ -79,6 +79,7 @@ public class ToolStripItemGroupManager : List<ToolStripItemGroup>
         {
             OnClick = this.OnClick,
             OnToolTipChange = this.OnToolTipChange,
+            Manager = this,
         };
 
         Add(t);

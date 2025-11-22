@@ -102,4 +102,18 @@ public class ToolStripItemRadioGroupTests
         var group = new ToolStripItemRadioGroup("Test");
         Assert.DoesNotThrow(() => group.CheckedChanged(null, EventArgs.Empty));
     }
+
+    [Test]
+    public void Manager_WhenGroupIsCreatedByManager_SetToManagerInstance()
+    {
+        // Arrange
+        var manager = new ToolStripItemRadioGroupManager();
+        var button = new ToolStripButton();
+
+        // Act
+        var group = manager.Create<TestRadioGroup1>([button]);
+
+        // Assert
+        Assert.That(group.Manager, Is.SameAs(manager), "Group's Manager should reference the creating manager instance");
+    }
 }
