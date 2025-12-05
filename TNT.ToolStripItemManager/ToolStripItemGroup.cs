@@ -44,7 +44,7 @@ public abstract class ToolStripItemGroup(string text, string? toolTipText = null
     /// </summary>
     public virtual bool Checked
     {
-        get { return base.Count > 0 ? base[0].GetChecked() : false; }
+        get { return (Count > 0) ? base.TrueForAll(item => item.GetChecked()) : false; }
         set { base.ForEach(t => t.SetChecked(value)); }
     }
 
@@ -53,7 +53,7 @@ public abstract class ToolStripItemGroup(string text, string? toolTipText = null
     /// </summary>
     public bool Enabled
     {
-        get { return base.TrueForAll(i => i.Enabled); }
+        get { return (Count > 0) ? base.TrueForAll(i => i.Enabled) : false; }
         set { base.ForEach(t => t.Enabled = value); }
     }
 
@@ -70,6 +70,8 @@ public abstract class ToolStripItemGroup(string text, string? toolTipText = null
     /// </remarks>
     public Action<ToolStripItemGroup> OnClick = toolStripItemGroup => { };
 
+    public Action<ToolStripItemGroup, bool> OnCheckChanged = (toolStripItemGroup, isChecked) => { };
+
     /// <summary>
     /// Gets or sets the action invoked when the mouse enters or leaves a <see cref="ToolStripItem"/> in the group.
     /// </summary>
@@ -83,8 +85,8 @@ public abstract class ToolStripItemGroup(string text, string? toolTipText = null
     /// </summary>
     public bool Visible
     {
-      get { return base.TrueForAll(i => i.Visible); }
-      set { base.ForEach(t => t.Visible = value); }
+        get { return base.TrueForAll(i => i.Visible); }
+        set { base.ForEach(t => t.Visible = value); }
     }
 
     /// <summary>
@@ -140,21 +142,47 @@ public abstract class ToolStripItemGroup(string text, string? toolTipText = null
     }
 
     /// <summary>
-  /// Handles the <see cref="ToolStripItem.CheckedChanged"/> event for <see cref="ToolStripButton"/> and <see cref="ToolStripMenuItem"/> items in the group.
+    /// Handles the <see cref="ToolStripItem.CheckedChanged"/> event for <see cref="ToolStripButton"/> and <see cref="ToolStripMenuItem"/> items in the group.
     /// </summary>
     /// <remarks>
     /// Updates the group's checked state based on the checked state of the item that triggered the event.
     /// </remarks>
     /// <param name="sender">The <see cref="ToolStripItem"/> that triggered the event.</param>
     /// <param name="e">The event data.</param>
-    public virtual void CheckedChanged(object? sender, EventArgs e) => this.Checked = (sender as ToolStripItem)?.GetChecked() ?? false;
+    public virtual void CheckedChanged(object? sender, EventArgs e)
+    {
+        var toolStripItem = (sender as ToolStripItem);
+
+        if (toolStripItem == null) return;
+
+        var currentCheckedState = false;
+        var newCheckedState = false;
+
+
+        if (Count > 1)
+        {
+            currentCheckedState = TrueForAll(item => item == toolStripItem || item.GetChecked());
+            newCheckedState = toolStripItem.GetChecked();
+
+            this.FindAll(item => item != toolStripItem).ForEach(item => item.SetChecked(newCheckedState));
+        }
+        else
+        {
+            currentCheckedState = !toolStripItem.GetChecked();
+            newCheckedState = toolStripItem.GetChecked();
+        }
+
+        TNTLogger.Info($"toolStripItem: {toolStripItem} currentCheckedState: {currentCheckedState} newCheckedState: {newCheckedState}");
+
+        if (currentCheckedState != newCheckedState) OnCheckChanged(this, toolStripItem.GetChecked());
+    }
 
     /// <summary>
     /// Handles the click event for a <see cref="ToolStripItem"/> in the group, invoking the <see cref="OnClick"/> action.
     /// </summary>
     /// <param name="sender">The <see cref="ToolStripItem"/> that was clicked.</param>
     /// <param name="e">The event data.</param>
-    private void OnToolStripItemClick(object? sender, EventArgs e) => OnClick(this);
+    protected void OnToolStripItemClick(object? sender, EventArgs e) => OnClick(this);
 
     /// <summary>
     /// Handles the mouse enter event for a <see cref="ToolStripItem"/> in the group, invoking <see cref="OnToolTipChange"/> with the group's tooltip text.

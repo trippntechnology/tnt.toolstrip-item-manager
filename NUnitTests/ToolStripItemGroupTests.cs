@@ -72,13 +72,7 @@ internal class ToolStripItemGroupTests
         /// <summary>
         /// Public wrapper for testing the private OnToolStripItemClick method.
         /// </summary>
-        public void TestOnToolStripItemClick(object? sender, EventArgs e)
-        {
-            // Use reflection to invoke the private method
-            var method = typeof(ToolStripItemGroup).GetMethod("OnToolStripItemClick",
-                  System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            method?.Invoke(this, new object?[] { sender, e });
-        }
+        public void TestOnToolStripItemClick(object? sender, EventArgs e) => OnToolStripItemClick(sender, e);
     }
 
     [Test]
@@ -212,15 +206,21 @@ internal class ToolStripItemGroupTests
     [Test]
     public void CheckedChanged_WhenButtonIsChecked_UpdatesGroupCheckedState()
     {
+        var onCheckedChangedCalled = false;
         // Arrange
-        var group = new TestToolStripItemGroup("Test", checkOnClick: true);
+        var group = new TestToolStripItemGroup("Test", checkOnClick: true)
+        {
+            OnCheckChanged = (g, isChecked) => { onCheckedChangedCalled = true; }
+        };
         group.Add(button1);
+        //group.Add(button2);
         // Verify initial state
         Assert.That(group.Checked, Is.False);
         Assert.That(button1.Checked, Is.False);
         // Act - simulate button being checked
         button1.Checked = true;
-        group.CheckedChanged(button1, EventArgs.Empty);
+        Assert.That(onCheckedChangedCalled, Is.True);
+        Assert.That(button1.Checked, Is.True);
         // Assert - group's checked state should match button's checked state
         Assert.That(group.Checked, Is.True);
     }

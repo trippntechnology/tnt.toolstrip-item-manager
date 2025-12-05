@@ -16,13 +16,13 @@ public partial class MainForm : Form
     {
         InitializeComponent();
 
-        //Application.Idle += Application_Idle;
-
         _toolStripItemGroupManager = new ToolStripItemGroupManager()
         {
             OnClick = OnClick,
             OnToolTipChange = toolTipText => toolStripStatusLabel1.Text = toolTipText,
-            OnIdle = Application_Idle
+            OnIdle = Application_Idle,
+            OnCheckChanged = (toolStripItemGroup, isChecked) => Debug.WriteLine($"{toolStripItemGroup} checked changed to {isChecked}")
+
         };
         _toolStripItemGroupManager.Create<Settings>([settingsToolStripMenuItem, settingsToolStripButton, splitToolStripMenuItem1]);
         _toolStripItemGroupManager.Create<Check>([checkToolStripButton, checkToolStripMenuItem]);
@@ -33,7 +33,8 @@ public partial class MainForm : Form
         {
             OnClick = OnClick,
             OnToolTipChange = toolTipText => toolStripStatusLabel1.Text = toolTipText,
-            OnIdle = Application_Idle
+            OnIdle = Application_Idle,
+            OnCheckChanged = (toolStripItemGroup, isChecked) => Debug.WriteLine($"{toolStripItemGroup} checked changed to {isChecked}")
         };
         _toolStripItemRadioGroupManager.Create<AlignLeft>([alignLeftToolStripButton, radioGroupItem1ToolStripMenuItem]);
         _toolStripItemRadioGroupManager.Create<AlignCenter>([alignCenterToolStripButton, radioGroupItem2ToolStripMenuItem]);

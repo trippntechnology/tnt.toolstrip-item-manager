@@ -20,6 +20,16 @@ public class ToolStripItemGroupManager : List<ToolStripItemGroup>
     public Action<ToolStripItemGroup> OnClick { get; set; } = item => { };
 
     /// <summary>
+    /// Gets or sets the action invoked when the checked state of any managed <see cref="ToolStripItemGroup"/> changes.
+    /// </summary>
+    /// <remarks>
+    /// The action receives the <see cref="ToolStripItemGroup"/> instance and a <see cref="bool"/> indicating the new checked state.
+    /// This action is propagated to all groups created through the <see cref="Create{T}"/> method,
+    /// allowing centralized handling of checked state changes across all managed groups.
+    /// </remarks>
+    public Action<ToolStripItemGroup, bool> OnCheckChanged { get; set; } = (toolStripItemGroup, isChecked) => { };
+
+    /// <summary>
     /// Gets or sets the action invoked when the tooltip text of any managed <see cref="ToolStripItem"/> changes.
     /// </summary>
     /// <remarks>
@@ -77,9 +87,10 @@ public class ToolStripItemGroupManager : List<ToolStripItemGroup>
     {
         T t = new T
         {
+            Manager = this,
+            OnCheckChanged = this.OnCheckChanged,
             OnClick = this.OnClick,
             OnToolTipChange = this.OnToolTipChange,
-            Manager = this,
         };
 
         Add(t);
