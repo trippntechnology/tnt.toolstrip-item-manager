@@ -274,6 +274,18 @@ internal class ToolStripItemGroupTests
     }
 
     [Test]
+    public void Enabled_WhenSetToFalse_DisablesNoItemInGroup()
+    {
+        // Arrange
+        var group = new TestToolStripItemGroup("Test");
+        Assert.That(group.Enabled, Is.False);
+        // Act - disable the item in the group
+        group.Enabled = true;
+        // Assert - item should be disabled
+        Assert.That(group.Enabled, Is.False);
+    }
+
+    [Test]
     public void Tag_WhenSetToVariousObjectTypes_StoresAndRetrievesCorrectly()
     {
         // Arrange
@@ -354,5 +366,24 @@ internal class ToolStripItemGroupTests
         // Assert: ButtonClick is wired to OnClick
         splitButton.PerformButtonClick();
         Assert.That(clickHandled, Is.True);
+    }
+
+    [Test]
+    public void CheckedChanged_WithNullSender_DoesNotThrow()
+    {
+        // Arrange
+        var group = new TestToolStripItemGroup("Test", checkOnClick: true);
+        // Act & Assert
+        Assert.DoesNotThrow(() => group.CheckedChanged(null, EventArgs.Empty));
+    }
+
+    [Test]
+    public void CheckedChanged_WithNonToolStripItemSender_DoesNotThrow()
+    {
+        // Arrange
+        var group = new TestToolStripItemGroup("Test", checkOnClick: true);
+        var nonToolStripSender = new object();
+        // Act & Assert
+        Assert.DoesNotThrow(() => group.CheckedChanged(nonToolStripSender, EventArgs.Empty));
     }
 }

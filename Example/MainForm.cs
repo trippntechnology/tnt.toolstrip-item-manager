@@ -76,4 +76,13 @@ public partial class MainForm : Form
             OnClick(_previousRadioGroup);
         }
     }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        var checkGroup = _toolStripItemGroupManager.Find(i => i is Check);
+        if (checkGroup != null)
+        {
+            checkGroup.Checked = !checkGroup.Checked;
+        }
+    }
 }
