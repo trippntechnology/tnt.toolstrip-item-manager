@@ -54,8 +54,8 @@ internal class ToolStripItemGroupTests
     /// </summary>
     private class TestToolStripItemGroup : ToolStripItemGroup
     {
-        public TestToolStripItemGroup(string text, string? toolTipText = null, bool checkOnClick = false, Image? image = null)
-          : base(text, toolTipText, checkOnClick, image)
+        public TestToolStripItemGroup(string text, string? toolTipText = null, bool checkOnClick = false)
+          : base(text, toolTipText, checkOnClick)
         {
         }
 

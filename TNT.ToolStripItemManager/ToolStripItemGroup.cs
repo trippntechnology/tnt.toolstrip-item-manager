@@ -11,15 +11,9 @@ namespace TNT.ToolStripItemManager;
 /// <param name="text">The text to display for all <see cref="ToolStripItem"/> controls in the group.</param>
 /// <param name="toolTipText">The tooltip text to display for all <see cref="ToolStripItem"/> controls in the group. Optional.</param>
 /// <param name="checkOnClick">A value indicating whether <see cref="ToolStripButton"/> and <see cref="ToolStripMenuItem"/> items in the group should be checked when clicked.</param>
-/// <param name="image">The image to set on each <see cref="ToolStripItem"/> in the group. Optional.</param>
-public abstract class ToolStripItemGroup(string text, string? toolTipText = null, bool checkOnClick = false, Image? image = null) : List<ToolStripItem>
+public abstract class ToolStripItemGroup(string text, string? toolTipText = null, bool checkOnClick = false) : List<ToolStripItem>
 {
     // Fields
-
-    /// <summary>
-    /// Gets the image associated with all <see cref="ToolStripItem"/> controls in the group.
-    /// </summary>
-    public readonly Image? Image = image;
 
     /// <summary>
     /// Gets the text displayed for all <see cref="ToolStripItem"/> controls in the group.
@@ -103,12 +97,13 @@ public abstract class ToolStripItemGroup(string text, string? toolTipText = null
     /// Adds a <see cref="ToolStripItem"/> to the <see cref="ToolStripItemGroup"/> and configures its properties and event handlers.
     /// </summary>
     /// <remarks>
-    /// The item's text, tooltip text, and image are set to match the group's properties. Event handlers for click and mouse events are automatically attached.
+    /// The item's text and tooltip text are set to match the group's properties. Optionally, an image can be set for the item. Event handlers for click and mouse events are automatically attached.
     /// For <see cref="ToolStripButton"/> and <see cref="ToolStripMenuItem"/>, the <see cref="ToolStripItemGroup.CheckOnClick"/> property is applied.
     /// </remarks>
     /// <typeparam name="T">The type of <see cref="ToolStripItem"/> to add.</typeparam>
     /// <param name="toolStripItem">The <see cref="ToolStripItem"/> to add.</param>
-    public virtual void Add<T>(T toolStripItem) where T : ToolStripItem
+    /// <param name="image">The image to set on the <see cref="ToolStripItem"/>. Optional.</param>
+    public virtual void Add<T>(T toolStripItem, Image? image = null) where T : ToolStripItem
     {
         if (toolStripItem is ToolStripButton toolStripButton)
         {
@@ -134,7 +129,7 @@ public abstract class ToolStripItemGroup(string text, string? toolTipText = null
 
         toolStripItem.MouseEnter += this.OnMouseEnter;
         toolStripItem.MouseLeave += this.OnMouseLeave;
-        toolStripItem.Image = this.Image;
+        toolStripItem.Image = image;
         toolStripItem.Text = this.Text;
         toolStripItem.ToolTipText = this.ToolTipText;
 

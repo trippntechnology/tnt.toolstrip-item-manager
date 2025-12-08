@@ -1,36 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
-    <Configurations>Debug;Release;Preview</Configurations>
-  </PropertyGroup>
+	<PropertyGroup>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<Configurations>Debug;Release;Preview</Configurations>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Images\check_24dp.png" />
-    <None Remove="Images\handyman_24dp.png" />
-    <None Remove="Images\license_24dp.png" />
-    <None Remove="Images\settings_24dp.png" />
-    <None Remove="Images\shape_align_center.png" />
-    <None Remove="Images\shape_align_left.png" />
-    <None Remove="Images\shape_align_right.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\TNT.ToolStripItemManager\TNT.ToolStripItemManager.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Images\check_24dp.png" />
-    <EmbeddedResource Include="Images\handyman_24dp.png" />
-    <EmbeddedResource Include="Images\license_24dp.png" />
-    <EmbeddedResource Include="Images\settings_24dp.png" />
-    <EmbeddedResource Include="Images\shape_align_center.png" />
-    <EmbeddedResource Include="Images\shape_align_left.png" />
-    <EmbeddedResource Include="Images\shape_align_right.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TNT.ToolStripItemManager\TNT.ToolStripItemManager.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>

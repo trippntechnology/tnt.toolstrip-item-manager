@@ -71,20 +71,25 @@ public class ToolStripItemGroupManager : List<ToolStripItemGroup>
     }
 
     /// <summary>
-    /// Creates a new <see cref="ToolStripItemGroup"/> of the specified type with the given <see cref="ToolStripItem"/> controls.
+    /// Creates a new <see cref="ToolStripItemGroup"/> of the specified type with the given <see cref="ToolStripItem"/> controls and an optional image.
     /// </summary>
     /// <typeparam name="T">The type of <see cref="ToolStripItemGroup"/> to create. Must have a parameterless constructor.</typeparam>
     /// <param name="items">The <see cref="ToolStripItem"/> array that should be added to the new group.</param>
+    /// <param name="groupImage">An optional image to assign to all items in the group if no item already has an image.</param>
     /// <returns>The newly created <see cref="ToolStripItemGroup"/> instance of type <typeparamref name="T"/>.</returns>
     /// <remarks>
     /// The created group is automatically added to this manager's collection and inherits the following from this manager instance:
     /// <list type="bullet">
     /// <item><description><see cref="OnClick"/> action</description></item>
     /// <item><description><see cref="OnToolTipChange"/> action</description></item>
+    /// <item><description><see cref="OnCheckChanged"/> action</description></item>
     /// </list>
+    /// The <paramref name="groupImage"/> parameter is used as the image for all items in the group unless an item already has an image assigned.
     /// </remarks>
-    public virtual T Create<T>(ToolStripItem[] items) where T : ToolStripItemGroup, new()
+    public virtual T Create<T>(ToolStripItem[] items, Image? groupImage = null) where T : ToolStripItemGroup, new()
     {
+        var image = items.FirstOrDefault(i => i.Image is not null)?.Image ?? groupImage;
+
         T t = new T
         {
             Manager = this,
@@ -97,7 +102,7 @@ public class ToolStripItemGroupManager : List<ToolStripItemGroup>
 
         foreach (ToolStripItem item in items)
         {
-            t.Add(item);
+            t.Add(item, image);
         }
 
         return t;

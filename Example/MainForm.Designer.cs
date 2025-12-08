@@ -77,13 +77,13 @@
             // settingsToolStripMenuItem
             // 
             settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            settingsToolStripMenuItem.Size = new Size(116, 22);
+            settingsToolStripMenuItem.Size = new Size(180, 22);
             settingsToolStripMenuItem.Text = "Settings";
             // 
             // checkToolStripMenuItem
             // 
             checkToolStripMenuItem.Name = "checkToolStripMenuItem";
-            checkToolStripMenuItem.Size = new Size(116, 22);
+            checkToolStripMenuItem.Size = new Size(180, 22);
             checkToolStripMenuItem.Text = "Check";
             // 
             // radioGroupToolStripMenuItem
