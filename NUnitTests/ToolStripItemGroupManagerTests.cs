@@ -63,4 +63,33 @@ internal class ToolStripItemGroupManagerTests
         Assert.That(called, Does.Contain(group1));
         Assert.That(called, Does.Contain(group2));
     }
+
+    [Test]
+    public void Create_AssignsImageToToolStripItems_Correctly()
+    {
+        var manager = new ToolStripItemGroupManager();
+        var imageFromItem = new Bitmap(16, 16);
+        var imageFromGroup = new Bitmap(32, 32);
+
+        // Case 1: Item already has an image
+        var itemWithImage = new ToolStripButton { Image = imageFromItem };
+        var itemWithoutImage = new ToolStripButton();
+        var group1 = manager.Create<TestToolStripItemGroup>(new[] { itemWithImage, itemWithoutImage });
+        Assert.That(itemWithImage.Image, Is.EqualTo(imageFromItem));
+        Assert.That(itemWithoutImage.Image, Is.EqualTo(imageFromItem)); // Should be set from first item's image
+
+        // Case 2: Image passed via groupImage parameter
+        var itemA = new ToolStripButton();
+        var itemB = new ToolStripButton();
+        var group2 = manager.Create<TestToolStripItemGroup>(new[] { itemA, itemB }, imageFromGroup);
+        Assert.That(itemA.Image, Is.EqualTo(imageFromGroup));
+        Assert.That(itemB.Image, Is.EqualTo(imageFromGroup));
+
+        // Case 3: Image passed via Add method
+        var group3 = new TestToolStripItemGroup();
+        var customImage = new Bitmap(24, 24);
+        var itemC = new ToolStripButton();
+        group3.Add(itemC, customImage);
+        Assert.That(itemC.Image, Is.EqualTo(customImage));
+    }
 }
