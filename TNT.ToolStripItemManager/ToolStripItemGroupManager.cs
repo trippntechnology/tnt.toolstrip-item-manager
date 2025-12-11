@@ -88,7 +88,7 @@ public class ToolStripItemGroupManager : List<ToolStripItemGroup>
     /// </remarks>
     public virtual T Create<T>(ToolStripItem[] items, Image? groupImage = null) where T : ToolStripItemGroup, new()
     {
-        var image = items.FirstOrDefault(i => i.Image is not null)?.Image ?? groupImage;
+        var image = groupImage ?? items.FirstOrDefault(i => i.Image is not null)?.Image;
 
         T t = new T
         {
